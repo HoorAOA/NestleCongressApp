@@ -1,0 +1,11 @@
+export { default as ProfileAvatar } from './ProfileAvatar';
+export { default as ProfileInfoCard } from './ProfileInfoCard';
+export type { ProfileInfoItem } from './ProfileInfoCard';
+export { default as ProfileStatsGrid } from './ProfileStatsGrid';
+export type { ProfileStat } from './ProfileStatsGrid';
+export { default as CustomTabBar } from './CustomTabBar';
+export { default as SearchBar } from './SearchBar';
+export { default as SectionHeader } from './SectionHeader';
+export { default as FeaturedEventCard } from './FeaturedEventCard';
+export { default as QuickAccessGrid } from './QuickAccessGrid';
+export { default as SessionList } from './SessionList';

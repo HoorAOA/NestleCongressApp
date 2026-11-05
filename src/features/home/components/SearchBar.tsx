@@ -1,0 +1,54 @@
+import React from 'react';
+import { View, TextInput, Pressable, StyleSheet } from 'react-native';
+import { Search, SlidersHorizontal } from 'lucide-react-native';
+
+import { Colors } from '../../../core/theme/colors';
+import { Typography } from '../../../core/theme/typography';
+
+const SearchBar = () => (
+    <View style={styles.searchBar}>
+        <Search size={18} color={Colors.whiteSoft} />
+        <TextInput
+            style={styles.searchInput}
+            placeholder="Search sessions, speakers, topics..."
+            placeholderTextColor={Colors.whiteSoftAlt}
+            numberOfLines={1}
+        />
+        <Pressable style={styles.filterButton}>
+            <SlidersHorizontal size={18} color={Colors.white} />
+        </Pressable>
+    </View>
+);
+
+const styles = StyleSheet.create({
+    searchBar: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10,
+        marginTop: 20,
+        paddingLeft: 16,
+        paddingRight: 6,
+        height: 54,
+        borderRadius: 18,
+        backgroundColor: Colors.searchBarBackground,
+        borderWidth: 1,
+        borderColor: Colors.searchBarBorder,
+    },
+    searchInput: {
+        flex: 1,
+        color: Colors.white,
+        fontSize: 13,
+        fontFamily: Typography.medium,
+        paddingVertical: 0,
+    },
+    filterButton: {
+        width: 42,
+        height: 42,
+        borderRadius: 21,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: Colors.blueBright,
+    },
+});
+
+export default SearchBar;

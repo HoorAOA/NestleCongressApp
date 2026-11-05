@@ -38,14 +38,26 @@ import { Colors } from '../../../core/theme/colors';
 
 import { useNavigation } from '@react-navigation/native';
 
+import { validateLogin, LoginErrors } from '../../../core/utils/validators';
+import { useAuth } from '../../../core/auth/AuthContext';
+
+
 /* ---------- Screen ---------- */
 
 const LoginScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const { signIn } = useAuth();
+    const [errors, setErrors] = useState<LoginErrors>({});
+
     const handleLogin = () => {
-        console.log({ email, password });
+        const result = validateLogin(email, password);
+        setErrors(result.errors);
+
+        if (!result.isValid) return;
+
+        signIn();
     };
 
     const handleForgotPassword = () => {
