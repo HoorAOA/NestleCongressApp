@@ -60,5 +60,6 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 12,
     color: Colors.textSecondary,
+    fontWeight: '600',
   },
 });

@@ -36,6 +36,8 @@ import {
 
 import { Colors } from '../../../core/theme/colors';
 
+import { useNavigation } from '@react-navigation/native';
+
 /* ---------- Screen ---------- */
 
 const LoginScreen = () => {
@@ -50,9 +52,12 @@ const LoginScreen = () => {
         console.log('Forgot password pressed');
     };
 
+    const navigation = useNavigation<any>();
+
     const handleRegister = () => {
-        console.log('Create account pressed');
+        navigation.navigate('Register');
     };
+
 
     const handleGoogle = () => console.log('Google sign in');
     const handleApple = () => console.log('Apple sign in');
