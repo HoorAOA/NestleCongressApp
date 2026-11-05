@@ -25,7 +25,7 @@ const GradientButton: React.FC<GradientButtonProps> = ({
         <Pressable
             onPress={onPress}
             disabled={disabled}
-            style={style}
+            style={[styles.pressable, style]}
         >
             <LinearGradient
                 colors={[Colors.primary, Colors.secondary]}
@@ -52,9 +52,17 @@ const GradientButton: React.FC<GradientButtonProps> = ({
 };
 
 const styles = StyleSheet.create({
+    pressable: {
+        borderRadius: 18,
+        shadowColor: Colors.black,
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.05,
+        shadowRadius: 2,
+        elevation: 1,
+    },
     button: {
         height: 48,
-        borderRadius: 18,
+        borderRadius: 17,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
