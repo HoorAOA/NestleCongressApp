@@ -181,6 +181,8 @@ export const VENUE = {
     name: 'Dubai International Convention & Exhibition Center',
     dates: '22 - 23 May 2026',
     address: 'World Trade Centre, Dubai, United Arab Emirates',
+    // Dubai World Trade Centre
+    coordinates: { latitude: 25.2276, longitude: 55.2888 },
 };
 
 export interface Facility {

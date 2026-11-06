@@ -37,12 +37,15 @@ const VenueScreen = () => {
             <InfoTile
                 variant="white"
                 icon={MapPin}
-                iconFilled
                 label="Venue Address"
                 value={VENUE.address}
             />
 
-            <MapPreview onPress={() => openDirections()} />
+            <MapPreview
+                latitude={VENUE.coordinates.latitude}
+                longitude={VENUE.coordinates.longitude}
+                onPress={() => openDirections()}
+            />
 
             <FacilitiesCard facilities={FACILITIES} />
         </ScreenLayout>

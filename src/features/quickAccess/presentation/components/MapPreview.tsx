@@ -1,77 +1,67 @@
-import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import Svg, {
-    Defs,
-    LinearGradient,
-    Path,
-    Rect,
-    Stop,
-} from 'react-native-svg';
-import { MapPin } from 'lucide-react-native';
+import React, { useMemo } from 'react';
+import {
+    ActivityIndicator,
+    Pressable,
+    StyleSheet,
+    Text,
+    View,
+} from 'react-native';
+import { WebView } from 'react-native-webview';
 
 import { Colors } from '../../../../core/theme/colors';
 import { Typography } from '../../../../core/theme/typography';
+import { buildMapHtml } from '../../../../core/utils/buildMapHtml';
 
 interface MapPreviewProps {
+    latitude: number;
+    longitude: number;
     onPress: () => void;
 }
 
-/** Stylised map preview. Tapping it opens the maps app with directions. */
-const MapPreview = ({ onPress }: MapPreviewProps) => (
-    <Pressable
-        onPress={onPress}
-        accessibilityRole="button"
-        accessibilityLabel="Open directions to the venue"
-        style={({ pressed }) => [styles.card, pressed && { opacity: 0.9 }]}
-    >
-        <Svg
-            width="100%"
-            height="100%"
-            viewBox="0 0 340 200"
-            preserveAspectRatio="xMidYMid slice"
-            style={StyleSheet.absoluteFill}
+const MapPreview = ({ latitude, longitude, onPress }: MapPreviewProps) => {
+    const html = useMemo(
+        () =>
+            buildMapHtml({
+                latitude,
+                longitude,
+                markerColor: Colors.gold,
+                markerIconColor: Colors.navyText,
+                backgroundColor: Colors.mapBlueLight,
+            }),
+        [latitude, longitude],
+    );
+
+    return (
+        <Pressable
+            onPress={onPress}
+            accessibilityRole="button"
+            accessibilityLabel="Open directions to the venue"
+            style={({ pressed }) => [styles.card, pressed && { opacity: 0.9 }]}
         >
-            <Defs>
-                <LinearGradient id="mapBg" x1="0" y1="0" x2="1" y2="1">
-                    <Stop offset="0" stopColor={Colors.mapBlueLight} />
-                    <Stop offset="1" stopColor={Colors.mapBlueDark} />
-                </LinearGradient>
-            </Defs>
+            <View style={StyleSheet.absoluteFill} pointerEvents="none">
+                <WebView
+                    originWhitelist={['*']}
+                    source={{ html }}
+                    style={styles.webview}
+                    scrollEnabled={false}
+                    bounces={false}
+                    overScrollMode="never"
+                    javaScriptEnabled
+                    startInLoadingState
+                    renderLoading={() => (
+                        <View style={styles.loading}>
+                            <ActivityIndicator color={Colors.primary} />
+                        </View>
+                    )}
+                />
+            </View>
 
-            <Rect width="340" height="200" fill="url(#mapBg)" />
-
-            <Path
-                d="M0 130 C90 100 200 95 340 105"
-                stroke="#FFFFFF"
-                strokeWidth={5}
-                fill="none"
-                opacity={0.95}
-            />
-            <Path
-                d="M108 0 C128 60 118 140 96 200"
-                stroke="#FFFFFF"
-                strokeWidth={2.5}
-                fill="none"
-                opacity={0.85}
-            />
-            <Path
-                d="M232 0 C218 60 250 130 300 200"
-                stroke="#FFFFFF"
-                strokeWidth={2.5}
-                fill="none"
-                opacity={0.85}
-            />
-        </Svg>
-
-        <View style={styles.pill}>
-            <Text style={styles.pillText}>Map Preview</Text>
-        </View>
-
-        <View style={styles.pin}>
-            <MapPin size={26} color={Colors.navyText} fill={Colors.navyText} />
-        </View>
-    </Pressable>
-);
+            <View style={styles.pill}>
+                <Text style={styles.pillText}>Map Preview</Text>
+            </View>
+        </Pressable>
+    );
+};
 
 export default MapPreview;
 
@@ -80,6 +70,15 @@ const styles = StyleSheet.create({
         height: 200,
         borderRadius: 30,
         overflow: 'hidden',
+        backgroundColor: Colors.mapBlueLight,
+    },
+    webview: {
+        flex: 1,
+        borderRadius: 30,
+        backgroundColor: 'transparent',
+    },
+    loading: {
+        ...StyleSheet.absoluteFillObject,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: Colors.mapBlueLight,
@@ -97,18 +96,5 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontFamily: Typography.extraBold,
         color: Colors.navyText,
-    },
-    pin: {
-        width: 68,
-        height: 68,
-        borderRadius: 34,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: Colors.gold,
-        shadowColor: Colors.gold,
-        shadowOpacity: 0.55,
-        shadowRadius: 16,
-        shadowOffset: { width: 0, height: 0 },
-        elevation: 6,
     },
 });
