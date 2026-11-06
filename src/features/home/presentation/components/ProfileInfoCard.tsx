@@ -29,10 +29,10 @@ const ProfileInfoCard = ({ items }: ProfileInfoCardProps) => {
                             <Text
                                 style={[
                                     styles.infoValue,
-                                    {writingDirection: 'ltr' },
+                                    { writingDirection: 'ltr' },
                                 ]}
                             >
-                                {value}
+                                {`\u2066${value}\u2069`}
                             </Text>
                         </View>
                     </View>
