@@ -105,7 +105,7 @@ const RegisterScreen = () => {
                                 'Create your attendee profile and access\nsessions, resources, voting and Q&A.'
                             }
                             size={12}
-                            color="rgba(255,255,255,0.8)"
+                            color={Colors.whiteSoftAlt5}
                             weight="medium"
                             align="center"
                             style={{ lineHeight: 18, marginTop: 14 }}
@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
     signInText: {
         fontSize: 12,
         fontFamily: Typography.medium,
-        color: 'rgba(255,255,255,0.85)',
+        color: Colors.whiteSoftAlt4,
     },
 
     signInLink: {

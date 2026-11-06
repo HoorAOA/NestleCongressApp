@@ -12,13 +12,15 @@ type QuickAccessItem = {
 type QuickAccessGridProps = {
     items: QuickAccessItem[];
     tileSize: number;
+    onItemPress?: (label: string) => void;
 };
 
-const QuickAccessGrid = ({ items, tileSize }: QuickAccessGridProps) => (
+const QuickAccessGrid = ({ items, tileSize, onItemPress }: QuickAccessGridProps) => (
     <View style={styles.grid}>
         {items.map(({ label, Icon }) => (
             <Pressable
                 key={label}
+                onPress={() => onItemPress?.(label)}
                 style={[
                     styles.tile,
                     { width: tileSize, height: tileSize * 1.18 },

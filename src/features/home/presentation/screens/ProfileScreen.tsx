@@ -9,16 +9,7 @@ import {
     StatusBar,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import {
-    ChevronLeft,
-    Settings,
-    Mail,
-    Phone,
-    MapPin,
-    CalendarCheck,
-    Bookmark,
-    Award,
-} from 'lucide-react-native';
+import { ChevronLeft, Settings } from 'lucide-react-native';
 
 import { AppTitle, MainBackground } from '../../../../core/components';
 import { useAuth } from '../../../../core/auth/AuthContext';
@@ -29,28 +20,7 @@ import {
     ProfileInfoCard,
     ProfileStatsGrid,
 } from '../components';
-
-const USER = {
-    name: 'Huda Latheef',
-    initials: 'HL',
-    role: 'Medical Congress Attendee',
-    badgeId: 'NMC-2026-001',
-    email: 'huda@example.com',
-    phone: '+971 56 283 4212',
-    location: 'Dubai, UAE',
-};
-
-const STATS = [
-    { value: '12', label: 'Sessions', Icon: CalendarCheck },
-    { value: '05', label: 'Saved', Icon: Bookmark },
-    { value: '03', label: 'Certificates', Icon: Award },
-];
-
-const INFO = [
-    { label: 'Email', value: USER.email, Icon: Mail },
-    { label: 'Phone', value: USER.phone, Icon: Phone },
-    { label: 'Location', value: USER.location, Icon: MapPin },
-];
+import { PROFILE_INFO, PROFILE_STATS, PROFILE_USER } from '../../data/profileData';
 
 const ProfileScreen = () => {
     const navigation = useNavigation<any>();
@@ -90,10 +60,10 @@ const ProfileScreen = () => {
 
                 {/* Identity */}
                 <View style={styles.identity}>
-                    <ProfileAvatar initials={USER.initials} />
+                    <ProfileAvatar initials={PROFILE_USER.initials} />
 
                     <AppTitle
-                        title={USER.name}
+                        title={PROFILE_USER.name}
                         size={24}
                         color={Colors.white}
                         weight="extraBold"
@@ -101,19 +71,19 @@ const ProfileScreen = () => {
                         style={{ marginTop: 16 }}
                     />
 
-                    <Text style={styles.role}>{USER.role}</Text>
+                    <Text style={styles.role}>{PROFILE_USER.role}</Text>
 
                     <View style={styles.idPill}>
                         <Text style={styles.idPillText}>
-                            ID: {USER.badgeId}
+                            ID: {PROFILE_USER.badgeId}
                         </Text>
                     </View>
                 </View>
 
                 {/* Details sheet */}
                 <View style={styles.sheet}>
-                    <ProfileInfoCard items={INFO} />
-                    <ProfileStatsGrid items={STATS} />
+                    <ProfileInfoCard items={PROFILE_INFO} />
+                    <ProfileStatsGrid items={PROFILE_STATS} />
                 </View>
             </ScrollView>
         </View>

@@ -7,12 +7,13 @@ import { Typography } from '../../../../core/theme/typography';
 
 type SectionHeaderProps = {
     title: string;
+    onViewAllPress?: () => void;
 };
 
-const SectionHeader = ({ title }: SectionHeaderProps) => (
+const SectionHeader = ({ title, onViewAllPress }: SectionHeaderProps) => (
     <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>{title}</Text>
-        <Pressable style={styles.viewAll} hitSlop={8}>
+        <Pressable style={styles.viewAll} hitSlop={8} onPress={onViewAllPress}>
             <Text style={styles.viewAllText}>View All</Text>
             <ChevronRight size={14} color={Colors.blueBright} />
         </Pressable>

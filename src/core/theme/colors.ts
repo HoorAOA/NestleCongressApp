@@ -48,6 +48,9 @@ export const Colors = {
   whiteSoftAlt: 'rgba(255,255,255,0.55)',
   whiteSoftAlt2: 'rgba(255,255,255,0.65)',
   whiteSoftAlt3: 'rgba(255,255,255,0.6)',
+  whiteSoftAlt4: 'rgba(255,255,255,0.85)',
+  whiteSoftAlt5: 'rgba(255,255,255,0.8)',
+  whiteSoftAlt6: 'rgba(255,255,255,0.07)',
   featureCardBackground: 'rgba(255,255,255,0.08)',
   featureCardBorder: 'rgba(255,255,255,0.12)',
   featureGlowBackground: 'rgba(79,179,246,0.18)',
@@ -69,4 +72,25 @@ export const Colors = {
   white: '#FFFFFF',
   black: '#000000',
   error: '#E53935',
+
+  // Glass surfaces on the dark background
+    glassFill: 'rgba(255,255,255,0.08)',
+    glassBorder: 'rgba(255,255,255,0.12)',
+    glassButton: 'rgba(255,255,255,0.10)',
+
+    // Light sheet + cards
+    cardBorder: '#E9EDF4',
+    navyText: '#14224F',
+    mutedText: '#8A93AD',
+    slateText: '#5B6585',
+
+    // Tints
+    iconTintBlue: '#E6F3FE',
+    iconTintGold: '#FBF1DC',
+    goldBorder: '#F3D58A',
+    goldDeep: '#E89B1B',
+
+    // Map preview
+    mapBlueLight: '#EAF2FE',
+    mapBlueDark: '#D3E4FB',
 };

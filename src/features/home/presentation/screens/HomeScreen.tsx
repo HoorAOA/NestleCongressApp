@@ -9,19 +9,7 @@ import {
     StatusBar,
     useWindowDimensions,
 } from 'react-native';
-import {
-    Bell,
-    CalendarDays,
-    Users,
-    Contact,
-    MapPin,
-    BarChart3,
-    MessageSquare,
-    Folder,
-    Briefcase,
-    Mic,
-    Bookmark,
-} from 'lucide-react-native';
+import { Bell } from 'lucide-react-native';
 
 import { AppTitle, MainBackground } from '../../../../core/components';
 import { Colors } from '../../../../core/theme/colors';
@@ -34,41 +22,25 @@ import {
     SessionList,
 } from '../components';
 
-const USER_NAME = 'Dr. Testing';
+import { useNavigation } from '@react-navigation/native';
+import type { RootNavigationProp } from '../../../../core/navigation/types';
+import { QUICK_ACCESS_ROUTES } from '../../../quickAccess/data/quickAccessData';
+import { HOME_QUICK_ACCESS, HOME_SESSIONS, HOME_USER_NAME } from '../../data/homeData';
+
 const SCREEN_PADDING = 20;
 const GRID_GAP = 10;
-
-const QUICK_ACCESS = [
-    { label: 'Agenda', Icon: CalendarDays },
-    { label: 'Speakers', Icon: Users },
-    { label: 'Name Tag', Icon: Contact },
-    { label: 'Venue', Icon: MapPin },
-    { label: 'Voting', Icon: BarChart3 },
-    { label: 'Ask Q&A', Icon: MessageSquare },
-    { label: 'Resources', Icon: Folder },
-    { label: 'Exhibitors', Icon: Briefcase },
-];
-
-const SESSIONS = [
-    {
-        time: '08:30 AM',
-        tag: 'KEYNOTE',
-        title: 'Opening Ceremony',
-        place: 'Main Auditorium',
-        Icon: Mic,
-    },
-    {
-        time: '09:30 AM',
-        tag: 'KEYNOTE',
-        title: 'Welcome & Introduction',
-        place: 'Dr. Hassan Ali',
-        Icon: Mic,
-    },
-];
 
 const HomeScreen = () => {
     const { width } = useWindowDimensions();
     const tileSize = (width - SCREEN_PADDING * 2 - GRID_GAP * 3) / 4;
+    const navigation = useNavigation<RootNavigationProp>();
+
+    const openQuickAccessItem = (label: string) => {
+        const route = QUICK_ACCESS_ROUTES[label];
+        if (route) {
+            navigation.navigate(route);
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -91,7 +63,7 @@ const HomeScreen = () => {
 
                 {/* Welcome */}
                 <AppTitle
-                    title={`Welcome Back,\n${USER_NAME} 👋`}
+                    title={`Welcome Back,\n${HOME_USER_NAME} 👋`}
                     size={28}
                     color={Colors.white}
                     weight="extraBold"
@@ -102,11 +74,21 @@ const HomeScreen = () => {
 
                 <FeaturedEventCard />
 
-                <SectionHeader title="Quick Access" />
-                <QuickAccessGrid items={QUICK_ACCESS} tileSize={tileSize} />
+                <SectionHeader
+                    title="Quick Access"
+                    onViewAllPress={() => navigation.navigate('QuickAccess')}
+                />
+                <QuickAccessGrid
+                    items={HOME_QUICK_ACCESS}
+                    tileSize={tileSize}
+                    onItemPress={openQuickAccessItem}
+                />
 
-                <SectionHeader title="Upcoming Sessions" />
-                <SessionList items={SESSIONS} />
+                <SectionHeader
+                    title="Upcoming Sessions"
+                    onViewAllPress={() => navigation.navigate('Agenda')}
+                />
+                <SessionList items={HOME_SESSIONS} />
             </ScrollView>
         </View>
     );

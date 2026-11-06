@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
     badge: {
         borderWidth: 1,
         borderColor: Colors.gold,
-        backgroundColor: 'rgba(255,255,255,0.08)',
+        backgroundColor: Colors.glassFill,
         borderRadius: 20,
         paddingHorizontal: 14,
         paddingVertical: 6,
@@ -302,7 +302,7 @@ const styles = StyleSheet.create({
     },
 
     tagline: {
-        color: 'rgba(255,255,255,0.85)',
+        color: Colors.whiteSoftAlt4,
         fontSize: 14,
         fontWeight: '400',
         textAlign: 'center',
@@ -374,7 +374,7 @@ const styles = StyleSheet.create({
 
     registerText: {
         fontSize: 12,
-        color: 'rgba(255,255,255,0.85)',
+        color: Colors.whiteSoftAlt4,
     },
 
     registerLink: {
@@ -397,9 +397,9 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         paddingHorizontal: 10,
         borderRadius: 16,
-        backgroundColor: 'rgba(255,255,255,0.07)',
+        backgroundColor: Colors.whiteSoftAlt6,
         borderWidth: 1,
-        borderColor: 'rgba(255,255,255,0.12)',
+        borderColor: Colors.glassBorder,
     },
 
     bottomLine: {
