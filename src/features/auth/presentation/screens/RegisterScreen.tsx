@@ -33,6 +33,7 @@ import {
 
 import { Colors } from '../../../../core/theme/colors';
 import { Typography } from '../../../../core/theme/typography';
+import logger from '../../../../core/utils/logger';
 
 const RegisterScreen = () => {
     const navigation = useNavigation<any>();
@@ -44,7 +45,7 @@ const RegisterScreen = () => {
     const [agreed, setAgreed] = useState(false);
 
     const handleRegister = () => {
-        console.log({ fullName, email, organization, password, agreed });
+        logger.log({ fullName, email, organization, password, agreed });
     };
 
     const handleSignIn = () => {
@@ -55,8 +56,8 @@ const RegisterScreen = () => {
         }
     };
 
-    const handleGoogle = () => console.log('Google sign up');
-    const handleApple = () => console.log('Apple sign up');
+    const handleGoogle = () => logger.log('Google sign up');
+    const handleApple = () => logger.log('Apple sign up');
 
     return (
         <View style={styles.container}>

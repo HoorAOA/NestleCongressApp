@@ -7,6 +7,7 @@ import { Share2 } from 'lucide-react-native';
 
 import { Colors } from '../../../../core/theme/colors';
 import type { RootNavigationProp } from '../../../../core/navigation/types';
+import logger from '../../../../core/utils/logger';
 import { ABOUT_URL, ATTENDEE } from '../../data/quickAccessData';
 import {
     HeaderIconButton,
@@ -48,7 +49,7 @@ const NameTagScreen = () => {
                 failOnCancel: false,
             });
         } catch (error) {
-            console.error('Failed to share name tag:', error);
+            logger.error('Failed to share name tag:', error);
             Alert.alert('Unable to share', 'Something went wrong. Please try again.');
         } finally {
             setSharing(false);

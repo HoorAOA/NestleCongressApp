@@ -42,6 +42,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { validateLogin, LoginErrors } from '../../../../core/utils/validators';
 import { useAuth } from '../../../../core/auth/AuthContext';
+import logger from '../../../../core/utils/logger';
 /* ---------- Screen ---------- */
 
 const LoginScreen = () => {
@@ -61,7 +62,7 @@ const LoginScreen = () => {
     };
 
     const handleForgotPassword = () => {
-        console.log('Forgot password pressed');
+        logger.log('Forgot password pressed');
     };
 
     const navigation = useNavigation<any>();
@@ -71,8 +72,8 @@ const LoginScreen = () => {
     };
 
 
-    const handleGoogle = () => console.log('Google sign in');
-    const handleApple = () => console.log('Apple sign in');
+    const handleGoogle = () => logger.log('Google sign in');
+    const handleApple = () => logger.log('Apple sign in');
 
     return (
         <View style={styles.container}>
