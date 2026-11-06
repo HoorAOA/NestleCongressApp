@@ -17,6 +17,7 @@ import {
     Users,
     CalendarCheck,
     Star,
+    ShieldCheck,
 } from 'lucide-react-native';
 
 import {
@@ -32,6 +33,7 @@ import {
     SocialButton,
     FeatureItem,
     FeatureDivider,
+    GradientBadge,
 } from '../../../../core/components';
 
 import { Colors } from '../../../../core/theme/colors';
@@ -40,8 +42,6 @@ import { useNavigation } from '@react-navigation/native';
 
 import { validateLogin, LoginErrors } from '../../../../core/utils/validators';
 import { useAuth } from '../../../../core/auth/AuthContext';
-
-
 /* ---------- Screen ---------- */
 
 const LoginScreen = () => {
@@ -130,7 +130,12 @@ const LoginScreen = () => {
                                 />
                             </View>
 
-                            <ShieldBadge />
+                            <GradientBadge
+                                size={52}
+                                radius={20}
+                                icon={ShieldCheck}
+                                iconSize={22}
+                            />
                         </View>
 
                         {/* Login form */}

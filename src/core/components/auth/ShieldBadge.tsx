@@ -1,51 +1,27 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import Svg, { Defs, LinearGradient, Stop, Rect } from 'react-native-svg';
-import { ShieldCheck } from 'lucide-react-native';
+import { ShieldCheck, type LucideIcon } from 'lucide-react-native';
 
-import { Colors } from '../../theme/colors';
+import GradientBadge from './GradientBadge';
 
-const ShieldBadge = ({ size = 42 }: { size?: number }) => (
-    <View style={[styles.container, { width: size, height: size }]}>
-        <Svg width={size} height={size} style={StyleSheet.absoluteFill}>
-            <Defs>
-                <LinearGradient id="shieldGrad" x1="0" y1="0" x2="1" y2="1">
-                    <Stop offset="0" stopColor={Colors.secondary} />
-                    <Stop offset="1" stopColor={Colors.primary} />
-                </LinearGradient>
-            </Defs>
-            <Rect
-                width={size}
-                height={size}
-                rx={12}
-                ry={12}
-                fill="url(#shieldGrad)"
-            />
-        </Svg>
-        <View style={styles.iconWrap}>
-            <ShieldCheck size={22} color={Colors.white} />
-        </View>
-    </View>
+interface ShieldBadgeProps {
+    size?: number;
+    icon?: LucideIcon;
+    iconSize?: number;
+    radius?: number;
+}
+
+const ShieldBadge = ({
+    size = 42,
+    icon = ShieldCheck,
+    iconSize,
+    radius = 18,
+}: ShieldBadgeProps) => (
+    <GradientBadge
+        size={size}
+        icon={icon}
+        iconSize={iconSize}
+        radius={radius}
+    />
 );
-
-const styles = StyleSheet.create({
-    container: {
-        borderRadius: 14,
-        overflow: 'hidden',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: Colors.primary,
-        shadowColor: Colors.black,
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.10,
-        shadowRadius: 8,
-        elevation: 4,
-    },
-    iconWrap: {
-        ...StyleSheet.absoluteFill,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});
 
 export default ShieldBadge;
