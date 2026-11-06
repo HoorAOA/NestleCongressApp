@@ -148,5 +148,9 @@ export default {
         shareErrorMessage: 'Something went wrong. Please try again.',
         comingSoon: 'This section is coming soon.',
         closeSearch: 'Close search',
+        close: 'Close',
+        confirm: 'Confirm',
+        logoutTitle: 'Are you sure you want to log out?',
+        logoutMessage: 'You will be signed out of your account.',
     },
 };

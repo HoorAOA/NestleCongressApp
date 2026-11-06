@@ -148,5 +148,9 @@ export default {
         shareErrorMessage: 'حدث خطأ ما. يرجى المحاولة مرة أخرى.',
         comingSoon: 'هذا القسم قيد التطوير قريباً.',
         closeSearch: 'إغلاق البحث',
+        close: 'إغلاق',
+        confirm: 'تأكيد',
+        logoutTitle: 'هل أنت متأكد أنك تريد تسجيل الخروج؟',
+        logoutMessage: 'سيتم تسجيل خروجك من حسابك.',
     },
 };

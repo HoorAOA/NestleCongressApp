@@ -13,7 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 import { ChevronLeft, ChevronRight, Languages, Settings } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 
-import { AppTitle, MainBackground } from '../../../../core/components';
+import { AppTitle, GradientButton, MainBackground } from '../../../../core/components';
 import { useAuth } from '../../../../core/auth/AuthContext';
 import { Colors } from '../../../../core/theme/colors';
 import { Typography } from '../../../../core/theme/typography';
@@ -42,6 +42,7 @@ const ProfileScreen = () => {
         role: i18n.language.startsWith('ar') ? PROFILE_USER.roleAr : PROFILE_USER.roleEn,
     };
     const [languageSheetVisible, setLanguageSheetVisible] = useState(false);
+    const [logoutModalVisible, setLogoutModalVisible] = useState(false);
     const [selectedLanguage, setSelectedLanguage] = useState<AppLanguage>('en');
 
     useEffect(() => {
@@ -58,19 +59,24 @@ const ProfileScreen = () => {
 
     const handleLanguageChange = async (language: AppLanguage) => {
         const isRTL = language === 'ar';
-    const previousRTL = I18nManager.isRTL;
+        const previousRTL = I18nManager.isRTL;
 
-    applyLanguageDirection(language);
-    await LanguageStorage.setLanguage(language);
-    await i18n.changeLanguage(language);
+        applyLanguageDirection(language);
+        await LanguageStorage.setLanguage(language);
+        await i18n.changeLanguage(language);
 
-    if (previousRTL !== isRTL) {
-        RNRestart.restart();
-    } else {
-        setSelectedLanguage(language);
-        refreshDirection();
-        setLanguageSheetVisible(false);
-    }
+        if (previousRTL !== isRTL) {
+            RNRestart.restart();
+        } else {
+            setSelectedLanguage(language);
+            refreshDirection();
+            setLanguageSheetVisible(false);
+        }
+    };
+
+    const handleLogout = async () => {
+        setLogoutModalVisible(false);
+        await signOut();
     };
 
     const profileInfo = PROFILE_INFO.map(item => ({
@@ -117,7 +123,7 @@ const ProfileScreen = () => {
                             <Languages size={20} color={Colors.white} />
                         </Pressable>
 
-                        <Pressable style={styles.iconButton} onPress={signOut}>
+                        <Pressable style={styles.iconButton} onPress={() => setLogoutModalVisible(true)}>
                             <Settings size={20} color={Colors.white} />
                         </Pressable>
                     </View>
@@ -191,6 +197,41 @@ const ProfileScreen = () => {
                                 </Pressable>
                             );
                         })}
+                    </Pressable>
+                </Pressable>
+            </Modal>
+
+            <Modal
+                transparent
+                visible={logoutModalVisible}
+                animationType="slide"
+                onRequestClose={() => setLogoutModalVisible(false)}
+            >
+                <Pressable
+                    style={styles.modalBackdrop}
+                    onPress={() => setLogoutModalVisible(false)}
+                >
+                    <Pressable
+                        style={styles.logoutModal}
+                        onPress={event => event.stopPropagation()}
+                    >
+                        <Text style={styles.logoutTitle}>{t('common.logoutTitle')}</Text>
+                        <Text style={styles.logoutMessage}>{t('common.logoutMessage')}</Text>
+
+                        <View style={styles.logoutActions}>
+                            <Pressable
+                                style={[styles.logoutButton, styles.closeButton]}
+                                onPress={() => setLogoutModalVisible(false)}
+                            >
+                                <Text style={styles.closeButtonText}>{t('common.close')}</Text>
+                            </Pressable>
+
+                            <GradientButton
+                                title={t('common.confirm')}
+                                onPress={handleLogout}
+                                style={styles.confirmButton}
+                            />
+                        </View>
                     </Pressable>
                 </Pressable>
             </Modal>
@@ -290,6 +331,50 @@ const styles = StyleSheet.create({
         paddingTop: 18,
         paddingBottom: 30,
         gap: 10,
+    },
+    logoutModal: {
+        backgroundColor: Colors.white,
+        borderTopLeftRadius: 24,
+        borderTopRightRadius: 24,
+        paddingHorizontal: 18,
+        paddingTop: 18,
+        paddingBottom: 30,
+        gap: 10,
+    },
+    logoutTitle: {
+        fontSize: 18,
+        fontFamily: Typography.extraBold,
+        color: Colors.navy,
+        marginBottom: 2,
+    },
+    logoutMessage: {
+        fontSize: 14,
+        lineHeight: 20,
+        fontFamily: Typography.medium,
+        color: Colors.slateText,
+    },
+    logoutActions: {
+        flexDirection: 'row',
+        gap: 12,
+        marginTop: 10,
+    },
+    logoutButton: {
+        flex: 1,
+        borderRadius: 14,
+        paddingVertical: 12,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    closeButton: {
+        backgroundColor: Colors.iconTintBlue,
+    },
+    confirmButton: {
+        flex: 1,
+    },
+    closeButtonText: {
+        fontSize: 14,
+        fontFamily: Typography.extraBold,
+        color: Colors.navy,
     },
     sheetTitle: {
         fontSize: 18,
