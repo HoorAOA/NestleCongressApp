@@ -20,7 +20,8 @@ import {
 
 const SpeakersScreen = () => {
     const navigation = useNavigation<RootNavigationProp>();
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const isArabic = i18n.language.startsWith('ar');
 
     const [query, setQuery] = useState('');
     const [category, setCategory] = useState('All');
@@ -29,11 +30,29 @@ const SpeakersScreen = () => {
         SPEAKERS.filter(s => s.favorite).map(s => s.id),
     );
 
+    const categoryLabels = {
+        All: t('quickAccess.speakersFilterAll'),
+        Nutrition: t('quickAccess.speakersFilterNutrition'),
+        Research: t('quickAccess.speakersFilterResearch'),
+        Pediatrics: t('quickAccess.speakersFilterPediatrics'),
+    };
+
+    const localizedSpeakers = useMemo(
+        () =>
+            SPEAKERS.map(speaker => ({
+                ...speaker,
+                name: isArabic ? speaker.nameAr : speaker.nameEn,
+                role: isArabic ? speaker.roleAr : speaker.roleEn,
+                country: isArabic ? speaker.countryAr : speaker.countryEn,
+                topic: isArabic ? speaker.topicAr : speaker.topicEn,
+            })),
+        [isArabic],
+    );
 
     const speakers = useMemo(() => {
         const q = query.trim().toLowerCase();
 
-        return SPEAKERS.filter(speaker => {
+        return localizedSpeakers.filter(speaker => {
             const matchesFavorite = !onlyFavorites || favorites.includes(speaker.id);
             const matchesCategory =
                 category === 'All' ||
@@ -50,7 +69,7 @@ const SpeakersScreen = () => {
                 Number(favorites.includes(b.id)) -
                 Number(favorites.includes(a.id)),
         );
-    }, [query, category, onlyFavorites, favorites]);
+    }, [query, category, onlyFavorites, favorites, localizedSpeakers]);
 
     const toggleFavorite = (id: string) => {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -103,6 +122,7 @@ const SpeakersScreen = () => {
 
                     <FilterChips
                         options={SPEAKER_CATEGORIES}
+                        labels={categoryLabels}
                         selected={category}
                         onSelect={setCategory}
                     />

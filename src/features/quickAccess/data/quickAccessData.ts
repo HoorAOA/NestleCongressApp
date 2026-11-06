@@ -198,10 +198,18 @@ export type SpeakerCategory = 'Nutrition' | 'Research' | 'Pediatrics';
 export interface Speaker {
     id: string;
     name: string;
+    nameEn: string;
+    nameAr: string;
     initials: string;
     role: string;
+    roleEn: string;
+    roleAr: string;
     country: string;
+    countryEn: string;
+    countryAr: string;
     topic: string;
+    topicEn: string;
+    topicAr: string;
     categories: SpeakerCategory[];
     featured?: boolean;
     favorite?: boolean;
@@ -210,11 +218,93 @@ export interface Speaker {
 export const SPEAKER_CATEGORIES = ['All', 'Nutrition', 'Research', 'Pediatrics'];
 
 export const SPEAKERS: Speaker[] = [
-    { id: 's1', name: 'Dr. Sarah Johnson', initials: 'SJ', role: 'Pediatric Nutrition Specialist', country: 'United Kingdom', topic: 'Future of Pediatric Nutrition', categories: ['Nutrition', 'Pediatrics'], featured: true, favorite: true },
-    { id: 's2', name: 'Dr. Hassan Ali', initials: 'HA', role: 'Clinical Research Director', country: 'UAE', topic: 'Welcome & Introduction', categories: ['Research'] },
-    { id: 's3', name: 'Dr. Ahmed Khalid', initials: 'AK', role: 'Gastroenterology Consultant', country: 'Saudi Arabia', topic: 'Advances in Clinical Research', categories: ['Research', 'Nutrition'] },
-    { id: 's4', name: 'Dr. Layla Hamdan', initials: 'LH', role: 'Neonatal Care Specialist', country: 'Jordan', topic: 'Gut Health & Immunity', categories: ['Pediatrics', 'Nutrition'] },
-    { id: 's5', name: 'Dr. Omar Farouk', initials: 'OF', role: 'Senior Research Scientist', country: 'Egypt', topic: 'Evidence-Based Nutrition', categories: ['Research'] },
+    {
+        id: 's1',
+        name: 'Dr. Sarah Johnson',
+        nameEn: 'Dr. Sarah Johnson',
+        nameAr: 'د. سارة جونسون',
+        initials: 'SJ',
+        role: 'Pediatric Nutrition Specialist',
+        roleEn: 'Pediatric Nutrition Specialist',
+        roleAr: 'أخصائية تغذية الأطفال',
+        country: 'United Kingdom',
+        countryEn: 'United Kingdom',
+        countryAr: 'المملكة المتحدة',
+        topic: 'Future of Pediatric Nutrition',
+        topicEn: 'Future of Pediatric Nutrition',
+        topicAr: 'مستقبل تغذية الأطفال',
+        categories: ['Nutrition', 'Pediatrics'],
+        featured: true,
+        favorite: true,
+    },
+    {
+        id: 's2',
+        name: 'Dr. Hassan Ali',
+        nameEn: 'Dr. Hassan Ali',
+        nameAr: 'د. حسن علي',
+        initials: 'HA',
+        role: 'Clinical Research Director',
+        roleEn: 'Clinical Research Director',
+        roleAr: 'مدير الأبحاث السريرية',
+        country: 'UAE',
+        countryEn: 'UAE',
+        countryAr: 'الإمارات العربية المتحدة',
+        topic: 'Welcome & Introduction',
+        topicEn: 'Welcome & Introduction',
+        topicAr: 'ترحيب ومقدمة',
+        categories: ['Research'],
+    },
+    {
+        id: 's3',
+        name: 'Dr. Ahmed Khalid',
+        nameEn: 'Dr. Ahmed Khalid',
+        nameAr: 'د. أحمد خالد',
+        initials: 'AK',
+        role: 'Gastroenterology Consultant',
+        roleEn: 'Gastroenterology Consultant',
+        roleAr: 'استشاري أمراض الجهاز الهضمي',
+        country: 'Saudi Arabia',
+        countryEn: 'Saudi Arabia',
+        countryAr: 'المملكة العربية السعودية',
+        topic: 'Advances in Clinical Research',
+        topicEn: 'Advances in Clinical Research',
+        topicAr: 'التطورات في الأبحاث السريرية',
+        categories: ['Research', 'Nutrition'],
+    },
+    {
+        id: 's4',
+        name: 'Dr. Layla Hamdan',
+        nameEn: 'Dr. Layla Hamdan',
+        nameAr: 'د. ليلى حمدان',
+        initials: 'LH',
+        role: 'Neonatal Care Specialist',
+        roleEn: 'Neonatal Care Specialist',
+        roleAr: 'أخصائية رعاية حديثي الولادة',
+        country: 'Jordan',
+        countryEn: 'Jordan',
+        countryAr: 'الأردن',
+        topic: 'Gut Health & Immunity',
+        topicEn: 'Gut Health & Immunity',
+        topicAr: 'صحة الجهاز الهضمي والمناعة',
+        categories: ['Pediatrics', 'Nutrition'],
+    },
+    {
+        id: 's5',
+        name: 'Dr. Omar Farouk',
+        nameEn: 'Dr. Omar Farouk',
+        nameAr: 'د. عمر فاروق',
+        initials: 'OF',
+        role: 'Senior Research Scientist',
+        roleEn: 'Senior Research Scientist',
+        roleAr: 'عالم أبحاث أول',
+        country: 'Egypt',
+        countryEn: 'Egypt',
+        countryAr: 'مصر',
+        topic: 'Evidence-Based Nutrition',
+        topicEn: 'Evidence-Based Nutrition',
+        topicAr: 'التغذية المبنية على الأدلة',
+        categories: ['Research'],
+    },
 ];
 
 /* ---------- Attendee / name tag ---------- */

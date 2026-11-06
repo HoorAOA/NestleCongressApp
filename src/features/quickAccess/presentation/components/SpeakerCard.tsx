@@ -23,9 +23,10 @@ const SpeakerCard = ({
     onPress,
 }: SpeakerCardProps) => {
     const featured = !!speaker.featured;
-    const { i18n } = useTranslation();
+    const { i18n, t } = useTranslation();
     const isRTL = i18n.dir(i18n.language) === 'rtl';
     const EndIcon = isRTL ? ChevronLeft : ChevronRight;
+    const labelText = featured ? t('quickAccess.featuredSpeaker') : t('quickAccess.speaker');
 
     return (
         <Pressable
@@ -49,7 +50,7 @@ const SpeakerCard = ({
                         { color: featured ? Colors.gold : Colors.primary },
                     ]}
                 >
-                    {featured ? 'FEATURED SPEAKER' : 'SPEAKER'}
+                    {labelText}
                 </Text>
                 <Text style={styles.name}>{speaker.name}</Text>
                 <Text style={styles.role}>{speaker.role}</Text>
@@ -72,7 +73,9 @@ const SpeakerCard = ({
                     hitSlop={10}
                     accessibilityRole="button"
                     accessibilityLabel={
-                        isFavorite ? 'Remove from favourites' : 'Add to favourites'
+                        isFavorite
+                            ? t('quickAccess.removeFromFavorites')
+                            : t('quickAccess.addToFavorites')
                     }
                 >
                     <Star
