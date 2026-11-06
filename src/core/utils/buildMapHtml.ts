@@ -46,6 +46,12 @@ export const buildMapHtml = ({
     attributionControl: { compact: true }
   });
 
+  map.on('load', function () {
+    if (window.ReactNativeWebView) {
+      window.ReactNativeWebView.postMessage('loaded');
+    }
+  });
+  
   var el = document.createElement('div');
   el.className = 'pin';
   el.innerHTML =

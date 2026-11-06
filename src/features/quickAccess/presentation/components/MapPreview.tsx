@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
     ActivityIndicator,
     Pressable,
@@ -19,6 +19,8 @@ interface MapPreviewProps {
 }
 
 const MapPreview = ({ latitude, longitude, onPress }: MapPreviewProps) => {
+    const [loaded, setLoaded] = useState(false);
+
     const html = useMemo(
         () =>
             buildMapHtml({
@@ -38,7 +40,7 @@ const MapPreview = ({ latitude, longitude, onPress }: MapPreviewProps) => {
             accessibilityLabel="Open directions to the venue"
             style={({ pressed }) => [styles.card, pressed && { opacity: 0.9 }]}
         >
-            <View style={StyleSheet.absoluteFill} pointerEvents="none">
+            <View style={styles.fill} pointerEvents="none">
                 <WebView
                     originWhitelist={['*']}
                     source={{ html }}
@@ -47,14 +49,20 @@ const MapPreview = ({ latitude, longitude, onPress }: MapPreviewProps) => {
                     bounces={false}
                     overScrollMode="never"
                     javaScriptEnabled
-                    startInLoadingState
-                    renderLoading={() => (
-                        <View style={styles.loading}>
-                            <ActivityIndicator color={Colors.primary} />
-                        </View>
-                    )}
+                    onMessage={event => {
+                        if (event.nativeEvent.data === 'loaded') {
+                            setLoaded(true);
+                        }
+                    }}
+                    onError={() => setLoaded(true)}
                 />
             </View>
+
+            {!loaded && (
+                <View style={[styles.fill, styles.loading]} pointerEvents="none">
+                    <ActivityIndicator color={Colors.primary} />
+                </View>
+            )}
 
             <View style={styles.pill}>
                 <Text style={styles.pillText}>Map Preview</Text>
@@ -72,13 +80,19 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         backgroundColor: Colors.mapBlueLight,
     },
+    fill: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+    },
     webview: {
         flex: 1,
         borderRadius: 30,
         backgroundColor: 'transparent',
     },
     loading: {
-        ...StyleSheet.absoluteFillObject,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: Colors.mapBlueLight,
