@@ -1,6 +1,5 @@
-import React from 'react';
-import { Pressable, Text, StyleSheet, View, ViewStyle } from 'react-native';
-import { useTranslation } from 'react-i18next';
+import React, { useRef } from 'react';
+import { Pressable, Text, StyleSheet, View, ViewStyle, Animated } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Colors } from '../../theme/colors';
 import { Typography } from '../../theme/typography';
@@ -12,6 +11,8 @@ interface GradientButtonProps {
     endIcon?: React.ReactNode;
     disabled?: boolean;
     style?: ViewStyle;
+    gradientColors?: [string, string];
+    disabledGradientColors?: [string, string];
 }
 
 const GradientButton: React.FC<GradientButtonProps> = ({
@@ -21,45 +22,76 @@ const GradientButton: React.FC<GradientButtonProps> = ({
     endIcon,
     disabled = false,
     style,
+    gradientColors = [Colors.primary, Colors.secondary],
+    disabledGradientColors = [Colors.disabled, Colors.disabledDark],
 }) => {
-    const { i18n } = useTranslation();
-    const isRTL = i18n.dir(i18n.language) === 'rtl';
+    const scaleAnim = useRef(new Animated.Value(1)).current;
+
+    const handlePressIn = () => {
+        if (disabled) return;
+
+        Animated.spring(scaleAnim, {
+            toValue: 0.98,
+            friction: 7,
+            tension: 180,
+            useNativeDriver: true,
+        }).start();
+    };
+
+    const handlePressOut = () => {
+        if (disabled) return;
+
+        Animated.spring(scaleAnim, {
+            toValue: 1,
+            friction: 7,
+            tension: 180,
+            useNativeDriver: true,
+        }).start();
+    };
+
+    const activeColors = disabled ? disabledGradientColors : gradientColors;
 
     return (
-        <Pressable
-            onPress={onPress}
-            disabled={disabled}
-            style={[styles.pressable, style]}
-        >
-            <LinearGradient
-                colors={[Colors.primary, Colors.secondary]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={[
-                    styles.button,
-                    { flexDirection: 'row' },
-                    disabled && styles.disabled,
-                ]}
+        <Animated.View style={[styles.wrapper, { transform: [{ scale: scaleAnim }] }]}>
+            <Pressable
+                onPress={disabled ? undefined : onPress}
+                onPressIn={handlePressIn}
+                onPressOut={handlePressOut}
+                disabled={disabled}
+                style={[styles.pressable, style]}
             >
-                {startIcon && (
-                    <View style={styles.icon}>
-                        {startIcon}
-                    </View>
-                )}
+                <LinearGradient
+                    colors={activeColors}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    style={[
+                        styles.button,
+                        { flexDirection: 'row' },
+                    ]}
+                >
+                    {startIcon && (
+                        <View style={styles.icon}>
+                            {startIcon}
+                        </View>
+                    )}
 
-                <Text style={styles.title}>{title}</Text>
+                    <Text style={styles.title}>{title}</Text>
 
-                {endIcon && (
-                    <View style={styles.icon}>
-                        {endIcon}
-                    </View>
-                )}
-            </LinearGradient>
-        </Pressable>
+                    {endIcon && (
+                        <View style={styles.icon}>
+                            {endIcon}
+                        </View>
+                    )}
+                </LinearGradient>
+            </Pressable>
+        </Animated.View>
     );
 };
 
 const styles = StyleSheet.create({
+    wrapper: {
+        borderRadius: 18,
+    },
     pressable: {
         borderRadius: 18,
         shadowColor: Colors.black,
@@ -85,9 +117,6 @@ const styles = StyleSheet.create({
     icon: {
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    disabled: {
-        opacity: 0.5,
     },
 });
 

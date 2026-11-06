@@ -72,6 +72,9 @@ export const Colors = {
   white: '#FFFFFF',
   black: '#000000',
   error: '#E53935',
+  success: '#20B573',
+  disabled: '#D9DFEA',
+  disabledDark: '#B7C0CF',
 
   // Glass surfaces on the dark background
     glassFill: 'rgba(255,255,255,0.08)',

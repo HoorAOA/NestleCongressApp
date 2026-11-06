@@ -56,6 +56,10 @@ const LoginScreen = () => {
     const { signIn } = useAuth();
     const [errors, setErrors] = useState<LoginErrors>({});
 
+    const emailValid = !!email.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+    const passwordValid = password.length >= 6;
+    const isFormValid = emailValid && passwordValid;
+
     const handleLogin = () => {
         const result = validateLogin(email, password);
         setErrors(result.errors);
@@ -158,24 +162,61 @@ const LoginScreen = () => {
                             <AppTextInput
                                 placeholder={t('auth.login.emailPlaceholder')}
                                 value={email}
-                                onChangeText={setEmail}
+                                onChangeText={text => {
+                                    setEmail(text);
+                                    setErrors(prev => ({ ...prev, email: text.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(text.trim()) ? undefined : prev.email }));
+                                }}
                                 keyboardType="email-address"
                                 autoCapitalize="none"
                                 leftIcon={<UserRound size={18} color={Colors.blue} />}
+                                helperText={
+                                    email.length > 0
+                                        ? emailValid
+                                            ? t('auth.login.emailValid')
+                                            : t('auth.login.emailInvalid')
+                                        : undefined
+                                }
+                                validationState={
+                                    email.length === 0
+                                        ? 'default'
+                                        : emailValid
+                                            ? 'success'
+                                            : 'error'
+                                }
                             />
 
                             <AppTextInput
                                 placeholder={t('auth.login.passwordPlaceholder')}
                                 value={password}
-                                onChangeText={setPassword}
+                                onChangeText={text => {
+                                    setPassword(text);
+                                    setErrors(prev => ({ ...prev, password: text.length >= 6 ? undefined : prev.password }));
+                                }}
                                 isRTL={isRTL}
                                 isPassword
                                 leftIcon={<LockKeyhole size={18} color={Colors.blue} />}
+                                helperText={
+                                    password.length > 0
+                                        ? passwordValid
+                                            ? t('auth.login.passwordValid')
+                                            : t('auth.login.passwordInvalid')
+                                        : undefined
+                                }
+                                validationState={
+                                    password.length === 0
+                                        ? 'default'
+                                        : passwordValid
+                                            ? 'success'
+                                            : 'error'
+                                }
                             />
 
                             <GradientButton
                                 title={t('auth.login.button')}
                                 onPress={handleLogin}
+                                disabled={!isFormValid}
+                                gradientColors={[Colors.primary, Colors.secondary]}
+                                disabledGradientColors={[Colors.disabled, Colors.disabledDark]}
                                 endIcon={
                                     isRTL ? (
                                         <ArrowLeft size={20} color={Colors.white} />
