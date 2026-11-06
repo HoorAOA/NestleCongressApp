@@ -168,27 +168,54 @@ export interface AgendaSession {
     period: 'AM' | 'PM';
     category: AgendaCategory;
     title: string;
+    titleEn: string;
+    titleAr: string;
     place: string;
+    placeEn: string;
+    placeAr: string;
+    categoryLabel?: string;
     featured?: boolean;
 }
 
 export const AGENDA_DAYS = [
-    { day: 1 as AgendaDay, label: 'Day 1', shortDate: 'May 22', fullDate: 'Thursday, May 22, 2026' },
-    { day: 2 as AgendaDay, label: 'Day 2', shortDate: 'May 23', fullDate: 'Friday, May 23, 2026' },
+    {
+        day: 1 as AgendaDay,
+        label: 'Day 1',
+        labelEn: 'Day 1',
+        labelAr: 'اليوم 1',
+        shortDate: 'May 22',
+        shortDateEn: 'May 22',
+        shortDateAr: '22 مايو',
+        fullDate: 'Thursday, May 22, 2026',
+        fullDateEn: 'Thursday, May 22, 2026',
+        fullDateAr: 'الخميس، 22 مايو 2026',
+    },
+    {
+        day: 2 as AgendaDay,
+        label: 'Day 2',
+        labelEn: 'Day 2',
+        labelAr: 'اليوم 2',
+        shortDate: 'May 23',
+        shortDateEn: 'May 23',
+        shortDateAr: '23 مايو',
+        fullDate: 'Friday, May 23, 2026',
+        fullDateEn: 'Friday, May 23, 2026',
+        fullDateAr: 'الجمعة، 23 مايو 2026',
+    },
 ];
 
 export const AGENDA_CATEGORIES = ['All', 'Keynote', 'Nutrition', 'Research'];
 
 export const AGENDA_SESSIONS: AgendaSession[] = [
-    { id: 'd1-1', day: 1, order: 1, time: '08:30', period: 'AM', category: 'Keynote', title: 'Opening Ceremony', place: 'Main Auditorium', featured: true },
-    { id: 'd1-2', day: 1, order: 2, time: '09:30', period: 'AM', category: 'Keynote', title: 'Welcome & Introduction', place: 'Dr. Hassan Ali' },
-    { id: 'd1-3', day: 1, order: 3, time: '10:30', period: 'AM', category: 'Nutrition', title: 'Future of Pediatric Nutrition', place: 'Dr. Sarah Johnson' },
-    { id: 'd1-4', day: 1, order: 4, time: '11:45', period: 'AM', category: 'Research', title: 'Advances in Clinical Research', place: 'Dr. Ahmed Khalid' },
-    { id: 'd1-5', day: 1, order: 5, time: '01:30', period: 'PM', category: 'Nutrition', title: 'Gut Health & Immunity', place: 'Dr. Layla Hamdan' },
-    { id: 'd2-1', day: 2, order: 1, time: '09:00', period: 'AM', category: 'Keynote', title: 'Day 2 Opening Address', place: 'Main Auditorium' },
-    { id: 'd2-2', day: 2, order: 2, time: '10:00', period: 'AM', category: 'Research', title: 'Evidence-Based Nutrition', place: 'Dr. Omar Farouk' },
-    { id: 'd2-3', day: 2, order: 3, time: '11:15', period: 'AM', category: 'Nutrition', title: 'Infant Nutrition Innovations', place: 'Dr. Sarah Johnson' },
-    { id: 'd2-4', day: 2, order: 4, time: '02:00', period: 'PM', category: 'Keynote', title: 'Closing Panel & Awards', place: 'Main Auditorium' },
+    { id: 'd1-1', day: 1, order: 1, time: '08:30', period: 'AM', category: 'Keynote', title: 'Opening Ceremony', titleEn: 'Opening Ceremony', titleAr: 'حفل الافتتاح', place: 'Main Auditorium', placeEn: 'Main Auditorium', placeAr: 'القاعة الرئيسية', featured: true },
+    { id: 'd1-2', day: 1, order: 2, time: '09:30', period: 'AM', category: 'Keynote', title: 'Welcome & Introduction', titleEn: 'Welcome & Introduction', titleAr: 'الترحيب والمقدمة', place: 'Dr. Hassan Ali', placeEn: 'Dr. Hassan Ali', placeAr: 'د. حسن علي' },
+    { id: 'd1-3', day: 1, order: 3, time: '10:30', period: 'AM', category: 'Nutrition', title: 'Future of Pediatric Nutrition', titleEn: 'Future of Pediatric Nutrition', titleAr: 'مستقبل تغذية الأطفال', place: 'Dr. Sarah Johnson', placeEn: 'Dr. Sarah Johnson', placeAr: 'د. سارة جونسون' },
+    { id: 'd1-4', day: 1, order: 4, time: '11:45', period: 'AM', category: 'Research', title: 'Advances in Clinical Research', titleEn: 'Advances in Clinical Research', titleAr: 'التطورات في الأبحاث السريرية', place: 'Dr. Ahmed Khalid', placeEn: 'Dr. Ahmed Khalid', placeAr: 'د. أحمد خالد' },
+    { id: 'd1-5', day: 1, order: 5, time: '01:30', period: 'PM', category: 'Nutrition', title: 'Gut Health & Immunity', titleEn: 'Gut Health & Immunity', titleAr: 'صحة الجهاز الهضمي والمناعة', place: 'Dr. Layla Hamdan', placeEn: 'Dr. Layla Hamdan', placeAr: 'د. ليلى حمدان' },
+    { id: 'd2-1', day: 2, order: 1, time: '09:00', period: 'AM', category: 'Keynote', title: 'Day 2 Opening Address', titleEn: 'Day 2 Opening Address', titleAr: 'مقدمة اليوم الثاني', place: 'Main Auditorium', placeEn: 'Main Auditorium', placeAr: 'القاعة الرئيسية' },
+    { id: 'd2-2', day: 2, order: 2, time: '10:00', period: 'AM', category: 'Research', title: 'Evidence-Based Nutrition', titleEn: 'Evidence-Based Nutrition', titleAr: 'التغذية المبنية على الأدلة', place: 'Dr. Omar Farouk', placeEn: 'Dr. Omar Farouk', placeAr: 'د. عمر فاروق' },
+    { id: 'd2-3', day: 2, order: 3, time: '11:15', period: 'AM', category: 'Nutrition', title: 'Infant Nutrition Innovations', titleEn: 'Infant Nutrition Innovations', titleAr: 'ابتكارات تغذية الرضع', place: 'Dr. Sarah Johnson', placeEn: 'Dr. Sarah Johnson', placeAr: 'د. سارة جونسون' },
+    { id: 'd2-4', day: 2, order: 4, time: '02:00', period: 'PM', category: 'Keynote', title: 'Closing Panel & Awards', titleEn: 'Closing Panel & Awards', titleAr: 'الجلسة الختامية والحوافز', place: 'Main Auditorium', placeEn: 'Main Auditorium', placeAr: 'القاعة الرئيسية' },
 ];
 
 /* ---------- Speakers ---------- */
@@ -311,11 +338,19 @@ export const SPEAKERS: Speaker[] = [
 
 export const ATTENDEE = {
     name: 'Huda Latheef',
+    nameEn: 'Huda Latheef',
+    nameAr: 'هدى لطيف',
     initials: 'HL',
     headline: 'Flutter Developer • Attendee',
+    headlineEn: 'Flutter Developer • Attendee',
+    headlineAr: 'مطور فلاتر • حاضرة',
     badgeId: 'NMC-2026-001',
     location: 'Dubai, UAE',
+    locationEn: 'Dubai, UAE',
+    locationAr: 'دبي، الإمارات العربية المتحدة',
     congressDates: '22 - 23 May 2026',
+    congressDatesEn: '22 - 23 May 2026',
+    congressDatesAr: '22 - 23 مايو 2026',
 };
 
 export const ABOUT_URL = 'https://www.ntamgroup.com/about-us';

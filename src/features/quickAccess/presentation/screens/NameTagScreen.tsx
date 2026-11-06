@@ -19,7 +19,16 @@ const NameTagScreen = () => {
     const navigation = useNavigation<RootNavigationProp>();
     const cardRef = useRef<React.ElementRef<typeof View>>(null);
     const [sharing, setSharing] = useState(false);
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const isArabic = i18n.language.startsWith('ar');
+
+    const attendee = {
+        ...ATTENDEE,
+        name: isArabic ? ATTENDEE.nameAr : ATTENDEE.nameEn,
+        headline: isArabic ? ATTENDEE.headlineAr : ATTENDEE.headlineEn,
+        location: isArabic ? ATTENDEE.locationAr : ATTENDEE.locationEn,
+        congressDates: isArabic ? ATTENDEE.congressDatesAr : ATTENDEE.congressDatesEn,
+    };
 
     const openAbout = async () => {
         try {
@@ -44,7 +53,7 @@ const NameTagScreen = () => {
             });
 
             await Share.open({
-                title: 'My Name Tag',
+                title: t('quickAccess.myNameTag'),
                 url: `data:image/png;base64,${base64}`,
                 type: 'image/png',
                 filename: 'nestle-congress-name-tag',
@@ -71,7 +80,7 @@ const NameTagScreen = () => {
         >
             <NameTagCard
                 ref={cardRef}
-                attendee={ATTENDEE}
+                attendee={attendee}
                 qrValue={ABOUT_URL}
                 onQrPress={openAbout}
             />

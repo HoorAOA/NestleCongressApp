@@ -10,8 +10,12 @@ import type { LucideIcon } from 'lucide-react-native';
 
 export const PROFILE_USER = {
     name: 'Huda Latheef',
+    nameEn: 'Huda Latheef',
+    nameAr: 'هدى لطيف',
     initials: 'HL',
     role: 'Medical Congress Attendee',
+    roleEn: 'Medical Congress Attendee',
+    roleAr: 'حاضرة مؤتمر طبي',
     badgeId: 'NMC-2026-001',
     email: 'huda@example.com',
     phone: '+971 56 283 4212',

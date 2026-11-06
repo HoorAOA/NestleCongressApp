@@ -36,6 +36,11 @@ const ProfileScreen = () => {
     const { t, i18n } = useTranslation();
     const isRTL = i18n.dir(i18n.language) === 'rtl';
     const BackIcon = isRTL ? ChevronRight : ChevronLeft;
+    const profileUser = {
+        ...PROFILE_USER,
+        name: i18n.language.startsWith('ar') ? PROFILE_USER.nameAr : PROFILE_USER.nameEn,
+        role: i18n.language.startsWith('ar') ? PROFILE_USER.roleAr : PROFILE_USER.roleEn,
+    };
     const [languageSheetVisible, setLanguageSheetVisible] = useState(false);
     const [selectedLanguage, setSelectedLanguage] = useState<AppLanguage>('en');
 
@@ -122,7 +127,7 @@ const ProfileScreen = () => {
                     <ProfileAvatar initials={PROFILE_USER.initials} />
 
                     <AppTitle
-                        title={PROFILE_USER.name}
+                        title={profileUser.name}
                         size={24}
                         color={Colors.white}
                         weight="extraBold"
@@ -130,7 +135,7 @@ const ProfileScreen = () => {
                         style={{ marginTop: 16 }}
                     />
 
-                    <Text style={styles.role}>{PROFILE_USER.role}</Text>
+                    <Text style={styles.role}>{profileUser.role}</Text>
 
                     <View style={styles.idPill}>
                         <Text style={styles.idPillText}>

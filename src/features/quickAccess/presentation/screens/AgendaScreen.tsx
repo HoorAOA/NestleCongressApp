@@ -27,7 +27,8 @@ import {
 
 const AgendaScreen = () => {
     const navigation = useNavigation<RootNavigationProp>();
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const isArabic = i18n.language.startsWith('ar');
 
     const [day, setDay] = useState<AgendaDay>(1);
     const [category, setCategory] = useState('All');
@@ -35,19 +36,53 @@ const AgendaScreen = () => {
     const [searchVisible, setSearchVisible] = useState(false);
     const [bookmarks, setBookmarks] = useState<string[]>([]);
 
+    const categoryLabels = {
+        All: t('quickAccess.agendaFilterAll'),
+        Keynote: t('quickAccess.agendaFilterKeynote'),
+        Nutrition: t('quickAccess.agendaFilterNutrition'),
+        Research: t('quickAccess.agendaFilterResearch'),
+    };
 
-    const currentDay = AGENDA_DAYS.find(d => d.day === day) ?? AGENDA_DAYS[0];
+    const localizedDays = useMemo(
+        () =>
+            AGENDA_DAYS.map(item => ({
+                ...item,
+                label: isArabic ? item.labelAr : item.labelEn,
+                shortDate: isArabic ? item.shortDateAr : item.shortDateEn,
+                fullDate: isArabic ? item.fullDateAr : item.fullDateEn,
+            })),
+        [isArabic],
+    );
+
+    const localizedSessions = useMemo(
+        () =>
+            AGENDA_SESSIONS.map(session => ({
+                ...session,
+                title: isArabic ? session.titleAr : session.titleEn,
+                place: isArabic ? session.placeAr : session.placeEn,
+                categoryLabel: isArabic
+                    ? session.category === 'Keynote'
+                        ? t('quickAccess.agendaFilterKeynote')
+                        : session.category === 'Nutrition'
+                          ? t('quickAccess.agendaFilterNutrition')
+                          : t('quickAccess.agendaFilterResearch')
+                    : session.category,
+            })),
+        [isArabic, t],
+    );
+
+    const currentDay = localizedDays.find(d => d.day === day) ?? localizedDays[0];
 
     const sessions = useMemo(() => {
         const q = query.trim().toLowerCase();
 
-        return AGENDA_SESSIONS.filter(session => {
+        return localizedSessions.filter(session => {
             const matchesDay = session.day === day;
             const matchesCategory =
                 category === 'All' || session.category === category;
             const matchesQuery =
                 !q ||
-                `${session.title} ${session.place} ${session.category}`
+                `${session.title} ${session.place} ${session.categoryLabel ?? session.category}`
                     .toLowerCase()
                     .includes(q);
 
@@ -57,7 +92,7 @@ const AgendaScreen = () => {
                 Number(bookmarks.includes(b.id)) -
                 Number(bookmarks.includes(a.id)) || a.order - b.order,
         );
-    }, [day, category, query, bookmarks]);
+    }, [day, category, query, bookmarks, localizedSessions]);
 
     const toggleBookmark = (id: string) => {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -106,7 +141,7 @@ const AgendaScreen = () => {
                     />
 
                     <DayTabs
-                        days={AGENDA_DAYS}
+                        days={localizedDays}
                         selected={day}
                         onSelect={d => setDay(d as AgendaDay)}
                     />
@@ -132,6 +167,7 @@ const AgendaScreen = () => {
 
                     <FilterChips
                         options={AGENDA_CATEGORIES}
+                        labels={categoryLabels}
                         selected={category}
                         onSelect={setCategory}
                     />

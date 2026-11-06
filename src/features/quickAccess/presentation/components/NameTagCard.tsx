@@ -2,6 +2,7 @@ import React, { forwardRef } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import { Award, CalendarDays, Contact, MapPin } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 
 import { AppTitle } from '../../../../core/components';
 import { Colors } from '../../../../core/theme/colors';
@@ -26,71 +27,75 @@ interface NameTagCardProps {
 
 /** The ref points at the white card so it can be captured as an image. */
 const NameTagCard = forwardRef<React.ElementRef<typeof View>, NameTagCardProps>(
-    ({ attendee, qrValue, onQrPress }, ref) => (
-        <View ref={ref} collapsable={false} style={styles.card}>
-            <GradientBox
-                radius={22}
-                colors={[Colors.secondary, Colors.primary]}
-                start={{ x: 0, y: 0.5 }}
-                end={{ x: 1, y: 0.5 }}
-                style={styles.band}
-            >
-                <Text style={styles.bandTitle}>NESTLÉ MEDICAL</Text>
-                <Text style={styles.bandSubtitle}>CONGRESS 2026</Text>
-            </GradientBox>
+    ({ attendee, qrValue, onQrPress }, ref) => {
+        const { t } = useTranslation();
 
-            <View style={styles.identity}>
-                <AvatarRing
-                    initials={attendee.initials}
-                    size={96}
-                    fontSize={32}
-                    colors={[Colors.gold, Colors.secondary]}
-                />
+        return (
+            <View ref={ref} collapsable={false} style={styles.card}>
+                <GradientBox
+                    radius={22}
+                    colors={[Colors.secondary, Colors.primary]}
+                    start={{ x: 0, y: 0.5 }}
+                    end={{ x: 1, y: 0.5 }}
+                    style={styles.band}
+                >
+                    <Text style={styles.bandTitle}>NESTLÉ MEDICAL</Text>
+                    <Text style={styles.bandSubtitle}>CONGRESS 2026</Text>
+                </GradientBox>
 
-                <AppTitle
-                    title={attendee.name}
-                    size={26}
-                    color={Colors.navyText}
-                    weight="extraBold"
-                    align="center"
-                    style={{ marginTop: 14 }}
-                />
-                <Text style={styles.headline}>{attendee.headline}</Text>
-            </View>
+                <View style={styles.identity}>
+                    <AvatarRing
+                        initials={attendee.initials}
+                        size={96}
+                        fontSize={32}
+                        colors={[Colors.gold, Colors.secondary]}
+                    />
 
-            <View style={styles.dividerRow}>
-                <View style={styles.line} />
-                <Award size={20} color={Colors.gold} />
-                <View style={styles.line} />
-            </View>
-
-            <View style={styles.tiles}>
-                <InfoTile icon={Contact} label="Badge ID" value={attendee.badgeId} />
-                <InfoTile icon={MapPin} label="Location" value={attendee.location} />
-                <InfoTile
-                    icon={CalendarDays}
-                    label="Congress Date"
-                    value={attendee.congressDates}
-                />
-            </View>
-
-            <Pressable
-                onPress={onQrPress}
-                accessibilityRole="link"
-                accessibilityLabel="Open NTAM Group website"
-                style={styles.qrOuter}
-            >
-                <View style={styles.qrInner}>
-                    <QRCode
-                        value={qrValue}
-                        size={116}
+                    <AppTitle
+                        title={attendee.name}
+                        size={26}
                         color={Colors.navyText}
-                        backgroundColor={Colors.white}
+                        weight="extraBold"
+                        align="center"
+                        style={{ marginTop: 14 }}
+                    />
+                    <Text style={styles.headline}>{attendee.headline}</Text>
+                </View>
+
+                <View style={styles.dividerRow}>
+                    <View style={styles.line} />
+                    <Award size={20} color={Colors.gold} />
+                    <View style={styles.line} />
+                </View>
+
+                <View style={styles.tiles}>
+                    <InfoTile icon={Contact} label={t('quickAccess.badgeId')} value={attendee.badgeId} />
+                    <InfoTile icon={MapPin} label={t('quickAccess.location')} value={attendee.location} />
+                    <InfoTile
+                        icon={CalendarDays}
+                        label={t('quickAccess.congressDate')}
+                        value={attendee.congressDates}
                     />
                 </View>
-            </Pressable>
-        </View>
-    ),
+
+                <Pressable
+                    onPress={onQrPress}
+                    accessibilityRole="link"
+                    accessibilityLabel={t('quickAccess.openWebsite')}
+                    style={styles.qrOuter}
+                >
+                    <View style={styles.qrInner}>
+                        <QRCode
+                            value={qrValue}
+                            size={116}
+                            color={Colors.navyText}
+                            backgroundColor={Colors.white}
+                        />
+                    </View>
+                </Pressable>
+            </View>
+        );
+    },
 );
 
 NameTagCard.displayName = 'NameTagCard';

@@ -35,8 +35,9 @@ const AgendaSessionCard = ({
     const featured = !!session.featured;
     const Icon = featured ? CalendarCheck : CATEGORY_ICONS[session.category];
     const accent = featured ? Colors.gold : Colors.primary;
-    const { i18n } = useTranslation();
+    const { i18n, t } = useTranslation();
     const isRTL = i18n.dir(i18n.language) === 'rtl';
+    const categoryLabel = session.categoryLabel ?? session.category;
 
     return (
         <View style={[styles.card, { flexDirection: 'row' }, featured && styles.cardFeatured]}>
@@ -58,7 +59,7 @@ const AgendaSessionCard = ({
 
             <View style={styles.body}>
                 <Text style={[styles.category, { color: accent, textAlign: 'start' }]}>
-                    {session.category.toUpperCase()}
+                    {categoryLabel.toUpperCase()}
                 </Text>
                 <Text style={[styles.title, { textAlign: 'start' }]}>{session.title}</Text>
                 <View style={[styles.placeRow, { flexDirection: 'row' }]}>
@@ -73,7 +74,9 @@ const AgendaSessionCard = ({
                 onPress={onToggleBookmark}
                 hitSlop={10}
                 accessibilityRole="button"
-                accessibilityLabel={bookmarked ? 'Remove bookmark' : 'Bookmark session'}
+                accessibilityLabel={
+                    bookmarked ? t('quickAccess.removeBookmark') : t('quickAccess.bookmarkSession')
+                }
             >
                 <Bookmark
                     size={22}
