@@ -5,7 +5,7 @@ export interface AppEnvironment {
     isDevelopment: boolean;
     isProduction: boolean;
     enableLogs: boolean;
-    // apiBaseUrl: string;
+    apiBaseUrl: string;
 }
 
 const isDevelopment = __DEV__ === true;
@@ -15,9 +15,7 @@ export const environment: AppEnvironment = {
     isDevelopment,
     isProduction: !isDevelopment,
     enableLogs: isDevelopment,
-    // apiBaseUrl: isDevelopment
-    //     ? 'https://dev-api.nestle-congress.example'
-    //     : 'https://api.nestle-congress.example',
+    apiBaseUrl: 'https://dummyjson.com',
 };
 
 export const isDevelopmentEnvironment = environment.isDevelopment;

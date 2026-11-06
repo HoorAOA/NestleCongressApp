@@ -9,22 +9,36 @@ import { useTranslation } from 'react-i18next';
 import { Colors } from '../../../../core/theme/colors';
 import type { RootNavigationProp } from '../../../../core/navigation/types';
 import logger from '../../../../core/utils/logger';
+import { UserStorage } from '../../../../core/storage/userStorage';
 import { ABOUT_URL, ATTENDEE } from '../../data/quickAccessData';
 import {
     HeaderIconButton,
     NameTagCard,
-    ScreenLayout } from '../components';
+    ScreenLayout,
+} from '../components';
 
 const NameTagScreen = () => {
     const navigation = useNavigation<RootNavigationProp>();
     const cardRef = useRef<React.ElementRef<typeof View>>(null);
     const [sharing, setSharing] = useState(false);
+    const [storedName, setStoredName] = useState(ATTENDEE.nameEn);
     const { t, i18n } = useTranslation();
     const isArabic = i18n.language.startsWith('ar');
 
+    React.useEffect(() => {
+        const syncUserName = async () => {
+            const profile = await UserStorage.getUserProfile();
+            if (profile?.username) {
+                setStoredName(profile.username);
+            }
+        };
+
+        syncUserName();
+    }, []);
+
     const attendee = {
         ...ATTENDEE,
-        name: isArabic ? ATTENDEE.nameAr : ATTENDEE.nameEn,
+        name: storedName || (isArabic ? ATTENDEE.nameAr : ATTENDEE.nameEn),
         headline: isArabic ? ATTENDEE.headlineAr : ATTENDEE.headlineEn,
         location: isArabic ? ATTENDEE.locationAr : ATTENDEE.locationEn,
         congressDates: isArabic ? ATTENDEE.congressDatesAr : ATTENDEE.congressDatesEn,

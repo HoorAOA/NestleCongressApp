@@ -8,6 +8,7 @@ import {
     ScrollView,
     Pressable,
     StatusBar,
+    Modal,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
@@ -44,11 +45,20 @@ import { useNavigation } from '@react-navigation/native';
 import { validateLogin, LoginErrors } from '../../../../core/utils/validators';
 import { useAuth } from '../../../../core/auth/AuthContext';
 import logger from '../../../../core/utils/logger';
+import { checkConnectionUseCase, loginUserUseCase } from '../../../../features/auth/domain/useCases/login';
+import { UserStorage } from '../../../../core/storage/userStorage';
+import { SecureStorage } from '../../../../core/storage/secureStorage';
+
 /* ---------- Screen ---------- */
 
 const LoginScreen = () => {
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalTitle, setModalTitle] = useState('');
+    const [modalMessage, setModalMessage] = useState('');
+    const [showRetryButton, setShowRetryButton] = useState(false);
 
     const { t, i18n } = useTranslation();
     const isRTL = i18n.dir(i18n.language) === 'rtl';
@@ -56,17 +66,64 @@ const LoginScreen = () => {
     const { signIn } = useAuth();
     const [errors, setErrors] = useState<LoginErrors>({});
 
-    const emailValid = !!email.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+    const usernameValid = username.trim().length >= 3;
     const passwordValid = password.length >= 6;
-    const isFormValid = emailValid && passwordValid;
+    const isFormValid = usernameValid && passwordValid;
 
-    const handleLogin = () => {
-        const result = validateLogin(email, password);
+    const openInfoModal = (title: string, message: string, retry = false) => {
+        setModalTitle(title);
+        setModalMessage(message);
+        setShowRetryButton(retry);
+        setModalVisible(true);
+    };
+
+    const handleLogin = async () => {
+        const result = validateLogin(username, password);
         setErrors(result.errors);
 
-        if (!result.isValid) return;
+        if (!result.isValid) {
+            return;
+        }
 
-        signIn();
+        setIsSubmitting(true);
+
+        try {
+            const hasConnection = await checkConnectionUseCase();
+
+            if (!hasConnection) {
+                openInfoModal(t('auth.login.noInternetTitle'), t('auth.login.noInternetMessage'), true);
+                return;
+            }
+
+            const response = await loginUserUseCase({
+                username: username.trim(),
+                password,
+            });
+
+            logger.log('Login:', response);
+            await UserStorage.saveUserProfile({
+                username: response.username,
+                email: response.email,
+                firstName: response.firstName,
+                lastName: response.lastName,
+            });
+
+            await SecureStorage.saveTokens({
+                accessToken: response.accessToken,
+                refreshToken: response.refreshToken,
+            });
+
+            await signIn();
+        } catch (error) {
+            const message = error instanceof Error
+                ? error.message
+                : t('auth.login.loginErrorTitle');
+
+            openInfoModal(t('auth.login.loginErrorTitle'), message, false);
+            logger.error('Login failed:', error);
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const handleForgotPassword = () => {
@@ -78,7 +135,6 @@ const LoginScreen = () => {
     const handleRegister = () => {
         navigation.navigate('Register');
     };
-
 
     const handleGoogle = () => logger.log('Google sign in');
     const handleApple = () => logger.log('Apple sign in');
@@ -99,7 +155,6 @@ const LoginScreen = () => {
                     showsVerticalScrollIndicator={false}
                     bounces
                 >
-                    {/* Hero */}
                     <View style={dynamicStyles.hero}>
                         <View style={dynamicStyles.badge}>
                             <Text style={dynamicStyles.badgeText}>
@@ -120,18 +175,8 @@ const LoginScreen = () => {
                     </View>
 
                     <WhiteCard>
-                        {/* Header */}
-                        <View
-                            style={[
-                                dynamicStyles.cardHeader
-                            ]}
-                        >
-                            <View
-                                style={[
-                                    dynamicStyles.header,
-                                    { alignItems: 'flex-start' },
-                                ]}
-                            >
+                        <View style={[dynamicStyles.cardHeader]}>
+                            <View style={[dynamicStyles.header, { alignItems: 'flex-start' }]}>
                                 <AppTitle
                                     title={t('auth.login.title')}
                                     size={24}
@@ -157,29 +202,30 @@ const LoginScreen = () => {
                             />
                         </View>
 
-                        {/* Login form */}
                         <View style={dynamicStyles.form}>
                             <AppTextInput
-                                placeholder={t('auth.login.emailPlaceholder')}
-                                value={email}
+                                placeholder={t('auth.login.usernamePlaceholder')}
+                                value={username}
                                 onChangeText={text => {
-                                    setEmail(text);
-                                    setErrors(prev => ({ ...prev, email: text.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(text.trim()) ? undefined : prev.email }));
+                                    setUsername(text);
+                                    setErrors(prev => ({
+                                        ...prev,
+                                        username: text.trim().length >= 3 ? undefined : prev.username,
+                                    }));
                                 }}
-                                keyboardType="email-address"
                                 autoCapitalize="none"
                                 leftIcon={<UserRound size={18} color={Colors.blue} />}
                                 helperText={
-                                    email.length > 0
-                                        ? emailValid
-                                            ? t('auth.login.emailValid')
-                                            : t('auth.login.emailInvalid')
+                                    username.length > 0
+                                        ? usernameValid
+                                            ? t('auth.login.usernameValid')
+                                            : t('auth.login.usernameInvalid')
                                         : undefined
                                 }
                                 validationState={
-                                    email.length === 0
+                                    username.length === 0
                                         ? 'default'
-                                        : emailValid
+                                        : usernameValid
                                             ? 'success'
                                             : 'error'
                                 }
@@ -190,7 +236,10 @@ const LoginScreen = () => {
                                 value={password}
                                 onChangeText={text => {
                                     setPassword(text);
-                                    setErrors(prev => ({ ...prev, password: text.length >= 6 ? undefined : prev.password }));
+                                    setErrors(prev => ({
+                                        ...prev,
+                                        password: text.length >= 6 ? undefined : prev.password,
+                                    }));
                                 }}
                                 isRTL={isRTL}
                                 isPassword
@@ -212,9 +261,11 @@ const LoginScreen = () => {
                             />
 
                             <GradientButton
-                                title={t('auth.login.button')}
-                                onPress={handleLogin}
-                                disabled={!isFormValid}
+                                title={isSubmitting ? t('auth.login.button') : t('auth.login.button')}
+                                onPress={() => {
+                                    void handleLogin();
+                                }}
+                                disabled={!isFormValid || isSubmitting}
                                 gradientColors={[Colors.primary, Colors.secondary]}
                                 disabledGradientColors={[Colors.disabled, Colors.disabledDark]}
                                 endIcon={
@@ -227,7 +278,6 @@ const LoginScreen = () => {
                             />
                         </View>
 
-                        {/* Social login */}
                         <View style={[dynamicStyles.dividerRow, { flexDirection: 'row' }]}>
                             <View style={dynamicStyles.dividerLine} />
                             <Text style={dynamicStyles.dividerText}>
@@ -245,7 +295,6 @@ const LoginScreen = () => {
                             </SocialButton>
                         </View>
 
-                        {/* Forgot password */}
                         <View style={[dynamicStyles.forgotRow, { flexDirection: 'row' }]}>
                             <LockKeyhole size={14} color={Colors.blue} />
                             <AppTextButton
@@ -256,7 +305,6 @@ const LoginScreen = () => {
                         </View>
                     </WhiteCard>
 
-                    {/* Register */}
                     <View style={[dynamicStyles.registerContainer, { flexDirection: 'row' }]}>
                         <Text style={dynamicStyles.registerText}>
                             {t('auth.login.noAccount')}
@@ -277,7 +325,6 @@ const LoginScreen = () => {
                         </Pressable>
                     </View>
 
-                    {/* Feature chips */}
                     <View style={[dynamicStyles.featuresContainer, { flexDirection: 'row' }]}>
                         <FeatureItem
                             icon={<Users size={16} color={Colors.blueBright} />}
@@ -294,9 +341,49 @@ const LoginScreen = () => {
                             label={t('auth.login.networking')}
                             tone="gold"
                         />
-                    </View> 
+                    </View>
                 </ScrollView>
             </KeyboardAvoidingView>
+
+            <Modal
+                transparent
+                visible={modalVisible}
+                animationType="fade"
+                onRequestClose={() => setModalVisible(false)}
+            >
+                <Pressable
+                    style={dynamicStyles.modalBackdrop}
+                    onPress={() => setModalVisible(false)}
+                >
+                    <Pressable
+                        style={dynamicStyles.modalCard}
+                        onPress={event => event.stopPropagation()}
+                    >
+                        <Text style={dynamicStyles.modalTitle}>{modalTitle}</Text>
+                        <Text style={dynamicStyles.modalText}>{modalMessage}</Text>
+
+                        <View style={dynamicStyles.modalActions}>
+                            {showRetryButton ? (
+                                <GradientButton
+                                    title={t('auth.login.tryAgain')}
+                                    onPress={() => {
+                                        setModalVisible(false);
+                                        void handleLogin();
+                                    }}
+                                    style={dynamicStyles.retryButton}
+                                />
+                            ) : null}
+
+                            <Pressable
+                                style={dynamicStyles.dismissButton}
+                                onPress={() => setModalVisible(false)}
+                            >
+                                <Text style={dynamicStyles.dismissText}>{t('common.dismiss')}</Text>
+                            </Pressable>
+                        </View>
+                    </Pressable>
+                </Pressable>
+            </Modal>
         </View>
     );
 };
@@ -470,5 +557,51 @@ const getStyles = (isRTL: boolean) => StyleSheet.create({
         borderRadius: 3,
         backgroundColor: Colors.gold,
         marginTop: 10,
+    },
+    modalBackdrop: {
+        flex: 1,
+        backgroundColor: 'rgba(8, 18, 36, 0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 24,
+    },
+    modalCard: {
+        width: '100%',
+        backgroundColor: Colors.white,
+        borderRadius: 24,
+        padding: 20,
+    },
+    modalTitle: {
+        fontSize: 20,
+        fontFamily: 'Montserrat-Bold',
+        color: Colors.navy,
+        marginBottom: 8,
+    },
+    modalText: {
+        color: Colors.slateText,
+        fontSize: 14,
+        lineHeight: 20,
+        marginBottom: 18,
+    },
+    modalActions: {
+        flexDirection: 'row',
+        gap: 12,
+        alignItems: 'center',
+    },
+    retryButton: {
+        flex: 1,
+    },
+    dismissButton: {
+        flex: 1,
+        paddingVertical: 13,
+        borderRadius: 14,
+        backgroundColor: Colors.iconTintBlue,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    dismissText: {
+        color: Colors.navy,
+        fontSize: 14,
+        fontFamily: 'Montserrat-Bold',
     },
 });

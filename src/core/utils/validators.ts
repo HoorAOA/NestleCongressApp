@@ -1,20 +1,18 @@
 export interface LoginErrors {
-    email?: string;
+    username?: string;
     password?: string;
 }
 
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 export const validateLogin = (
-    email: string,
+    username: string,
     password: string,
 ): { isValid: boolean; errors: LoginErrors } => {
     const errors: LoginErrors = {};
 
-    if (!email.trim()) {
-        errors.email = 'Email is required';
-    } else if (!EMAIL_REGEX.test(email.trim())) {
-        errors.email = 'Enter a valid email address';
+    if (!username.trim()) {
+        errors.username = 'Username is required';
+    } else if (username.trim().length < 3) {
+        errors.username = 'Username must be at least 3 characters';
     }
 
     if (!password) {

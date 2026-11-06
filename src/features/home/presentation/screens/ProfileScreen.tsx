@@ -20,6 +20,7 @@ import { Typography } from '../../../../core/theme/typography';
 import { useLanguage } from '../../../../core/localization/LanguageContext';
 import { applyLanguageDirection } from '../../../../core/localization/i18n';
 import { LanguageStorage, type AppLanguage } from '../../../../core/storage/languageStorage';
+import { UserStorage } from '../../../../core/storage/userStorage';
 import {
     ProfileAvatar,
     ProfileInfoCard,
@@ -36,14 +37,15 @@ const ProfileScreen = () => {
     const { t, i18n } = useTranslation();
     const isRTL = i18n.dir(i18n.language) === 'rtl';
     const BackIcon = isRTL ? ChevronRight : ChevronLeft;
-    const profileUser = {
-        ...PROFILE_USER,
-        name: i18n.language.startsWith('ar') ? PROFILE_USER.nameAr : PROFILE_USER.nameEn,
-        role: i18n.language.startsWith('ar') ? PROFILE_USER.roleAr : PROFILE_USER.roleEn,
-    };
     const [languageSheetVisible, setLanguageSheetVisible] = useState(false);
     const [logoutModalVisible, setLogoutModalVisible] = useState(false);
     const [selectedLanguage, setSelectedLanguage] = useState<AppLanguage>('en');
+    const [storedUsername, setStoredUsername] = useState(PROFILE_USER.nameEn);
+    const profileUser = {
+        ...PROFILE_USER,
+        name: storedUsername || (i18n.language.startsWith('ar') ? PROFILE_USER.nameAr : PROFILE_USER.nameEn),
+        role: i18n.language.startsWith('ar') ? PROFILE_USER.roleAr : PROFILE_USER.roleEn,
+    };
 
     useEffect(() => {
         const syncLanguage = async () => {
@@ -54,7 +56,15 @@ const ProfileScreen = () => {
             }
         };
 
+        const syncUserProfile = async () => {
+            const profile = await UserStorage.getUserProfile();
+            if (profile?.username) {
+                setStoredUsername(profile.username);
+            }
+        };
+
         syncLanguage();
+        syncUserProfile();
     }, [i18n]);
 
     const handleLanguageChange = async (language: AppLanguage) => {
