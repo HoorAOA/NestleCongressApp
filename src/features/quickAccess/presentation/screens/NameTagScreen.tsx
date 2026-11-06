@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { captureRef } from 'react-native-view-shot';
 import Share from 'react-native-share';
 import { Share2 } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 
 import { Colors } from '../../../../core/theme/colors';
 import type { RootNavigationProp } from '../../../../core/navigation/types';
@@ -18,12 +19,13 @@ const NameTagScreen = () => {
     const navigation = useNavigation<RootNavigationProp>();
     const cardRef = useRef<React.ElementRef<typeof View>>(null);
     const [sharing, setSharing] = useState(false);
+    const { t } = useTranslation();
 
     const openAbout = async () => {
         try {
             await Linking.openURL(ABOUT_URL);
         } catch {
-            Alert.alert('Unable to open link', 'Please try again later.');
+            Alert.alert(t('common.linkErrorTitle'), t('common.linkErrorMessage'));
         }
     };
 
@@ -50,7 +52,7 @@ const NameTagScreen = () => {
             });
         } catch (error) {
             logger.error('Failed to share name tag:', error);
-            Alert.alert('Unable to share', 'Something went wrong. Please try again.');
+            Alert.alert(t('common.shareErrorTitle'), t('common.shareErrorMessage'));
         } finally {
             setSharing(false);
         }
@@ -58,11 +60,11 @@ const NameTagScreen = () => {
 
     return (
         <ScreenLayout
-            title="My Name Tag"
+            title={t('quickAccess.myNameTag')}
             onBack={navigation.goBack}
             padded
             headerRight={
-                <HeaderIconButton label="Share name tag" onPress={shareNameTag}>
+                <HeaderIconButton label={t('quickAccess.shareNameTag')} onPress={shareNameTag}>
                     <Share2 size={20} color={Colors.gold} />
                 </HeaderIconButton>
             }

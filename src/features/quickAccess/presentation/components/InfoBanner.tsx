@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { I18nManager, StyleSheet, Text, View } from 'react-native';
 import type { LucideIcon } from 'lucide-react-native';
 
 import { AppTitle } from '../../../../core/components';
@@ -20,38 +20,41 @@ const InfoBanner = ({
     title,
     subtitle,
     tone = 'blue',
-}: InfoBannerProps) => (
-    <View style={styles.card}>
-        <GradientBox
-            radius={18}
-            colors={
-                tone === 'gold'
-                    ? [Colors.gold, Colors.goldDeep]
-                    : [Colors.secondary, Colors.primary]
-            }
-            style={styles.iconBox}
-        >
-            <Icon size={26} color={Colors.white} />
-        </GradientBox>
+}: InfoBannerProps) => {
+    const isRTL = I18nManager.isRTL;
 
-        <View style={styles.text}>
-            <AppTitle
-                title={title}
-                size={18}
-                color={Colors.white}
-                weight="extraBold"
-                style={{ lineHeight: 24 }}
-            />
-            <Text style={styles.subtitle}>{subtitle}</Text>
+    return (
+        <View style={[styles.card, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+            <GradientBox
+                radius={18}
+                colors={
+                    tone === 'gold'
+                        ? [Colors.gold, Colors.goldDeep]
+                        : [Colors.secondary, Colors.primary]
+                }
+                style={styles.iconBox}
+            >
+                <Icon size={26} color={Colors.white} />
+            </GradientBox>
+
+            <View style={styles.text}>
+                <AppTitle
+                    title={title}
+                    size={18}
+                    color={Colors.white}
+                    weight="extraBold"
+                    style={{ lineHeight: 24, textAlign: isRTL ? 'right' : 'left' }}
+                />
+                <Text style={[styles.subtitle, { textAlign: isRTL ? 'right' : 'left' }]}>{subtitle}</Text>
+            </View>
         </View>
-    </View>
-);
+    );
+};
 
 export default InfoBanner;
 
 const styles = StyleSheet.create({
     card: {
-        flexDirection: 'row',
         alignItems: 'center',
         gap: 16,
         padding: 18,

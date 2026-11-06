@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { I18nManager, Pressable, StyleSheet, Text, View } from 'react-native';
 import { ArrowRight } from 'lucide-react-native';
 
 import { Colors } from '../../../../core/theme/colors';
@@ -15,6 +15,7 @@ interface ToolCardProps {
 
 const ToolCard = ({ item, onPress }: ToolCardProps) => {
     const { Icon } = item;
+    const isRTL = I18nManager.isRTL;
 
     return (
         <Pressable
@@ -32,7 +33,7 @@ const ToolCard = ({ item, onPress }: ToolCardProps) => {
             <Text style={styles.title}>{item.label}</Text>
             <Text style={styles.description}>{item.description}</Text>
 
-            <View style={styles.footer}>
+            <View style={[styles.footer, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                 <View style={styles.tag}>
                     <Text style={styles.tagText}>{item.tag}</Text>
                 </View>
@@ -85,7 +86,6 @@ const styles = StyleSheet.create({
     },
     footer: {
         marginTop: 14,
-        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
     },

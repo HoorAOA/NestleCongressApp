@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { I18nManager, StyleSheet, Text, View } from 'react-native';
 import { CalendarDays } from 'lucide-react-native';
 
 import { AppTitle } from '../../../../core/components';
@@ -11,22 +11,27 @@ interface VenueHeroCardProps {
     dates: string;
 }
 
-const VenueHeroCard = ({ name, dates }: VenueHeroCardProps) => (
-    <View style={styles.card}>
-        <AppTitle
-            title={name}
-            size={22}
-            color={Colors.white}
-            weight="extraBold"
-            style={{ lineHeight: 30 }}
-        />
+const VenueHeroCard = ({ name, dates }: VenueHeroCardProps) => {
+    const isRTL = I18nManager.isRTL;
 
-        <View style={styles.dateRow}>
-            <CalendarDays size={17} color={Colors.blueBright} />
-            <Text style={styles.date}>{dates}</Text>
+    return (
+        <View style={styles.card}>
+            <AppTitle
+                title={name}
+                size={22}
+                color={Colors.white}
+                weight="extraBold"
+                align={isRTL ? 'right' : 'left'}
+                style={{ lineHeight: 30 }}
+            />
+
+            <View style={[styles.dateRow, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                <CalendarDays size={17} color={Colors.blueBright} />
+                <Text style={[styles.date, { textAlign: isRTL ? 'right' : 'left' }]}>{dates}</Text>
+            </View>
         </View>
-    </View>
-);
+    );
+};
 
 export default VenueHeroCard;
 
@@ -40,7 +45,6 @@ const styles = StyleSheet.create({
         borderColor: Colors.glassBorder,
     },
     dateRow: {
-        flexDirection: 'row',
         alignItems: 'center',
         gap: 8,
     },

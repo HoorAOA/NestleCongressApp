@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { I18nManager, View, Text, StyleSheet } from 'react-native';
 import { Bookmark } from 'lucide-react-native';
 
 import { Colors } from '../../../../core/theme/colors';
@@ -17,34 +17,37 @@ type SessionListProps = {
     items: SessionItem[];
 };
 
-const SessionList = ({ items }: SessionListProps) => (
-    <View style={styles.sessionList}>
-        {items.map(({ time, tag, title, place, Icon }) => (
-            <View key={title} style={styles.sessionCard}>
-                <Text style={styles.sessionTime}>{time}</Text>
+const SessionList = ({ items }: SessionListProps) => {
+    const isRTL = I18nManager.isRTL;
 
-                <View style={styles.sessionIcon}>
-                    <Icon size={18} color={Colors.blueBright} />
+    return (
+        <View style={styles.sessionList}>
+            {items.map(({ time, tag, title, place, Icon }) => (
+                <View key={title} style={[styles.sessionCard, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                    <Text style={[styles.sessionTime, { textAlign: isRTL ? 'right' : 'left' }]}>{time}</Text>
+
+                    <View style={styles.sessionIcon}>
+                        <Icon size={18} color={Colors.blueBright} />
+                    </View>
+
+                    <View style={styles.sessionBody}>
+                        <Text style={[styles.sessionTag, { textAlign: isRTL ? 'right' : 'left' }]}>{tag}</Text>
+                        <Text style={[styles.sessionTitle, { textAlign: isRTL ? 'right' : 'left' }]}>{title}</Text>
+                        <Text style={[styles.sessionPlace, { textAlign: isRTL ? 'right' : 'left' }]}>{place}</Text>
+                    </View>
+
+                    <Bookmark size={18} color={Colors.whiteSoftAlt3} />
                 </View>
-
-                <View style={styles.sessionBody}>
-                    <Text style={styles.sessionTag}>{tag}</Text>
-                    <Text style={styles.sessionTitle}>{title}</Text>
-                    <Text style={styles.sessionPlace}>{place}</Text>
-                </View>
-
-                <Bookmark size={18} color={Colors.whiteSoftAlt3} />
-            </View>
-        ))}
-    </View>
-);
+            ))}
+        </View>
+    );
+};
 
 const styles = StyleSheet.create({
     sessionList: {
         gap: 12,
     },
     sessionCard: {
-        flexDirection: 'row',
         alignItems: 'center',
         gap: 12,
         padding: 14,

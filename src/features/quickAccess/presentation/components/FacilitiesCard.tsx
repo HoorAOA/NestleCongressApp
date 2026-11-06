@@ -1,36 +1,40 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { I18nManager, StyleSheet, Text, View } from 'react-native';
 
 import { AppTitle } from '../../../../core/components';
 import { Colors } from '../../../../core/theme/colors';
 import { Typography } from '../../../../core/theme/typography';
 import type { Facility } from '../../data/quickAccessData';
 
-const FacilitiesCard = ({ facilities }: { facilities: Facility[] }) => (
-    <View style={styles.card}>
-        <AppTitle
-            title="Venue Facilities"
-            size={19}
-            color={Colors.navyText}
-            weight="extraBold"
-        />
+const FacilitiesCard = ({ facilities }: { facilities: Facility[] }) => {
+    const isRTL = I18nManager.isRTL;
 
-        <View style={styles.grid}>
-            {facilities.map(({ id, label, Icon, glyph }) => (
-                <View key={id} style={styles.item}>
-                    <View style={styles.iconSlot}>
-                        {Icon ? (
-                            <Icon size={20} color={Colors.primary} />
-                        ) : (
-                            <Text style={styles.glyph}>{glyph}</Text>
-                        )}
+    return (
+        <View style={styles.card}>
+            <AppTitle
+                title="Venue Facilities"
+                size={19}
+                color={Colors.navyText}
+                weight="extraBold"
+            />
+
+            <View style={[styles.grid, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                {facilities.map(({ id, label, Icon, glyph }) => (
+                    <View key={id} style={[styles.item, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                        <View style={styles.iconSlot}>
+                            {Icon ? (
+                                <Icon size={20} color={Colors.primary} />
+                            ) : (
+                                <Text style={styles.glyph}>{glyph}</Text>
+                            )}
+                        </View>
+                        <Text style={[styles.label, { textAlign: isRTL ? 'right' : 'left' }]}>{label}</Text>
                     </View>
-                    <Text style={styles.label}>{label}</Text>
-                </View>
-            ))}
+                ))}
+            </View>
         </View>
-    </View>
-);
+    );
+};
 
 export default FacilitiesCard;
 
@@ -42,13 +46,11 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.white,
     },
     grid: {
-        flexDirection: 'row',
         flexWrap: 'wrap',
         gap: 12,
     },
     item: {
         width: '47.5%',
-        flexDirection: 'row',
         alignItems: 'center',
         gap: 12,
         paddingHorizontal: 16,

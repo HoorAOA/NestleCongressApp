@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { I18nManager, View, Text, StyleSheet } from 'react-native';
 
 import { Colors } from '../../theme/colors';
 
@@ -11,24 +11,27 @@ const FeatureItem = ({
     icon: React.ReactNode;
     label: string;
     tone?: 'blue' | 'gold';
-}) => (
-    <View style={styles.container}>
-        <View
-            style={[
-                styles.iconBox,
-                tone === 'gold' && styles.iconBoxGold,
-            ]}
-        >
-            {icon}
+}) => {
+    const isRTL = I18nManager.isRTL;
+
+    return (
+        <View style={[styles.container, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+            <View
+                style={[
+                    styles.iconBox,
+                    tone === 'gold' && styles.iconBoxGold,
+                ]}
+            >
+                {icon}
+            </View>
+            <Text style={styles.text}>{label}</Text>
         </View>
-        <Text style={styles.text}>{label}</Text>
-    </View>
-);
+    );
+};
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         gap: 6,

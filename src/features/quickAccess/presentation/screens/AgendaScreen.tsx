@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { LayoutAnimation, ScrollView, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { CalendarDays, Search, X } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 
 import { Colors } from '../../../../core/theme/colors';
 import type { RootNavigationProp } from '../../../../core/navigation/types';
@@ -26,6 +27,7 @@ import {
 
 const AgendaScreen = () => {
     const navigation = useNavigation<RootNavigationProp>();
+    const { t } = useTranslation();
 
     const [day, setDay] = useState<AgendaDay>(1);
     const [category, setCategory] = useState('All');
@@ -79,12 +81,12 @@ const AgendaScreen = () => {
 
     return (
         <ScreenLayout
-            title="Congress Agenda"
+            title={t('quickAccess.congressAgenda')}
             onBack={navigation.goBack}
             fixed
             headerRight={
                 <HeaderIconButton
-                    label={searchVisible ? 'Close search' : 'Search sessions'}
+                    label={searchVisible ? t('common.closeSearch') : t('quickAccess.searchSessions')}
                     onPress={toggleSearch}
                 >
                     {searchVisible ? (
@@ -99,7 +101,7 @@ const AgendaScreen = () => {
                     <InfoBanner
                         tone="gold"
                         icon={CalendarDays}
-                        title={`${currentDay.label} Schedule`}
+                        title={`${currentDay.label} ${t('quickAccess.schedule')}`}
                         subtitle={currentDay.fullDate}
                     />
 
@@ -114,8 +116,8 @@ const AgendaScreen = () => {
             <ContentSheet>
                 <View style={{ gap: 7 }}>
                     <SheetTitleRow
-                        title="Today’s Sessions"
-                        actionLabel="Reset"
+                        title={t('quickAccess.todaysSessions')}
+                        actionLabel={t('quickAccess.reset')}
                         onActionPress={reset}
                     />
 
@@ -123,7 +125,7 @@ const AgendaScreen = () => {
                         <SearchField
                             value={query}
                             onChangeText={setQuery}
-                            placeholder="Search sessions"
+                            placeholder={t('quickAccess.searchSessions')}
                             autoFocus
                         />
                     )}
@@ -154,12 +156,11 @@ const AgendaScreen = () => {
                     ) : (
                         <EmptyState
                             icon={Search}
-                            title="No sessions found"
-                            subtitle="Try a different search or category."
+                            title={t('quickAccess.noSessions')}
+                            subtitle={t('quickAccess.noSessionsSubtitle')}
                         />
                     )}
                 </View>
-
             </ContentSheet>
         </ScreenLayout>
     );

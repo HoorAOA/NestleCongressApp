@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, StyleSheet, TextStyle } from 'react-native';
+import { I18nManager, Text, StyleSheet, TextStyle } from 'react-native';
 
 import { Colors } from '../../theme/colors';
 import { Typography } from '../../theme/typography';
@@ -26,9 +26,11 @@ const AppTitle: React.FC<AppTitleProps> = ({
     color = Colors.textPrimary,
     size = 22,
     weight = 'bold',
-    align = 'left',
+    align,
     style,
 }) => {
+    const resolvedAlign = align ?? (I18nManager.isRTL ? 'right' : 'left');
+
     return (
         <Text
             style={[
@@ -37,7 +39,7 @@ const AppTitle: React.FC<AppTitleProps> = ({
                     color,
                     fontSize: size,
                     fontFamily: fontWeights[weight],
-                    textAlign: align,
+                    textAlign: resolvedAlign,
                 },
                 style,
             ]}

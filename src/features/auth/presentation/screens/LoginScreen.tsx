@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+    I18nManager,
     View,
     StyleSheet,
     Text,
@@ -9,6 +10,7 @@ import {
     Pressable,
     StatusBar,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import {
     UserRound,
@@ -48,8 +50,10 @@ import logger from '../../../../core/utils/logger';
 const LoginScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const isRTL = I18nManager.isRTL;
 
     const { signIn } = useAuth();
+    const { t } = useTranslation();
     const [errors, setErrors] = useState<LoginErrors>({});
 
     const handleLogin = () => {
@@ -74,48 +78,49 @@ const LoginScreen = () => {
 
     const handleGoogle = () => logger.log('Google sign in');
     const handleApple = () => logger.log('Apple sign in');
+    const dynamicStyles = getStyles(isRTL);
 
     return (
-        <View style={styles.container}>
+        <View style={dynamicStyles.container}>
             <MainBackground />
 
             <KeyboardAvoidingView
-                style={styles.keyboardContainer}
+                style={dynamicStyles.keyboardContainer}
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             >
                 <ScrollView
-                    style={styles.scroll}
-                    contentContainerStyle={styles.scrollContent}
+                    style={dynamicStyles.scroll}
+                    contentContainerStyle={dynamicStyles.scrollContent}
                     keyboardShouldPersistTaps="handled"
                     showsVerticalScrollIndicator={false}
                     bounces
                 >
                     {/* Hero */}
-                    <View style={styles.hero}>
-                        <View style={styles.badge}>
-                            <Text style={styles.badgeText}>
-                                NESTLÉ MEDICAL CONGRESS
+                    <View style={dynamicStyles.hero}>
+                        <View style={dynamicStyles.badge}>
+                            <Text style={dynamicStyles.badgeText}>
+                                {t('auth.login.badge')}
                             </Text>
                         </View>
 
-                        <View style={styles.titleWrap}>
-                            <Text style={styles.titleWhite}>NESTLÉ</Text>
-                            <Text style={styles.titleGold}>CONGRESS</Text>
+                        <View style={dynamicStyles.titleWrap}>
+                            <Text style={dynamicStyles.titleWhite}>NESTLÉ</Text>
+                            <Text style={dynamicStyles.titleGold}>CONGRESS</Text>
                         </View>
 
-                        <View style={styles.bottomLine} />
+                        <View style={dynamicStyles.bottomLine} />
 
-                        <Text style={styles.tagline}>
+                        <Text style={dynamicStyles.tagline}>
                             The Next Era of{'\n'}Nutrition & Health
                         </Text>
                     </View>
 
                     <WhiteCard>
                         {/* Header */}
-                        <View style={styles.cardHeader}>
-                            <View style={styles.header}>
+                        <View style={[dynamicStyles.cardHeader, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                            <View style={dynamicStyles.header}>
                                 <AppTitle
-                                    title="Welcome Back"
+                                    title={t('auth.login.title')}
                                     size={24}
                                     color={Colors.textPrimary}
                                     weight="extraBold"
@@ -123,7 +128,7 @@ const LoginScreen = () => {
                                 />
 
                                 <AppTitle
-                                    title={'Sign in to continue your congress\nexperience'}
+                                    title={t('auth.login.subtitle')}
                                     size={12}
                                     color={Colors.textSecondary}
                                     weight="medium"
@@ -140,9 +145,9 @@ const LoginScreen = () => {
                         </View>
 
                         {/* Login form */}
-                        <View style={styles.form}>
+                        <View style={dynamicStyles.form}>
                             <AppTextInput
-                                placeholder="Enter your email"
+                                placeholder={t('auth.login.emailPlaceholder')}
                                 value={email}
                                 onChangeText={setEmail}
                                 keyboardType="email-address"
@@ -151,7 +156,7 @@ const LoginScreen = () => {
                             />
 
                             <AppTextInput
-                                placeholder="Enter your password"
+                                placeholder={t('auth.login.passwordPlaceholder')}
                                 value={password}
                                 onChangeText={setPassword}
                                 isPassword
@@ -161,7 +166,7 @@ const LoginScreen = () => {
                             />
 
                             <GradientButton
-                                title="Sign In"
+                                title={t('auth.login.button')}
                                 onPress={handleLogin}
                                 endIcon={
                                     <ArrowRight size={20} color={Colors.white} />
@@ -170,15 +175,15 @@ const LoginScreen = () => {
                         </View>
 
                         {/* Social login */}
-                        <View style={styles.dividerRow}>
-                            <View style={styles.dividerLine} />
-                            <Text style={styles.dividerText}>
-                                OR CONTINUE WITH
+                        <View style={[dynamicStyles.dividerRow, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                            <View style={dynamicStyles.dividerLine} />
+                            <Text style={dynamicStyles.dividerText}>
+                                {t('auth.login.socialDivider')}
                             </Text>
-                            <View style={styles.dividerLine} />
+                            <View style={dynamicStyles.dividerLine} />
                         </View>
 
-                        <View style={styles.socialRow}>
+                        <View style={[dynamicStyles.socialRow, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                             <SocialButton onPress={handleGoogle}>
                                 <GoogleIcon />
                             </SocialButton>
@@ -188,10 +193,10 @@ const LoginScreen = () => {
                         </View>
 
                         {/* Forgot password */}
-                        <View style={styles.forgotRow}>
+                        <View style={[dynamicStyles.forgotRow, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                             <LockKeyhole size={14} color={Colors.blue} />
                             <AppTextButton
-                                title="Forgot Password?"
+                                title={t('auth.login.forgotPassword')}
                                 color={Colors.blue}
                                 onPress={handleForgotPassword}
                             />
@@ -199,37 +204,37 @@ const LoginScreen = () => {
                     </WhiteCard>
 
                     {/* Register */}
-                    <View style={styles.registerContainer}>
-                        <Text style={styles.registerText}>
-                            Don't have an account?
+<View style={[dynamicStyles.registerContainer, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                        <Text style={dynamicStyles.registerText}>
+                            {t('auth.login.noAccount')}
                         </Text>
                         <Pressable
                             onPress={handleRegister}
-                            style={styles.registerLink}
+                            style={[dynamicStyles.registerLink, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}
                             hitSlop={8}
                         >
-                            <Text style={styles.registerLinkText}>
-                                Create Account
+                            <Text style={dynamicStyles.registerLinkText}>
+                                {t('auth.login.createAccount')}
                             </Text>
                             <ArrowRight size={14} color={Colors.gold} />
                         </Pressable>
                     </View>
 
                     {/* Feature chips */}
-                    <View style={styles.featuresContainer}>
+                    <View style={[dynamicStyles.featuresContainer, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                         <FeatureItem
                             icon={<Users size={16} color={Colors.blueBright} />}
-                            label={'Global\nExperts'}
+                            label={t('auth.login.globalExperts')}
                         />
                         <FeatureDivider />
                         <FeatureItem
                             icon={<CalendarCheck size={16} color={Colors.blueBright} />}
-                            label={'Knowledge\nSessions'}
+                            label={t('auth.login.knowledgeSessions')}
                         />
                         <FeatureDivider />
                         <FeatureItem
                             icon={<Star size={16} color={Colors.gold} />}
-                            label={'Networking\nOpportunities'}
+                            label={t('auth.login.networking')}
                             tone="gold"
                         />
                     </View>
@@ -241,7 +246,7 @@ const LoginScreen = () => {
 
 export default LoginScreen;
 
-const styles = StyleSheet.create({
+const getStyles = (isRTL: boolean) => StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: Colors.background,
@@ -318,7 +323,6 @@ const styles = StyleSheet.create({
 
     /* Card */
     cardHeader: {
-        flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'flex-start',
         gap: 12,
@@ -335,7 +339,6 @@ const styles = StyleSheet.create({
     },
 
     dividerRow: {
-        flexDirection: 'row',
         alignItems: 'center',
         gap: 10,
         marginTop: 20,
@@ -356,13 +359,11 @@ const styles = StyleSheet.create({
     },
 
     socialRow: {
-        flexDirection: 'row',
         gap: 12,
         marginTop: 16,
     },
 
     forgotRow: {
-        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         gap: 6,
@@ -371,7 +372,6 @@ const styles = StyleSheet.create({
 
     /* Register */
     registerContainer: {
-        flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         gap: 5,
@@ -384,7 +384,6 @@ const styles = StyleSheet.create({
     },
 
     registerLink: {
-        flexDirection: 'row',
         alignItems: 'center',
         gap: 3,
     },
@@ -397,7 +396,6 @@ const styles = StyleSheet.create({
 
     /* Feature chips */
     featuresContainer: {
-        flexDirection: 'row',
         alignItems: 'center',
         marginTop: 22,
         paddingVertical: 12,

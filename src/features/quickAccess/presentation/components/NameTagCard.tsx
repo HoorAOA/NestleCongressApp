@@ -131,7 +131,6 @@ const styles = StyleSheet.create({
         color: Colors.slateText,
     },
     dividerRow: {
-        flexDirection: 'row',
         alignItems: 'center',
         gap: 12,
         marginVertical: 16,

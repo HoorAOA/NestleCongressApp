@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { I18nManager, View, Text, Pressable, StyleSheet } from 'react-native';
 
 import { Colors } from '../../../../core/theme/colors';
 import { Typography } from '../../../../core/theme/typography';
@@ -15,29 +15,32 @@ type QuickAccessGridProps = {
     onItemPress?: (label: string) => void;
 };
 
-const QuickAccessGrid = ({ items, tileSize, onItemPress }: QuickAccessGridProps) => (
-    <View style={styles.grid}>
-        {items.map(({ label, Icon }) => (
-            <Pressable
-                key={label}
-                onPress={() => onItemPress?.(label)}
-                style={[
-                    styles.tile,
-                    { width: tileSize, height: tileSize * 1.18 },
-                ]}
-            >
-                <Icon size={24} color={Colors.blueBright} />
-                <Text style={styles.tileLabel} numberOfLines={1}>
-                    {label}
-                </Text>
-            </Pressable>
-        ))}
-    </View>
-);
+const QuickAccessGrid = ({ items, tileSize, onItemPress }: QuickAccessGridProps) => {
+    const isRTL = I18nManager.isRTL;
+
+    return (
+        <View style={[styles.grid, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+            {items.map(({ label, Icon }) => (
+                <Pressable
+                    key={label}
+                    onPress={() => onItemPress?.(label)}
+                    style={[
+                        styles.tile,
+                        { width: tileSize, height: tileSize * 1.18 },
+                    ]}
+                >
+                    <Icon size={24} color={Colors.blueBright} />
+                    <Text style={[styles.tileLabel, { textAlign: isRTL ? 'right' : 'left' }]} numberOfLines={1}>
+                        {label}
+                    </Text>
+                </Pressable>
+            ))}
+        </View>
+    );
+};
 
 const styles = StyleSheet.create({
     grid: {
-        flexDirection: 'row',
         flexWrap: 'wrap',
         gap: 10,
     },

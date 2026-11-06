@@ -1,6 +1,6 @@
 import React, { useState , ReactNode } from 'react';
 
-import { View, TextInput, Pressable, StyleSheet, TextInputProps, ViewStyle } from 'react-native';
+import { I18nManager, View, TextInput, Pressable, StyleSheet, TextInputProps, ViewStyle } from 'react-native';
 
 import { Eye, EyeOff } from 'lucide-react-native';
 
@@ -22,13 +22,14 @@ const AppTextInput: React.FC<AppTextInputProps> = ({
     ...textInputProps
 }) => {
     const [passwordVisible, setPasswordVisible] = useState(false);
+    const isRTL = I18nManager.isRTL;
 
     const hideText = isPassword
         ? !passwordVisible
         : secureTextEntry;
 
     return (
-        <View style={[styles.container, containerStyle]}>
+        <View style={[styles.container, { flexDirection: isRTL ? 'row-reverse' : 'row' }, containerStyle]}>
 
             {leftIcon && (
                 <View style={styles.iconContainer}>
@@ -71,7 +72,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: Colors.border,
         backgroundColor: Colors.white,
-        flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 10,
         gap: 10,

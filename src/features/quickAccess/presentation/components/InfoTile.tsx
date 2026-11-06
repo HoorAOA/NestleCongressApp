@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { I18nManager, StyleSheet, Text, View } from 'react-native';
 import type { LucideIcon } from 'lucide-react-native';
 
 import { Colors } from '../../../../core/theme/colors';
@@ -20,28 +20,31 @@ const InfoTile = ({
     value,
     variant = 'soft',
     iconFilled = false,
-}: InfoTileProps) => (
-    <View style={[styles.tile, variant === 'white' ? styles.white : styles.soft]}>
-        <View style={styles.iconBox}>
-            <Icon
-                size={20}
-                color={Colors.primary}
-                fill={iconFilled ? Colors.primary : 'none'}
-            />
-        </View>
+}: InfoTileProps) => {
+    const isRTL = I18nManager.isRTL;
 
-        <View style={styles.text}>
-            <Text style={styles.label}>{label}</Text>
-            <Text style={styles.value}>{value}</Text>
+    return (
+        <View style={[styles.tile, { flexDirection: isRTL ? 'row-reverse' : 'row' }, variant === 'white' ? styles.white : styles.soft]}>
+            <View style={styles.iconBox}>
+                <Icon
+                    size={20}
+                    color={Colors.primary}
+                    fill={iconFilled ? Colors.primary : 'none'}
+                />
+            </View>
+
+            <View style={styles.text}>
+                <Text style={[styles.label, { textAlign: isRTL ? 'right' : 'left' }]}>{label}</Text>
+                <Text style={[styles.value, { textAlign: isRTL ? 'right' : 'left' }]}>{value}</Text>
+            </View>
         </View>
-    </View>
-);
+    );
+};
 
 export default InfoTile;
 
 const styles = StyleSheet.create({
     tile: {
-        flexDirection: 'row',
         alignItems: 'center',
         gap: 14,
         padding: 14,

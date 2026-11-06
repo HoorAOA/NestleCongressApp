@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  I18nManager,
   Pressable,
   Text,
   StyleSheet,
@@ -19,9 +20,11 @@ const AppCheckbox = ({
   checked,
   onChange,
 }: AppCheckboxProps) => {
+  const isRTL = I18nManager.isRTL;
+
   return (
     <Pressable
-      style={styles.container}
+      style={[styles.container, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}
       onPress={() => onChange(!checked)}
       accessibilityRole="checkbox"
       accessibilityState={{ checked }}
@@ -30,7 +33,7 @@ const AppCheckbox = ({
         {checked && <Check size={13} color="#FFFFFF" strokeWidth={3} />}
       </View>
 
-      <Text style={styles.label}>{label}</Text>
+      <Text style={[styles.label, { textAlign: isRTL ? 'right' : 'left' }]}>{label}</Text>
     </Pressable>
   );
 };
@@ -39,7 +42,6 @@ export default AppCheckbox;
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
     alignItems: 'center',
     gap: 9,
     minHeight: 44,

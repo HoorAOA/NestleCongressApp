@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { I18nManager, Pressable, StyleSheet, Text, View } from 'react-native';
 import {
     Bookmark,
     CalendarCheck,
@@ -34,9 +34,10 @@ const AgendaSessionCard = ({
     const featured = !!session.featured;
     const Icon = featured ? CalendarCheck : CATEGORY_ICONS[session.category];
     const accent = featured ? Colors.gold : Colors.primary;
+    const isRTL = I18nManager.isRTL;
 
     return (
-        <View style={[styles.card, featured && styles.cardFeatured]}>
+        <View style={[styles.card, { flexDirection: isRTL ? 'row-reverse' : 'row' }, featured && styles.cardFeatured]}>
             <View style={styles.timeColumn}>
                 <Text style={styles.time}>{session.time}</Text>
                 <Text style={styles.period}>{session.period}</Text>
@@ -54,13 +55,13 @@ const AgendaSessionCard = ({
             </View>
 
             <View style={styles.body}>
-                <Text style={[styles.category, { color: accent }]}>
+                <Text style={[styles.category, { color: accent, textAlign: isRTL ? 'right' : 'left' }]}>
                     {session.category.toUpperCase()}
                 </Text>
-                <Text style={styles.title}>{session.title}</Text>
-                <View style={styles.placeRow}>
+                <Text style={[styles.title, { textAlign: isRTL ? 'right' : 'left' }]}>{session.title}</Text>
+                <View style={[styles.placeRow, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                     <MapPin size={12} color={Colors.mutedText} />
-                    <Text style={styles.place} numberOfLines={1}>
+                    <Text style={[styles.place, { textAlign: isRTL ? 'right' : 'left' }]} numberOfLines={1}>
                         {session.place}
                     </Text>
                 </View>
@@ -86,7 +87,6 @@ export default AgendaSessionCard;
 
 const styles = StyleSheet.create({
     card: {
-        flexDirection: 'row',
         alignItems: 'center',
         padding: 14,
         borderRadius: 26,
@@ -147,7 +147,6 @@ const styles = StyleSheet.create({
         color: Colors.navyText,
     },
     placeRow: {
-        flexDirection: 'row',
         alignItems: 'center',
         gap: 4,
     },

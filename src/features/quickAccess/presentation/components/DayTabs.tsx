@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { I18nManager, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { Colors } from '../../../../core/theme/colors';
 import { Typography } from '../../../../core/theme/typography';
@@ -16,34 +16,37 @@ interface DayTabsProps {
     onSelect: (day: number) => void;
 }
 
-const DayTabs = ({ days, selected, onSelect }: DayTabsProps) => (
-    <View style={styles.row}>
-        {days.map(({ day, label, shortDate }) => {
-            const active = day === selected;
+const DayTabs = ({ days, selected, onSelect }: DayTabsProps) => {
+    const isRTL = I18nManager.isRTL;
 
-            return (
-                <Pressable
-                    key={day}
-                    onPress={() => onSelect(day)}
-                    style={[styles.tab, active && styles.tabActive]}
-                >
-                    <Text style={[styles.label, active && styles.labelActive]}>
-                        {label}
-                    </Text>
-                    <Text style={[styles.date, active && styles.dateActive]}>
-                        {shortDate}
-                    </Text>
-                </Pressable>
-            );
-        })}
-    </View>
-);
+    return (
+        <View style={[styles.row, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+            {days.map(({ day, label, shortDate }) => {
+                const active = day === selected;
+
+                return (
+                    <Pressable
+                        key={day}
+                        onPress={() => onSelect(day)}
+                        style={[styles.tab, active && styles.tabActive]}
+                    >
+                        <Text style={[styles.label, active && styles.labelActive, { textAlign: isRTL ? 'right' : 'left' }]}>
+                            {label}
+                        </Text>
+                        <Text style={[styles.date, active && styles.dateActive, { textAlign: isRTL ? 'right' : 'left' }]}>
+                            {shortDate}
+                        </Text>
+                    </Pressable>
+                );
+            })}
+        </View>
+    );
+};
 
 export default DayTabs;
 
 const styles = StyleSheet.create({
     row: {
-        flexDirection: 'row',
         gap: 14,
     },
     tab: {

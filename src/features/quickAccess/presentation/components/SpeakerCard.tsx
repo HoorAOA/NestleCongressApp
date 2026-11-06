@@ -1,6 +1,6 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { ChevronRight, MapPin, Star } from 'lucide-react-native';
+import { I18nManager, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ChevronLeft, ChevronRight, MapPin, Star } from 'lucide-react-native';
 
 import { Colors } from '../../../../core/theme/colors';
 import { Typography } from '../../../../core/theme/typography';
@@ -22,11 +22,13 @@ const SpeakerCard = ({
     onPress,
 }: SpeakerCardProps) => {
     const featured = !!speaker.featured;
+    const isRTL = I18nManager.isRTL;
+    const EndIcon = isRTL ? ChevronLeft : ChevronRight;
 
     return (
         <Pressable
             onPress={onPress}
-            style={[styles.card, featured && styles.cardFeatured]}
+            style={[styles.card, { flexDirection: isRTL ? 'row-reverse' : 'row' }, featured && styles.cardFeatured]}
         >
             <AvatarRing
                 initials={speaker.initials}
@@ -50,9 +52,9 @@ const SpeakerCard = ({
                 <Text style={styles.name}>{speaker.name}</Text>
                 <Text style={styles.role}>{speaker.role}</Text>
 
-                <View style={styles.countryRow}>
+                <View style={[styles.countryRow, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                     <MapPin size={12} color={Colors.mutedText} />
-                    <Text style={styles.country}>{speaker.country}</Text>
+                    <Text style={[styles.country, { textAlign: isRTL ? 'right' : 'left' }]}>{speaker.country}</Text>
                 </View>
 
                 <View style={styles.topic}>
@@ -62,7 +64,7 @@ const SpeakerCard = ({
                 </View>
             </View>
 
-            <View style={styles.actions}>
+            <View style={[styles.actions, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                 <Pressable
                     onPress={onToggleFavorite}
                     hitSlop={10}
@@ -77,7 +79,7 @@ const SpeakerCard = ({
                         fill={isFavorite ? Colors.gold : 'none'}
                     />
                 </Pressable>
-                <ChevronRight size={20} color={Colors.mutedText} />
+                <EndIcon size={20} color={Colors.mutedText} />
             </View>
         </Pressable>
     );
@@ -87,7 +89,6 @@ export default SpeakerCard;
 
 const styles = StyleSheet.create({
     card: {
-        flexDirection: 'row',
         alignItems: 'center',
         gap: 14,
         padding: 16,
@@ -124,7 +125,6 @@ const styles = StyleSheet.create({
         color: Colors.slateText,
     },
     countryRow: {
-        flexDirection: 'row',
         alignItems: 'center',
         gap: 4,
     },

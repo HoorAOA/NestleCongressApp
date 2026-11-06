@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from 'react';
-import { Alert, ScrollView, StyleSheet, View } from 'react-native';
+import { Alert, I18nManager, ScrollView, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { LayoutGrid, Search, Sparkles } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 
 import { Colors } from '../../../../core/theme/colors';
 import type { RootNavigationProp } from '../../../../core/navigation/types';
@@ -23,6 +24,8 @@ import {
 
 const QuickAccessScreen = () => {
     const navigation = useNavigation<RootNavigationProp>();
+    const { t } = useTranslation();
+    const isRTL = I18nManager.isRTL;
 
     const [query, setQuery] = useState('');
     const [category, setCategory] = useState('All');
@@ -47,25 +50,25 @@ const QuickAccessScreen = () => {
         if (item.route) {
             navigation.navigate(item.route);
         } else {
-            Alert.alert(item.label, 'This section is coming soon.');
+            Alert.alert(item.label, t('common.comingSoon'));
         }
     };
 
     return (
         <ScreenLayout
-            title="Quick Access"
+            title={t('quickAccess.quickAccessTitle')}
             onBack={navigation.goBack}
             fixed
             headerRight={
-                <HeaderIconButton label="Quick access">
+                <HeaderIconButton label={t('quickAccess.quickAccessTitle')}>
                     <LayoutGrid size={20} color={Colors.gold} />
                 </HeaderIconButton>
             }
             top={
                 <InfoBanner
                     icon={Sparkles}
-                    title="Explore Congress Tools"
-                    subtitle="Everything you need for the full event experience"
+                    title={t('quickAccess.exploreTitle')}
+                    subtitle={t('quickAccess.exploreSubtitle')}
                 />
             }
         >
@@ -74,7 +77,7 @@ const QuickAccessScreen = () => {
                     <SearchField
                         value={query}
                         onChangeText={setQuery}
-                        placeholder="Search quick access"
+                        placeholder={t('quickAccess.searchPlaceholder')}
                     />
 
                     <FilterChips
@@ -89,7 +92,7 @@ const QuickAccessScreen = () => {
                             showsVerticalScrollIndicator={false}
                             keyboardShouldPersistTaps="handled"
                         >
-                            <View style={styles.grid}>
+                            <View style={[styles.grid, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                                 {items.map(item => (
                                     <ToolCard
                                         key={item.id}
@@ -102,13 +105,11 @@ const QuickAccessScreen = () => {
                     ) : (
                         <EmptyState
                             icon={Search}
-                            title="No results found"
-                            subtitle="Try a different search or category."
+                            title={t('quickAccess.noResults')}
+                            subtitle={t('quickAccess.noResultsSubtitle')}
                         />
                     )}
                 </View>
-
-
             </ContentSheet>
         </ScreenLayout>
     );
@@ -121,7 +122,6 @@ const styles = StyleSheet.create({
         paddingBottom: 120,
     },
     grid: {
-        flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-between',
         rowGap: 14,

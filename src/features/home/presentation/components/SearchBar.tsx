@@ -1,28 +1,33 @@
 import React from 'react';
-import { View, TextInput, Pressable, StyleSheet } from 'react-native';
+import { I18nManager, View, TextInput, Pressable, StyleSheet } from 'react-native';
 import { Search, SlidersHorizontal } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 
 import { Colors } from '../../../../core/theme/colors';
 import { Typography } from '../../../../core/theme/typography';
 
-const SearchBar = () => (
-    <View style={styles.searchBar}>
-        <Search size={18} color={Colors.whiteSoft} />
-        <TextInput
-            style={styles.searchInput}
-            placeholder="Search sessions, speakers, topics..."
-            placeholderTextColor={Colors.whiteSoftAlt}
-            numberOfLines={1}
-        />
-        <Pressable style={styles.filterButton}>
-            <SlidersHorizontal size={18} color={Colors.white} />
-        </Pressable>
-    </View>
-);
+const SearchBar = () => {
+    const { t } = useTranslation();
+    const isRTL = I18nManager.isRTL;
+
+    return (
+        <View style={[styles.searchBar, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+            <Search size={18} color={Colors.whiteSoft} />
+            <TextInput
+                style={[styles.searchInput, { textAlign: isRTL ? 'right' : 'left' }]}
+                placeholder={t('home.searchPlaceholder')}
+                placeholderTextColor={Colors.whiteSoftAlt}
+                numberOfLines={1}
+            />
+            <Pressable style={styles.filterButton}>
+                <SlidersHorizontal size={18} color={Colors.white} />
+            </Pressable>
+        </View>
+    );
+};
 
 const styles = StyleSheet.create({
     searchBar: {
-        flexDirection: 'row',
         alignItems: 'center',
         gap: 10,
         marginTop: 20,

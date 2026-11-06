@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { I18nManager, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { Search, SlidersHorizontal } from 'lucide-react-native';
 
 import { Colors } from '../../../../core/theme/colors';
@@ -20,34 +20,37 @@ const SearchField = ({
     placeholder,
     autoFocus,
     onFilterPress,
-}: SearchFieldProps) => (
-    <View style={styles.field}>
-        <Search size={19} color={Colors.mutedText} />
+}: SearchFieldProps) => {
+    const isRTL = I18nManager.isRTL;
 
-        <TextInput
-            style={styles.input}
-            value={value}
-            onChangeText={onChangeText}
-            placeholder={placeholder}
-            placeholderTextColor={Colors.mutedText}
-            autoFocus={autoFocus}
-            autoCorrect={false}
-            returnKeyType="search"
-        />
+    return (
+        <View style={[styles.field, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+            <Search size={19} color={Colors.mutedText} />
 
-        {onFilterPress && (
-            <Pressable onPress={onFilterPress} hitSlop={10}>
-                <SlidersHorizontal size={19} color={Colors.primary} />
-            </Pressable>
-        )}
-    </View>
-);
+            <TextInput
+                style={[styles.input, { textAlign: isRTL ? 'right' : 'left' }]}
+                value={value}
+                onChangeText={onChangeText}
+                placeholder={placeholder}
+                placeholderTextColor={Colors.mutedText}
+                autoFocus={autoFocus}
+                autoCorrect={false}
+                returnKeyType="search"
+            />
+
+            {onFilterPress && (
+                <Pressable onPress={onFilterPress} hitSlop={10}>
+                    <SlidersHorizontal size={19} color={Colors.primary} />
+                </Pressable>
+            )}
+        </View>
+    );
+};
 
 export default SearchField;
 
 const styles = StyleSheet.create({
     field: {
-        flexDirection: 'row',
         alignItems: 'center',
         gap: 12,
         height: 54,

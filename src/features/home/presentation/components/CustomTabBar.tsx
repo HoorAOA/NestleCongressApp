@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { I18nManager, View, Text, Pressable, StyleSheet } from 'react-native';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { House, UserRound } from 'lucide-react-native';
@@ -14,12 +14,13 @@ const TAB_CONFIG = {
 
 const CustomTabBar = ({ state, navigation }: BottomTabBarProps) => {
     const insets = useSafeAreaInsets();
+    const isRTL = I18nManager.isRTL;
 
     return (
         <View
             style={[
                 styles.bar,
-                { paddingBottom: Math.max(insets.bottom, 10) },
+                { flexDirection: isRTL ? 'row-reverse' : 'row', paddingBottom: Math.max(insets.bottom, 10) },
             ]}
         >
             {state.routes.map((route, index) => {
@@ -71,7 +72,6 @@ const CustomTabBar = ({ state, navigation }: BottomTabBarProps) => {
 
 const styles = StyleSheet.create({
     bar: {
-        flexDirection: 'row',
         gap: 12,
         paddingTop: 10,
         paddingHorizontal: 20,

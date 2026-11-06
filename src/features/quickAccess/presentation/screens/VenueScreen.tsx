@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { MapPin, Navigation } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 
 import { Colors } from '../../../../core/theme/colors';
 import type { RootNavigationProp } from '../../../../core/navigation/types';
@@ -17,15 +18,16 @@ import {
 
 const VenueScreen = () => {
     const navigation = useNavigation<RootNavigationProp>();
+    const { t } = useTranslation();
 
     return (
         <ScreenLayout
-            title="Venue"
+            title={t('quickAccess.venueTitle')}
             onBack={navigation.goBack}
             padded
             headerRight={
                 <HeaderIconButton
-                    label="Get directions"
+                    label={t('quickAccess.getDirections')}
                     onPress={() => openDirections()}
                 >
                     <Navigation size={20} color={Colors.gold} fill={Colors.gold} />
@@ -37,7 +39,7 @@ const VenueScreen = () => {
             <InfoTile
                 variant="white"
                 icon={MapPin}
-                label="Venue Address"
+                label={t('quickAccess.venueAddress')}
                 value={VENUE.address}
             />
 

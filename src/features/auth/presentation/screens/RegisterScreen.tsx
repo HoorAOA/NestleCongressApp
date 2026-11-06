@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+    I18nManager,
     View,
     StyleSheet,
     Text,
@@ -10,6 +11,7 @@ import {
     StatusBar,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 
 import {
     UserRound,
@@ -37,6 +39,8 @@ import logger from '../../../../core/utils/logger';
 
 const RegisterScreen = () => {
     const navigation = useNavigation<any>();
+    const { t } = useTranslation();
+    const isRTL = I18nManager.isRTL;
 
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
@@ -58,26 +62,27 @@ const RegisterScreen = () => {
 
     const handleGoogle = () => logger.log('Google sign up');
     const handleApple = () => logger.log('Apple sign up');
+    const dynamicStyles = getStyles(isRTL);
 
     return (
-        <View style={styles.container}>
+        <View style={dynamicStyles.container}>
             <MainBackground />
 
             <KeyboardAvoidingView
-                style={styles.keyboardContainer}
+                style={dynamicStyles.keyboardContainer}
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             >
                 <ScrollView
-                    style={styles.scroll}
-                    contentContainerStyle={styles.scrollContent}
+                    style={dynamicStyles.scroll}
+                    contentContainerStyle={dynamicStyles.scrollContent}
                     keyboardShouldPersistTaps="handled"
                     showsVerticalScrollIndicator={false}
                     bounces
                 >
                     {/* Hero */}
-                    <View style={styles.hero}>
+                    <View style={dynamicStyles.hero}>
                         <AppTitle
-                            title="Join the"
+                            title={t('auth.register.heroLine1')}
                             size={30}
                             color={Colors.white}
                             weight="extraBold"
@@ -85,7 +90,7 @@ const RegisterScreen = () => {
                             style={{ lineHeight: 36 }}
                         />
                         <AppTitle
-                            title="NESTLÉ"
+                            title={t('auth.register.heroLine2')}
                             size={34}
                             color={Colors.gold}
                             weight="extraBold"
@@ -93,7 +98,7 @@ const RegisterScreen = () => {
                             style={{ lineHeight: 40, letterSpacing: 1 }}
                         />
                         <AppTitle
-                            title="CONGRESS"
+                            title={t('auth.register.heroLine3')}
                             size={34}
                             color={Colors.gold}
                             weight="extraBold"
@@ -102,9 +107,7 @@ const RegisterScreen = () => {
                         />
 
                         <AppTitle
-                            title={
-                                'Create your attendee profile and access\nsessions, resources, voting and Q&A.'
-                            }
+                            title={t('auth.register.subtitle')}
                             size={12}
                             color={Colors.whiteSoftAlt5}
                             weight="medium"
@@ -114,9 +117,9 @@ const RegisterScreen = () => {
                     </View>
 
                     <WhiteCard>
-                        <View style={styles.form}>
+                        <View style={dynamicStyles.form}>
                             <AppTextInput
-                                placeholder="Full name"
+                                placeholder={t('auth.register.fullName')}
                                 value={fullName}
                                 onChangeText={setFullName}
                                 autoCapitalize="words"
@@ -126,7 +129,7 @@ const RegisterScreen = () => {
                             />
 
                             <AppTextInput
-                                placeholder="Email address"
+                                placeholder={t('auth.register.email')}
                                 value={email}
                                 onChangeText={setEmail}
                                 keyboardType="email-address"
@@ -137,7 +140,7 @@ const RegisterScreen = () => {
                             />
 
                             <AppTextInput
-                                placeholder="Hospital / Organization"
+                                placeholder={t('auth.register.organization')}
                                 value={organization}
                                 onChangeText={setOrganization}
                                 autoCapitalize="words"
@@ -147,7 +150,7 @@ const RegisterScreen = () => {
                             />
 
                             <AppTextInput
-                                placeholder="Create password"
+                                placeholder={t('auth.register.password')}
                                 value={password}
                                 onChangeText={setPassword}
                                 isPassword
@@ -157,13 +160,13 @@ const RegisterScreen = () => {
                             />
 
                             <AppCheckbox
-                                label="I agree to the congress terms, privacy policy and attendee guidelines."
+                                label={t('auth.register.consent')}
                                 checked={agreed}
                                 onChange={setAgreed}
                             />
 
                             <GradientButton
-                                title="Create Account"
+                                title={t('auth.register.button')}
                                 onPress={handleRegister}
                                 startIcon={
                                     <UserPlus size={20} color={Colors.white} />
@@ -172,15 +175,15 @@ const RegisterScreen = () => {
                         </View>
 
                         {/* Social sign up */}
-                        <View style={styles.dividerRow}>
-                            <View style={styles.dividerLine} />
-                            <Text style={styles.dividerText}>
-                                OR SIGN UP WITH
+                        <View style={[dynamicStyles.dividerRow, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                            <View style={dynamicStyles.dividerLine} />
+                            <Text style={dynamicStyles.dividerText}>
+                                {t('auth.register.socialDivider')}
                             </Text>
-                            <View style={styles.dividerLine} />
+                            <View style={dynamicStyles.dividerLine} />
                         </View>
 
-                        <View style={styles.socialRow}>
+                        <View style={[dynamicStyles.socialRow, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                             <SocialButton onPress={handleGoogle}>
                                 <GoogleIcon />
                             </SocialButton>
@@ -191,12 +194,12 @@ const RegisterScreen = () => {
                     </WhiteCard>
 
                     {/* Sign in */}
-                    <View style={styles.signInContainer}>
-                        <Text style={styles.signInText}>
-                            Already have an account?
+                    <View style={[dynamicStyles.signInContainer, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                        <Text style={dynamicStyles.signInText}>
+                            {t('auth.register.alreadyHaveAccount')}
                         </Text>
                         <Pressable onPress={handleSignIn} hitSlop={8}>
-                            <Text style={styles.signInLink}>Sign In</Text>
+                            <Text style={dynamicStyles.signInLink}>{t('auth.register.signIn')}</Text>
                         </Pressable>
                     </View>
                 </ScrollView>
@@ -207,7 +210,7 @@ const RegisterScreen = () => {
 
 export default RegisterScreen;
 
-const styles = StyleSheet.create({
+const getStyles = (isRTL: boolean) => StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: Colors.background,
@@ -242,7 +245,6 @@ const styles = StyleSheet.create({
     },
 
     dividerRow: {
-        flexDirection: 'row',
         alignItems: 'center',
         gap: 10,
         marginTop: 20,
@@ -262,14 +264,12 @@ const styles = StyleSheet.create({
     },
 
     socialRow: {
-        flexDirection: 'row',
         gap: 12,
         marginTop: 16,
     },
 
     /* Footer */
     signInContainer: {
-        flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         gap: 5,

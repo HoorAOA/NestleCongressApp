@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, Text, StyleSheet, View, ViewStyle } from 'react-native';
+import { I18nManager, Pressable, Text, StyleSheet, View, ViewStyle } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Colors } from '../../theme/colors';
 import { Typography } from '../../theme/typography';
@@ -21,6 +21,8 @@ const GradientButton: React.FC<GradientButtonProps> = ({
     disabled = false,
     style,
 }) => {
+    const isRTL = I18nManager.isRTL;
+
     return (
         <Pressable
             onPress={onPress}
@@ -31,7 +33,11 @@ const GradientButton: React.FC<GradientButtonProps> = ({
                 colors={[Colors.primary, Colors.secondary]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
-                style={[styles.button, disabled && styles.disabled]}
+                style={[
+                    styles.button,
+                    { flexDirection: isRTL ? 'row-reverse' : 'row' },
+                    disabled && styles.disabled,
+                ]}
             >
                 {startIcon && (
                     <View style={styles.icon}>
@@ -63,7 +69,6 @@ const styles = StyleSheet.create({
     button: {
         height: 48,
         borderRadius: 17,
-        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         paddingHorizontal: 18,

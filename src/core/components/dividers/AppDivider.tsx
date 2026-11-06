@@ -1,15 +1,17 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { I18nManager, View, Text, StyleSheet } from 'react-native';
 
 interface AppDividerProps {
   title?: string;
 }
 
 const AppDivider = ({ title = 'OR' }: AppDividerProps) => {
+  const isRTL = I18nManager.isRTL;
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
       <View style={styles.line} />
-      <Text style={styles.title}>{title}</Text>
+      <Text style={[styles.title, { textAlign: isRTL ? 'right' : 'left' }]}>{title}</Text>
       <View style={styles.line} />
     </View>
   );
@@ -19,7 +21,6 @@ export default AppDivider;
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
     marginVertical: 12,

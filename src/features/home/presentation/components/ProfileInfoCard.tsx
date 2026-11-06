@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { I18nManager, View, Text, StyleSheet } from 'react-native';
 
 import { Colors } from '../../../../core/theme/colors';
 import { Typography } from '../../../../core/theme/typography';
@@ -14,26 +14,30 @@ type ProfileInfoCardProps = {
     items: ProfileInfoItem[];
 };
 
-const ProfileInfoCard = ({ items }: ProfileInfoCardProps) => (
-    <View style={styles.infoCard}>
-        {items.map(({ label, value, Icon }, index) => (
-            <View key={label}>
-                <View style={styles.infoRow}>
-                    <View style={styles.infoIcon}>
-                        <Icon size={18} color={Colors.royal} />
+const ProfileInfoCard = ({ items }: ProfileInfoCardProps) => {
+    const isRTL = I18nManager.isRTL;
+
+    return (
+        <View style={styles.infoCard}>
+            {items.map(({ label, value, Icon }, index) => (
+                <View key={label}>
+                    <View style={[styles.infoRow, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                        <View style={styles.infoIcon}>
+                            <Icon size={18} color={Colors.royal} />
+                        </View>
+
+                        <View>
+                            <Text style={[styles.infoLabel, { textAlign: isRTL ? 'right' : 'left' }]}>{label}</Text>
+                            <Text style={[styles.infoValue, { textAlign: isRTL ? 'right' : 'left' }]}>{value}</Text>
+                        </View>
                     </View>
 
-                    <View>
-                        <Text style={styles.infoLabel}>{label}</Text>
-                        <Text style={styles.infoValue}>{value}</Text>
-                    </View>
+                    {index < items.length - 1 && <View style={styles.infoDivider} />}
                 </View>
-
-                {index < items.length - 1 && <View style={styles.infoDivider} />}
-            </View>
-        ))}
-    </View>
-);
+            ))}
+        </View>
+    );
+};
 
 const styles = StyleSheet.create({
     infoCard: {
@@ -48,7 +52,6 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     infoRow: {
-        flexDirection: 'row',
         alignItems: 'center',
         gap: 14,
         paddingVertical: 12,

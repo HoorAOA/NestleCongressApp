@@ -1,36 +1,39 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { I18nManager, View, Text, StyleSheet } from 'react-native';
 import { Colors } from '../../../../core/theme/colors';
 import LotusGlow from '../../../../assets/icons/lotusGlow';
 import AppTitle from '../../../../core/components/typography/AppTitle';
 import { Typography } from '../../../../core/theme/typography';
 
-const FeaturedEventCard = () => (
-    <View style={styles.featuredCard}>
-        <View style={styles.featuredText}>
-            <View style={styles.featuredPill}>
-                <Text style={styles.featuredPillText}>FEATURED EVENT</Text>
+const FeaturedEventCard = () => {
+    const isRTL = I18nManager.isRTL;
+
+    return (
+        <View style={[styles.featuredCard, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+            <View style={styles.featuredText}>
+                <View style={styles.featuredPill}>
+                    <Text style={styles.featuredPillText}>FEATURED EVENT</Text>
+                </View>
+
+                <AppTitle
+                    title={'The Next Era of\nNutrition & Health'}
+                    size={20}
+                    color={Colors.white}
+                    weight="extraBold"
+                    style={{ lineHeight: 26, marginTop: 14, textAlign: isRTL ? 'right' : 'left' }}
+                />
+
+                <Text style={[styles.featuredMeta, { textAlign: isRTL ? 'right' : 'left' }]}>May 22 - 23, 2026  •  Dubai, UAE</Text>
             </View>
-
-            <AppTitle
-                title={'The Next Era of\nNutrition & Health'}
-                size={20}
-                color={Colors.white}
-                weight="extraBold"
-                style={{ lineHeight: 26, marginTop: 14 }}
-            />
-
-            <Text style={styles.featuredMeta}>May 22 - 23, 2026  •  Dubai, UAE</Text>
+            <View style={[styles.featuredGlow, { marginRight: isRTL ? 0 : -8, marginLeft: isRTL ? -8 : 0 }]}>
+                <LotusGlow />
+            </View>
         </View>
-        <View style={styles.featuredGlow}>
-            <LotusGlow />
-        </View>
-    </View>
-);
+    );
+};
 
 const styles = StyleSheet.create({
     featuredCard: {
-        flexDirection: 'row',
         alignItems: 'center',
         marginTop: 18,
         padding: 18,

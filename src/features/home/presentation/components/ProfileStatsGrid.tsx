@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { I18nManager, View, Text, StyleSheet } from 'react-native';
 
 import { Colors } from '../../../../core/theme/colors';
 import { Typography } from '../../../../core/theme/typography';
@@ -14,21 +14,24 @@ type ProfileStatsGridProps = {
     items: ProfileStat[];
 };
 
-const ProfileStatsGrid = ({ items }: ProfileStatsGridProps) => (
-    <View style={styles.statsRow}>
-        {items.map(({ value, label, Icon }) => (
-            <View key={label} style={styles.statCard}>
-                <Icon size={22} color={Colors.royal} />
-                <Text style={styles.statValue}>{value}</Text>
-                <Text style={styles.statLabel}>{label}</Text>
-            </View>
-        ))}
-    </View>
-);
+const ProfileStatsGrid = ({ items }: ProfileStatsGridProps) => {
+    const isRTL = I18nManager.isRTL;
+
+    return (
+        <View style={[styles.statsRow, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+            {items.map(({ value, label, Icon }) => (
+                <View key={label} style={styles.statCard}>
+                    <Icon size={22} color={Colors.royal} />
+                    <Text style={styles.statValue}>{value}</Text>
+                    <Text style={[styles.statLabel, { textAlign: isRTL ? 'right' : 'left' }]}>{label}</Text>
+                </View>
+            ))}
+        </View>
+    );
+};
 
 const styles = StyleSheet.create({
     statsRow: {
-        flexDirection: 'row',
         gap: 10,
     },
     statCard: {

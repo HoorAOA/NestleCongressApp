@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { StatusBar, StyleSheet, View } from 'react-native';
+import { I18nManager, StatusBar, StyleSheet, View } from 'react-native';
 
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
@@ -17,6 +17,9 @@ import VenueScreen from './src/features/quickAccess/presentation/screens/VenueSc
 
 import { AuthStorage } from './src/core/storage/authStorage';
 import { AuthContext } from './src/core/auth/AuthContext';
+import { LanguageContext } from './src/core/localization/LanguageContext';
+import { initializeLanguage } from './src/core/localization/i18n';
+import logger from './src/core/utils/logger';
 
 import type { RootStackParamList } from './src/core/navigation/types';
 
@@ -27,18 +30,24 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function AppContent() {
   const [authStatus, setAuthStatus] = useState<AuthStatus>('loading');
+  const [languageReady, setLanguageReady] = useState(false);
+  const [directionVersion, setDirectionVersion] = useState(0);
+  const directionKey = `${authStatus}-${directionVersion}`;
+  const isRTL = I18nManager.isRTL;
 
   useEffect(() => {
     const initializeApp = async () => {
       try {
-        const [loggedIn] = await Promise.all([
-          AuthStorage.isLoggedIn(),
-          new Promise<void>(resolve => setTimeout(resolve, 2000)),
-        ]);
+        await initializeLanguage();
+        setLanguageReady(true);
+
+        const loggedIn = await AuthStorage.isLoggedIn();
+        await new Promise<void>(resolve => setTimeout(resolve, 2000));
 
         setAuthStatus(loggedIn ? 'authenticated' : 'unauthenticated');
       } catch (error) {
-        console.error('Authentication check failed:', error);
+        logger.error('Authentication check failed:', error);
+        setLanguageReady(true);
         setAuthStatus('unauthenticated');
       }
     };
@@ -52,7 +61,7 @@ function AppContent() {
         try {
           await AuthStorage.setLoggedIn(true);
         } catch (error) {
-          console.error('Failed to save login state:', error);
+          logger.error('Failed to save login state:', error);
         }
         setAuthStatus('authenticated');
       },
@@ -60,7 +69,7 @@ function AppContent() {
         try {
           await AuthStorage.setLoggedIn(false);
         } catch (error) {
-          console.error('Failed to clear login state:', error);
+          logger.error('Failed to clear login state:', error);
         }
         setAuthStatus('unauthenticated');
       },
@@ -68,39 +77,51 @@ function AppContent() {
     [],
   );
 
-  if (authStatus === 'loading') {
+  const languageContextValue = useMemo(
+    () => ({
+      isRTL,
+      refreshDirection: () => setDirectionVersion(prev => prev + 1),
+    }),
+    [isRTL],
+  );
+
+  if (authStatus === 'loading' || !languageReady) {
     return <SplashScreen />;
   }
 
   return (
     <AuthContext.Provider value={auth}>
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-            animation: 'slide_from_right',
-          }}
-        >
-          {authStatus === 'authenticated' ? (<>
-            <Stack.Screen name="Main" component={MainTabs} />
-            <Stack.Screen name="QuickAccess" component={QuickAccessScreen} />
-            <Stack.Screen name="Agenda" component={AgendaScreen} />
-            <Stack.Screen name="Speakers" component={SpeakersScreen} />
-            <Stack.Screen name="NameTag" component={NameTagScreen} />
-            <Stack.Screen name="Venue" component={VenueScreen} />
-          </>
-
-          ) : (
-            <>
-              <Stack.Screen name="Login" component={LoginScreen} />
-              <Stack.Screen
-                name="Register"
-                component={RegisterScreen}
-              />
+      <LanguageContext.Provider value={languageContextValue}>
+        <NavigationContainer key={directionKey}>
+          <Stack.Navigator
+            key={directionKey}
+            screenOptions={{
+              headerShown: false,
+              animation: 'slide_from_right',
+            }}
+          >
+            {authStatus === 'authenticated' ? (<>
+              <Stack.Screen key={`main-${directionKey}`} name="Main" component={MainTabs} />
+              <Stack.Screen key={`quick-access-${directionKey}`} name="QuickAccess" component={QuickAccessScreen} />
+              <Stack.Screen key={`agenda-${directionKey}`} name="Agenda" component={AgendaScreen} />
+              <Stack.Screen key={`speakers-${directionKey}`} name="Speakers" component={SpeakersScreen} />
+              <Stack.Screen key={`name-tag-${directionKey}`} name="NameTag" component={NameTagScreen} />
+              <Stack.Screen key={`venue-${directionKey}`} name="Venue" component={VenueScreen} />
             </>
-          )}
-        </Stack.Navigator>
-      </NavigationContainer>
+
+            ) : (
+              <>
+                <Stack.Screen key={`login-${directionKey}`} name="Login" component={LoginScreen} />
+                <Stack.Screen
+                  key={`register-${directionKey}`}
+                  name="Register"
+                  component={RegisterScreen}
+                />
+              </>
+            )}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </LanguageContext.Provider>
     </AuthContext.Provider>
   );
 }
@@ -108,7 +129,12 @@ function AppContent() {
 export default function App() {
   return (
     <SafeAreaProvider>
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          { direction: I18nManager.isRTL ? 'rtl' : 'ltr' },
+        ]}
+      >
         <StatusBar barStyle="light-content" />
         <AppContent />
       </View>

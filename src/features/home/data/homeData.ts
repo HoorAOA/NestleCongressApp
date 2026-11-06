@@ -16,13 +16,14 @@ export const HOME_USER_NAME = 'Dr. Testing';
 export interface HomeQuickAccessItem {
     label: string;
     Icon: LucideIcon;
+    route?: keyof import('../../../core/navigation/types').RootStackParamList;
 }
 
 export const HOME_QUICK_ACCESS: HomeQuickAccessItem[] = [
-    { label: 'Agenda', Icon: CalendarDays },
-    { label: 'Speakers', Icon: Users },
-    { label: 'Name Tag', Icon: Contact },
-    { label: 'Venue', Icon: MapPin },
+    { label: 'Agenda', Icon: CalendarDays, route: 'Agenda' },
+    { label: 'Speakers', Icon: Users, route: 'Speakers' },
+    { label: 'Name Tag', Icon: Contact, route: 'NameTag' },
+    { label: 'Venue', Icon: MapPin, route: 'Venue' },
     { label: 'Voting', Icon: BarChart3 },
     { label: 'Ask Q&A', Icon: MessageSquare },
     { label: 'Resources', Icon: Folder },

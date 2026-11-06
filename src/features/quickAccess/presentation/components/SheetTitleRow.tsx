@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { I18nManager, Pressable, StyleSheet, Text, View } from 'react-native';
 import { RotateCcw } from 'lucide-react-native';
 
 import { AppTitle } from '../../../../core/components';
@@ -16,34 +16,41 @@ const SheetTitleRow = ({
     title,
     actionLabel,
     onActionPress,
-}: SheetTitleRowProps) => (
-    <View style={styles.row}>
-        <AppTitle
-            title={title}
-            size={21}
-            color={Colors.navyText}
-            weight="extraBold"
-        />
+}: SheetTitleRowProps) => {
+    const isRTL = I18nManager.isRTL;
 
-        {actionLabel && (
-            <Pressable onPress={onActionPress} style={styles.action} hitSlop={6}>
-                <RotateCcw size={15} color={Colors.primary} />
-                <Text style={styles.actionText}>{actionLabel}</Text>
-            </Pressable>
-        )}
-    </View>
-);
+    return (
+        <View style={[styles.row, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+            <AppTitle
+                title={title}
+                size={21}
+                color={Colors.navyText}
+                weight="extraBold"
+                align={isRTL ? 'right' : 'left'}
+            />
+
+            {actionLabel && (
+                <Pressable
+                    onPress={onActionPress}
+                    style={[styles.action, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}
+                    hitSlop={6}
+                >
+                    <RotateCcw size={15} color={Colors.primary} />
+                    <Text style={styles.actionText}>{actionLabel}</Text>
+                </Pressable>
+            )}
+        </View>
+    );
+};
 
 export default SheetTitleRow;
 
 const styles = StyleSheet.create({
     row: {
-        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
     },
     action: {
-        flexDirection: 'row',
         alignItems: 'center',
         gap: 6,
         paddingHorizontal: 16,

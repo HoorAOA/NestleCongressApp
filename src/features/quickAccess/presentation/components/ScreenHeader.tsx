@@ -1,6 +1,6 @@
 import React from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
-import { ChevronLeft } from 'lucide-react-native';
+import { I18nManager, Pressable, StyleSheet, View } from 'react-native';
+import { ChevronLeft, ChevronRight } from 'lucide-react-native';
 
 import { AppTitle } from '../../../../core/components';
 import { Colors } from '../../../../core/theme/colors';
@@ -32,29 +32,34 @@ interface ScreenHeaderProps {
     right?: React.ReactNode;
 }
 
-const ScreenHeader = ({ title, onBack, right }: ScreenHeaderProps) => (
-    <View style={styles.row}>
-        <HeaderIconButton onPress={onBack} label="Go back">
-            <ChevronLeft size={22} color={Colors.white} />
-        </HeaderIconButton>
+const ScreenHeader = ({ title, onBack, right }: ScreenHeaderProps) => {
+    const isRTL = I18nManager.isRTL;
+    const BackIcon = isRTL ? ChevronRight : ChevronLeft;
 
-        <AppTitle
-            title={title}
-            size={20}
-            color={Colors.white}
-            weight="extraBold"
-            style={styles.title}
-        />
+    return (
+        <View style={[styles.row, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+            <HeaderIconButton onPress={onBack} label="Go back">
+                <BackIcon size={22} color={Colors.white} />
+            </HeaderIconButton>
 
-        {right ?? <View style={styles.spacer} />}
-    </View>
-);
+            <AppTitle
+                title={title}
+                size={20}
+                color={Colors.white}
+                weight="extraBold"
+                align={isRTL ? 'right' : 'left'}
+                style={styles.title}
+            />
+
+            {right ?? <View style={styles.spacer} />}
+        </View>
+    );
+};
 
 export default ScreenHeader;
 
 const styles = StyleSheet.create({
     row: {
-        flexDirection: 'row',
         alignItems: 'center',
         gap: 14,
     },
