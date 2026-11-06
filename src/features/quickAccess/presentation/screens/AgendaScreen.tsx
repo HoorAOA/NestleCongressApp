@@ -21,7 +21,8 @@ import {
     InfoBanner,
     ScreenLayout,
     SearchField,
-    SheetTitleRow } from '../components';
+    SheetTitleRow
+} from '../components';
 
 const AgendaScreen = () => {
     const navigation = useNavigation<RootNavigationProp>();
@@ -52,7 +53,7 @@ const AgendaScreen = () => {
         }).sort(
             (a, b) =>
                 Number(bookmarks.includes(b.id)) -
-                    Number(bookmarks.includes(a.id)) || a.order - b.order,
+                Number(bookmarks.includes(a.id)) || a.order - b.order,
         );
     }, [day, category, query, bookmarks]);
 
@@ -111,52 +112,54 @@ const AgendaScreen = () => {
             }
         >
             <ContentSheet>
-                <SheetTitleRow
-                    title="Today’s Sessions"
-                    actionLabel="Reset"
-                    onActionPress={reset}
-                />
-
-                {searchVisible && (
-                    <SearchField
-                        value={query}
-                        onChangeText={setQuery}
-                        placeholder="Search sessions"
-                        autoFocus
+                <View style={{ gap: 7 }}>
+                    <SheetTitleRow
+                        title="Today’s Sessions"
+                        actionLabel="Reset"
+                        onActionPress={reset}
                     />
-                )}
 
-                <FilterChips
-                    options={AGENDA_CATEGORIES}
-                    selected={category}
-                    onSelect={setCategory}
-                />
+                    {searchVisible && (
+                        <SearchField
+                            value={query}
+                            onChangeText={setQuery}
+                            placeholder="Search sessions"
+                            autoFocus
+                        />
+                    )}
 
-                {sessions.length > 0 ? (
-                    <ScrollView
-                        style={styles.listScroll}
-                        contentContainerStyle={styles.listContent}
-                        showsVerticalScrollIndicator={false}
-                        keyboardShouldPersistTaps="handled"
-                    >
-                        <View style={styles.list}>
-                            {sessions.map(session => (
-                                <AgendaSessionCard
-                                    key={session.id}
-                                    session={session}
-                                    bookmarked={bookmarks.includes(session.id)}
-                                    onToggleBookmark={() => toggleBookmark(session.id)}
-                                />
-                            ))}
-                        </View>
-                    </ScrollView>
-                ) : (
-                    <EmptyState
-                        icon={Search}
-                        title="No sessions found"
-                        subtitle="Try a different search or category."
+                    <FilterChips
+                        options={AGENDA_CATEGORIES}
+                        selected={category}
+                        onSelect={setCategory}
                     />
-                )}
+
+                    {sessions.length > 0 ? (
+                        <ScrollView
+                            contentContainerStyle={styles.listContent}
+                            showsVerticalScrollIndicator={false}
+                            keyboardShouldPersistTaps="handled"
+                        >
+                            <View style={styles.list}>
+                                {sessions.map(session => (
+                                    <AgendaSessionCard
+                                        key={session.id}
+                                        session={session}
+                                        bookmarked={bookmarks.includes(session.id)}
+                                        onToggleBookmark={() => toggleBookmark(session.id)}
+                                    />
+                                ))}
+                            </View>
+                        </ScrollView>
+                    ) : (
+                        <EmptyState
+                            icon={Search}
+                            title="No sessions found"
+                            subtitle="Try a different search or category."
+                        />
+                    )}
+                </View>
+
             </ContentSheet>
         </ScreenLayout>
     );
@@ -165,11 +168,8 @@ const AgendaScreen = () => {
 export default AgendaScreen;
 
 const styles = StyleSheet.create({
-    listScroll: {
-        flex: 1,
-    },
     listContent: {
-        paddingBottom: 12,
+        paddingBottom: 120,
     },
     list: {
         gap: 14,

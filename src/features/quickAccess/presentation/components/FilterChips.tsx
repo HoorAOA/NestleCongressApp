@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
     row: {
         gap: 10,
         paddingVertical: 2,
+        height: 52,
     },
     chip: {
         height: 40,

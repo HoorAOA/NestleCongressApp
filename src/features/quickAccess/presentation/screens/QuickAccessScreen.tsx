@@ -18,7 +18,8 @@ import {
     InfoBanner,
     ScreenLayout,
     SearchField,
-    ToolCard } from '../components';
+    ToolCard
+} from '../components';
 
 const QuickAccessScreen = () => {
     const navigation = useNavigation<RootNavigationProp>();
@@ -69,42 +70,45 @@ const QuickAccessScreen = () => {
             }
         >
             <ContentSheet>
-                <SearchField
-                    value={query}
-                    onChangeText={setQuery}
-                    placeholder="Search quick access"
-                />
-
-                <FilterChips
-                    options={QUICK_ACCESS_CATEGORIES}
-                    selected={category}
-                    onSelect={setCategory}
-                />
-
-                {items.length > 0 ? (
-                    <ScrollView
-                        style={styles.listScroll}
-                        contentContainerStyle={styles.listContent}
-                        showsVerticalScrollIndicator={false}
-                        keyboardShouldPersistTaps="handled"
-                    >
-                        <View style={styles.grid}>
-                            {items.map(item => (
-                                <ToolCard
-                                    key={item.id}
-                                    item={item}
-                                    onPress={() => handlePress(item)}
-                                />
-                            ))}
-                        </View>
-                    </ScrollView>
-                ) : (
-                    <EmptyState
-                        icon={Search}
-                        title="No results found"
-                        subtitle="Try a different search or category."
+                <View style={{ gap: 7 }}>
+                    <SearchField
+                        value={query}
+                        onChangeText={setQuery}
+                        placeholder="Search quick access"
                     />
-                )}
+
+                    <FilterChips
+                        options={QUICK_ACCESS_CATEGORIES}
+                        selected={category}
+                        onSelect={setCategory}
+                    />
+
+                    {items.length > 0 ? (
+                        <ScrollView
+                            contentContainerStyle={styles.listContent}
+                            showsVerticalScrollIndicator={false}
+                            keyboardShouldPersistTaps="handled"
+                        >
+                            <View style={styles.grid}>
+                                {items.map(item => (
+                                    <ToolCard
+                                        key={item.id}
+                                        item={item}
+                                        onPress={() => handlePress(item)}
+                                    />
+                                ))}
+                            </View>
+                        </ScrollView>
+                    ) : (
+                        <EmptyState
+                            icon={Search}
+                            title="No results found"
+                            subtitle="Try a different search or category."
+                        />
+                    )}
+                </View>
+
+
             </ContentSheet>
         </ScreenLayout>
     );
@@ -113,11 +117,8 @@ const QuickAccessScreen = () => {
 export default QuickAccessScreen;
 
 const styles = StyleSheet.create({
-    listScroll: {
-        flex: 1,
-    },
     listContent: {
-        paddingBottom: 12,
+        paddingBottom: 120,
     },
     grid: {
         flexDirection: 'row',

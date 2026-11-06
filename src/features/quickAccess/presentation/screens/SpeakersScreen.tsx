@@ -91,6 +91,7 @@ const SpeakersScreen = () => {
             }
         >
             <ContentSheet>
+                <View style={{ gap: 7 }}>
                 <SearchField
                     value={query}
                     onChangeText={setQuery}
@@ -106,7 +107,6 @@ const SpeakersScreen = () => {
 
                 {speakers.length > 0 ? (
                     <ScrollView
-                        style={styles.listScroll}
                         contentContainerStyle={styles.listContent}
                         showsVerticalScrollIndicator={false}
                         keyboardShouldPersistTaps="handled"
@@ -137,6 +137,7 @@ const SpeakersScreen = () => {
                         }
                     />
                 )}
+                </View>
             </ContentSheet>
         </ScreenLayout>
     );
@@ -145,11 +146,8 @@ const SpeakersScreen = () => {
 export default SpeakersScreen;
 
 const styles = StyleSheet.create({
-    listScroll: {
-        flex: 1,
-    },
     listContent: {
-        paddingBottom: 12,
+        paddingBottom: 120,
     },
     list: {
         gap: 14,
