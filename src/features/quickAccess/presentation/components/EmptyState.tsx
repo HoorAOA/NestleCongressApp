@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingVertical: 36,
         gap: 8,
-        backgroundColor: Colors.error,
     },
     iconBox: {
         width: 56,

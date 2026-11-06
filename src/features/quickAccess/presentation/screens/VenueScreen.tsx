@@ -18,7 +18,16 @@ import {
 
 const VenueScreen = () => {
     const navigation = useNavigation<RootNavigationProp>();
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const isArabic = i18n.language.startsWith('ar');
+
+    const venueName = isArabic ? VENUE.nameAr : VENUE.nameEn;
+    const venueDates = isArabic ? VENUE.datesAr : VENUE.datesEn;
+    const venueAddress = isArabic ? VENUE.addressAr : VENUE.addressEn;
+    const venueFacilities = FACILITIES.map(facility => ({
+        ...facility,
+        label: isArabic ? facility.labelAr : facility.labelEn,
+    }));
 
     return (
         <ScreenLayout
@@ -34,22 +43,23 @@ const VenueScreen = () => {
                 </HeaderIconButton>
             }
         >
-            <VenueHeroCard name={VENUE.name} dates={VENUE.dates} />
+            <VenueHeroCard name={venueName} dates={venueDates} />
 
             <InfoTile
                 variant="white"
                 icon={MapPin}
                 label={t('quickAccess.venueAddress')}
-                value={VENUE.address}
+                value={venueAddress}
             />
 
             <MapPreview
                 latitude={VENUE.coordinates.latitude}
                 longitude={VENUE.coordinates.longitude}
                 onPress={() => openDirections()}
+                label={t('quickAccess.mapPreview')}
             />
 
-            <FacilitiesCard facilities={FACILITIES} />
+            <FacilitiesCard facilities={venueFacilities} />
         </ScreenLayout>
     );
 };

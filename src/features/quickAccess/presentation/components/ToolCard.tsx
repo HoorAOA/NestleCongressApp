@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { ArrowRight } from 'lucide-react-native';
+import { ArrowLeft, ArrowRight } from 'lucide-react-native';
 
 import { Colors } from '../../../../core/theme/colors';
 import { Typography } from '../../../../core/theme/typography';
@@ -37,9 +37,13 @@ const ToolCard = ({ item, onPress }: ToolCardProps) => {
 
             <View style={[styles.footer, { flexDirection: 'row' }]}>
                 <View style={styles.tag}>
-                    <Text style={styles.tagText}>{item.tag}</Text>
+                    <Text style={styles.tagText}>{item.displayTag ?? item.tag}</Text>
                 </View>
-                <ArrowRight size={18} color={Colors.primary} />
+                {isRTL ? (
+                    <ArrowLeft size={18} color={Colors.primary} />
+                ) : (
+                    <ArrowRight size={18} color={Colors.primary} />
+                )}
             </View>
         </Pressable>
     );

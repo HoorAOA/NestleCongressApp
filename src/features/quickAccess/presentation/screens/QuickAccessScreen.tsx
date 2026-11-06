@@ -26,25 +26,43 @@ const QuickAccessScreen = () => {
     const navigation = useNavigation<RootNavigationProp>();
     const { t, i18n } = useTranslation();
     const isRTL = i18n.dir(i18n.language) === 'rtl';
+    const isArabic = i18n.language.startsWith('ar');
 
     const [query, setQuery] = useState('');
     const [category, setCategory] = useState('All');
 
+    const categoryLabels = {
+        All: t('quickAccess.quickAccessFilterAll'),
+        Event: t('quickAccess.quickAccessFilterEvent'),
+        Interactive: t('quickAccess.quickAccessFilterInteractive'),
+        Tools: t('quickAccess.quickAccessFilterTools'),
+    };
+
+    const localizedItems = useMemo(
+        () =>
+            QUICK_ACCESS_ITEMS.map(item => ({
+                ...item,
+                label: isArabic ? item.labelAr : item.labelEn,
+                description: isArabic ? item.descriptionAr : item.descriptionEn,
+                displayTag: isArabic ? item.tagAr : item.tagEn,
+            })),
+        [isArabic],
+    );
 
     const items = useMemo(() => {
         const q = query.trim().toLowerCase();
 
-        return QUICK_ACCESS_ITEMS.filter(item => {
+        return localizedItems.filter(item => {
             const matchesCategory = category === 'All' || item.tag === category;
             const matchesQuery =
                 !q ||
-                `${item.label} ${item.description} ${item.tag}`
+                `${item.label} ${item.description} ${item.displayTag ?? item.tag}`
                     .toLowerCase()
                     .includes(q);
 
             return matchesCategory && matchesQuery;
         });
-    }, [query, category]);
+    }, [query, category, localizedItems]);
 
     const handlePress = (item: QuickAccessItem) => {
         if (item.route) {
@@ -82,6 +100,7 @@ const QuickAccessScreen = () => {
 
                     <FilterChips
                         options={QUICK_ACCESS_CATEGORIES}
+                        labels={categoryLabels}
                         selected={category}
                         onSelect={setCategory}
                     />

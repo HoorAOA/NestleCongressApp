@@ -6,11 +6,12 @@ import { Typography } from '../../../../core/theme/typography';
 
 interface FilterChipsProps {
     options: string[];
+    labels?: Record<string, string>;
     selected: string;
     onSelect: (option: string) => void;
 }
 
-const FilterChips = ({ options, selected, onSelect }: FilterChipsProps) => (
+const FilterChips = ({ options, labels, selected, onSelect }: FilterChipsProps) => (
     <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -19,6 +20,7 @@ const FilterChips = ({ options, selected, onSelect }: FilterChipsProps) => (
     >
         {options.map(option => {
             const active = option === selected;
+            const label = labels?.[option] ?? option;
 
             return (
                 <Pressable
@@ -27,7 +29,7 @@ const FilterChips = ({ options, selected, onSelect }: FilterChipsProps) => (
                     style={[styles.chip, active && styles.chipActive]}
                 >
                     <Text style={[styles.label, active && styles.labelActive]}>
-                        {option}
+                        {label}
                     </Text>
                 </Pressable>
             );

@@ -22,9 +22,6 @@ const InfoTile = ({
     variant = 'soft',
     iconFilled = false,
 }: InfoTileProps) => {
-    const { i18n } = useTranslation();
-    const isRTL = i18n.dir(i18n.language) === 'rtl';
-
     return (
         <View style={[styles.tile, { flexDirection: 'row' }, variant === 'white' ? styles.white : styles.soft]}>
             <View style={styles.iconBox}>

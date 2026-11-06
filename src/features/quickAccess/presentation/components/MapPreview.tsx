@@ -7,6 +7,7 @@ import {
     View,
 } from 'react-native';
 import { WebView } from 'react-native-webview';
+import { useTranslation } from 'react-i18next';
 
 import { Colors } from '../../../../core/theme/colors';
 import { Typography } from '../../../../core/theme/typography';
@@ -16,10 +17,13 @@ interface MapPreviewProps {
     latitude: number;
     longitude: number;
     onPress: () => void;
+    label?: string;
 }
 
-const MapPreview = ({ latitude, longitude, onPress }: MapPreviewProps) => {
+const MapPreview = ({ latitude, longitude, onPress, label }: MapPreviewProps) => {
     const [loaded, setLoaded] = useState(false);
+    const { t } = useTranslation();
+    const pillText = label ?? t('quickAccess.mapPreview');
 
     const html = useMemo(
         () =>
@@ -37,7 +41,7 @@ const MapPreview = ({ latitude, longitude, onPress }: MapPreviewProps) => {
         <Pressable
             onPress={onPress}
             accessibilityRole="button"
-            accessibilityLabel="Open directions to the venue"
+            accessibilityLabel={t('quickAccess.getDirections')}
             style={({ pressed }) => [styles.card, pressed && { opacity: 0.9 }]}
         >
             <View style={styles.fill} pointerEvents="none">
@@ -65,7 +69,7 @@ const MapPreview = ({ latitude, longitude, onPress }: MapPreviewProps) => {
             )}
 
             <View style={styles.pill}>
-                <Text style={styles.pillText}>Map Preview</Text>
+                <Text style={styles.pillText}>{pillText}</Text>
             </View>
         </Pressable>
     );

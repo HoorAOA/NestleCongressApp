@@ -22,8 +22,15 @@ export type ToolCategory = 'Event' | 'Interactive' | 'Tools';
 export interface QuickAccessItem {
     id: string;
     label: string;
+    labelEn: string;
+    labelAr: string;
     description: string;
+    descriptionEn: string;
+    descriptionAr: string;
     tag: ToolCategory;
+    tagEn: ToolCategory;
+    tagAr: string;
+    displayTag?: string;
     Icon: LucideIcon;
     route?: keyof RootStackParamList;
 }
@@ -34,61 +41,109 @@ export const QUICK_ACCESS_ITEMS: QuickAccessItem[] = [
     {
         id: 'agenda',
         label: 'Agenda',
+        labelEn: 'Agenda',
+        labelAr: 'الجدول',
         description: 'View full congress schedule',
+        descriptionEn: 'View full congress schedule',
+        descriptionAr: 'عرض جدول المؤتمر الكامل',
         tag: 'Event',
+        tagEn: 'Event',
+        tagAr: 'حدث',
         Icon: CalendarDays,
         route: 'Agenda',
     },
     {
         id: 'speakers',
         label: 'Speakers',
+        labelEn: 'Speakers',
+        labelAr: 'المتحدثون',
         description: 'Explore global medical experts',
+        descriptionEn: 'Explore global medical experts',
+        descriptionAr: 'اكتشف الخبراء الطبيين العالميين',
         tag: 'Event',
+        tagEn: 'Event',
+        tagAr: 'حدث',
         Icon: Users,
         route: 'Speakers',
     },
     {
         id: 'name-tag',
         label: 'Name Tag',
+        labelEn: 'Name Tag',
+        labelAr: 'بطاقة الاسم',
         description: 'Access your digital badge',
+        descriptionEn: 'Access your digital badge',
+        descriptionAr: 'استعرض شارتتك الرقمية',
         tag: 'Event',
+        tagEn: 'Event',
+        tagAr: 'حدث',
         Icon: Contact,
         route: 'NameTag',
     },
     {
         id: 'venue',
         label: 'Venue',
+        labelEn: 'Venue',
+        labelAr: 'المكان',
         description: 'Location, facilities and directions',
+        descriptionEn: 'Location, facilities and directions',
+        descriptionAr: 'الموقع والمرافق والاتجاهات',
         tag: 'Event',
+        tagEn: 'Event',
+        tagAr: 'حدث',
         Icon: MapPin,
         route: 'Venue',
     },
     {
         id: 'voting',
         label: 'Voting',
+        labelEn: 'Voting',
+        labelAr: 'التصويت',
         description: 'Join live polls and votes',
+        descriptionEn: 'Join live polls and votes',
+        descriptionAr: 'شارك في الاستطلاعات والتصويتات المباشرة',
         tag: 'Interactive',
+        tagEn: 'Interactive',
+        tagAr: 'تفاعلي',
         Icon: BarChart3,
     },
     {
         id: 'ask-qa',
         label: 'Ask Q&A',
+        labelEn: 'Ask Q&A',
+        labelAr: 'الأسئلة',
         description: 'Send questions to speakers',
+        descriptionEn: 'Send questions to speakers',
+        descriptionAr: 'أرسل أسئلتك إلى المتحدثين',
         tag: 'Interactive',
+        tagEn: 'Interactive',
+        tagAr: 'تفاعلي',
         Icon: MessageSquare,
     },
     {
         id: 'resources',
         label: 'Resources',
+        labelEn: 'Resources',
+        labelAr: 'الموارد',
         description: 'Download congress materials',
+        descriptionEn: 'Download congress materials',
+        descriptionAr: 'حمّل مواد المؤتمر',
         tag: 'Tools',
+        tagEn: 'Tools',
+        tagAr: 'أدوات',
         Icon: Folder,
     },
     {
         id: 'exhibitors',
         label: 'Exhibitors',
+        labelEn: 'Exhibitors',
+        labelAr: 'المعروضون',
         description: 'Discover event partners',
+        descriptionEn: 'Discover event partners',
+        descriptionAr: 'اكتشف شركاء الحدث',
         tag: 'Tools',
+        tagEn: 'Tools',
+        tagAr: 'أدوات',
         Icon: Briefcase,
     },
 ];
@@ -178,23 +233,27 @@ export const ABOUT_URL = 'https://www.ntamgroup.com/about-us';
 /* ---------- Venue ---------- */
 
 export const VENUE = {
-    name: 'Dubai International Convention & Exhibition Center',
-    dates: '22 - 23 May 2026',
-    address: 'World Trade Centre, Dubai, United Arab Emirates',
+    nameEn: 'Dubai International Convention & Exhibition Center',
+    nameAr: 'مركز دبي الدولي للمؤتمرات والمعارض',
+    datesEn: '22 - 23 May 2026',
+    datesAr: '22 - 23 مايو 2026',
+    addressEn: 'World Trade Centre, Dubai, United Arab Emirates',
+    addressAr: 'مركز التجارة العالمي، دبي، الإمارات العربية المتحدة',
     // Dubai World Trade Centre
     coordinates: { latitude: 25.2276, longitude: 55.2888 },
 };
 
 export interface Facility {
     id: string;
-    label: string;
+    labelEn: string;
+    labelAr: string;
     Icon?: LucideIcon;
     glyph?: string;
 }
 
 export const FACILITIES: Facility[] = [
-    { id: 'wifi', label: 'Free Wi-Fi', Icon: Wifi },
-    { id: 'parking', label: 'Parking', glyph: 'P' },
-    { id: 'catering', label: 'Catering', Icon: Utensils },
-    { id: 'accessible', label: 'Accessible', Icon: Accessibility },
+    { id: 'wifi', labelEn: 'Free Wi-Fi', labelAr: 'واي فاي مجاني', Icon: Wifi },
+    { id: 'parking', labelEn: 'Parking', labelAr: 'مواقف', glyph: 'P' },
+    { id: 'catering', labelEn: 'Catering', labelAr: 'خدمات الطعام', Icon: Utensils },
+    { id: 'accessible', labelEn: 'Accessible', labelAr: 'مناسب للعاجزين', Icon: Accessibility },
 ];

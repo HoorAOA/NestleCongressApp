@@ -106,6 +106,8 @@ export default {
         quickAccessFilterInteractive: 'Interactive',
         quickAccessFilterTools: 'Tools',
         venueTitle: 'Venue',
+        venueFacilities: 'Venue Facilities',
+        mapPreview: 'Map Preview',
         getDirections: 'Get directions',
         venueAddress: 'Venue Address',
         myNameTag: 'My Name Tag',

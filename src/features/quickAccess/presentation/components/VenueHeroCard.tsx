@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { useTranslation } from 'react-i18next';
 import { CalendarDays } from 'lucide-react-native';
 
 import { AppTitle } from '../../../../core/components';
@@ -13,8 +12,6 @@ interface VenueHeroCardProps {
 }
 
 const VenueHeroCard = ({ name, dates }: VenueHeroCardProps) => {
-    const { i18n } = useTranslation();
-    const isRTL = i18n.dir(i18n.language) === 'rtl';
 
     return (
         <View style={styles.card}>
@@ -23,7 +20,7 @@ const VenueHeroCard = ({ name, dates }: VenueHeroCardProps) => {
                 size={22}
                 color={Colors.white}
                 weight="extraBold"
-                align={isRTL ? 'right' : 'left'}
+                align={'start'}
                 style={{ lineHeight: 30 }}
             />
 

@@ -8,31 +8,36 @@ import { Typography } from '../../../../core/theme/typography';
 import type { Facility } from '../../data/quickAccessData';
 
 const FacilitiesCard = ({ facilities }: { facilities: Facility[] }) => {
-    const { i18n } = useTranslation();
+    const { i18n, t } = useTranslation();
     const isRTL = i18n.dir(i18n.language) === 'rtl';
+    const localeLabel = isRTL ? 'ar' : 'en';
 
     return (
         <View style={styles.card}>
             <AppTitle
-                title="Venue Facilities"
+                title={t('quickAccess.venueFacilities')}
                 size={19}
                 color={Colors.navyText}
                 weight="extraBold"
             />
 
             <View style={[styles.grid, { flexDirection: 'row' }]}>
-                {facilities.map(({ id, label, Icon, glyph }) => (
-                    <View key={id} style={[styles.item, { flexDirection: 'row' }]}>
-                        <View style={styles.iconSlot}>
-                            {Icon ? (
-                                <Icon size={20} color={Colors.primary} />
-                            ) : (
-                                <Text style={styles.glyph}>{glyph}</Text>
-                            )}
+                {facilities.map(({ id, labelEn, labelAr, Icon, glyph }) => {
+                    const label = localeLabel === 'ar' ? labelAr : labelEn;
+
+                    return (
+                        <View key={id} style={[styles.item, { flexDirection: 'row' }]}>
+                            <View style={styles.iconSlot}>
+                                {Icon ? (
+                                    <Icon size={20} color={Colors.primary} />
+                                ) : (
+                                    <Text style={styles.glyph}>{glyph}</Text>
+                                )}
+                            </View>
+                            <Text style={[styles.label, { textAlign: 'start' }]}>{label}</Text>
                         </View>
-                        <Text style={[styles.label, { textAlign: 'start' }]}>{label}</Text>
-                    </View>
-                ))}
+                    );
+                })}
             </View>
         </View>
     );

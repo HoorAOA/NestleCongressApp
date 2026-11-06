@@ -106,6 +106,8 @@ export default {
         quickAccessFilterInteractive: 'تفاعلي',
         quickAccessFilterTools: 'أدوات',
         venueTitle: 'المكان',
+        venueFacilities: 'مرافق المكان',
+        mapPreview: 'خريطة الموقع',
         getDirections: 'الحصول على الاتجاهات',
         venueAddress: 'عنوان المكان',
         myNameTag: 'بطاقة اسمي',
