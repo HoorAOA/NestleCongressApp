@@ -29,10 +29,10 @@ import {
     GoogleIcon,
     AppleIcon,
     SocialButton,
-} from '../../../core/components';
+} from '../../../../core/components';
 
-import { Colors } from '../../../core/theme/colors';
-import { Typography } from '../../../core/theme/typography';
+import { Colors } from '../../../../core/theme/colors';
+import { Typography } from '../../../../core/theme/typography';
 
 const RegisterScreen = () => {
     const navigation = useNavigation<any>();

@@ -2,8 +2,8 @@ import React from 'react';
 import { View, TextInput, Pressable, StyleSheet } from 'react-native';
 import { Search, SlidersHorizontal } from 'lucide-react-native';
 
-import { Colors } from '../../../core/theme/colors';
-import { Typography } from '../../../core/theme/typography';
+import { Colors } from '../../../../core/theme/colors';
+import { Typography } from '../../../../core/theme/typography';
 
 const SearchBar = () => (
     <View style={styles.searchBar}>

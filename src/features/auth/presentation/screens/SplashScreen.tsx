@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, StatusBar } from 'react-native';
-import MainBackground from '../../../core/components/background/MainBackground';
+import MainBackground from '../../../../core/components/background/MainBackground';
 
 const SplashScreen = () => {
   return (

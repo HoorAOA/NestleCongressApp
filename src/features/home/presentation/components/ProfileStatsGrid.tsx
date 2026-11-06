@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-import { Colors } from '../../../core/theme/colors';
-import { Typography } from '../../../core/theme/typography';
+import { Colors } from '../../../../core/theme/colors';
+import { Typography } from '../../../../core/theme/typography';
 
 type ProfileStat = {
     value: string;

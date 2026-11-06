@@ -23,9 +23,9 @@ import {
     Bookmark,
 } from 'lucide-react-native';
 
-import { AppTitle, MainBackground } from '../../../core/components';
-import { Colors } from '../../../core/theme/colors';
-import { Typography } from '../../../core/theme/typography';
+import { AppTitle, MainBackground } from '../../../../core/components';
+import { Colors } from '../../../../core/theme/colors';
+import { Typography } from '../../../../core/theme/typography';
 import {
     SearchBar,
     SectionHeader,

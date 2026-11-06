@@ -3,8 +3,8 @@ import { View, Text, Pressable, StyleSheet } from 'react-native';
 import Svg, { Circle, Defs, LinearGradient, Stop } from 'react-native-svg';
 import { Pencil } from 'lucide-react-native';
 
-import { Colors } from '../../../core/theme/colors';
-import { Typography } from '../../../core/theme/typography';
+import { Colors } from '../../../../core/theme/colors';
+import { Typography } from '../../../../core/theme/typography';
 
 const AVATAR = 108;
 

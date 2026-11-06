@@ -1,11 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Sprout } from 'lucide-react-native';
-
-import { AppTitle } from '../../../core/components';
-import { Colors } from '../../../core/theme/colors';
-import { Typography } from '../../../core/theme/typography';
-import LotusGlow from '../../../assets/icons/lotusGlow';
+import { Colors } from '../../../../core/theme/colors';
+import LotusGlow from '../../../../assets/icons/lotusGlow';
+import AppTitle from '../../../../core/components/typography/AppTitle';
+import { Typography } from '../../../../core/theme/typography';
 
 const FeaturedEventCard = () => (
     <View style={styles.featuredCard}>

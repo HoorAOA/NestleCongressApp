@@ -5,10 +5,10 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import SplashScreen from './src/features/auth/presentation/SplashScreen';
-import LoginScreen from './src/features/auth/presentation/LoginScreen';
-import RegisterScreen from './src/features/auth/presentation/RegisterScreen';
-import MainTabs from './src/features/home/presentation/MainTabs';
+import SplashScreen from './src/features/auth/presentation/screens/SplashScreen';
+import LoginScreen from './src/features/auth/presentation/screens/LoginScreen';
+import RegisterScreen from './src/features/auth/presentation/screens/RegisterScreen';
+import MainTabs from './src/features/home/presentation/screens/MainTabs';
 
 import { AuthStorage } from './src/core/storage/authStorage';
 import { AuthContext } from './src/core/auth/AuthContext';

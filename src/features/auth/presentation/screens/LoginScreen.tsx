@@ -32,14 +32,14 @@ import {
     SocialButton,
     FeatureItem,
     FeatureDivider,
-} from '../../../core/components';
+} from '../../../../core/components';
 
-import { Colors } from '../../../core/theme/colors';
+import { Colors } from '../../../../core/theme/colors';
 
 import { useNavigation } from '@react-navigation/native';
 
-import { validateLogin, LoginErrors } from '../../../core/utils/validators';
-import { useAuth } from '../../../core/auth/AuthContext';
+import { validateLogin, LoginErrors } from '../../../../core/utils/validators';
+import { useAuth } from '../../../../core/auth/AuthContext';
 
 
 /* ---------- Screen ---------- */
