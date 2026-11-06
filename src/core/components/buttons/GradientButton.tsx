@@ -1,5 +1,6 @@
 import React from 'react';
-import { I18nManager, Pressable, Text, StyleSheet, View, ViewStyle } from 'react-native';
+import { Pressable, Text, StyleSheet, View, ViewStyle } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import LinearGradient from 'react-native-linear-gradient';
 import { Colors } from '../../theme/colors';
 import { Typography } from '../../theme/typography';
@@ -21,7 +22,8 @@ const GradientButton: React.FC<GradientButtonProps> = ({
     disabled = false,
     style,
 }) => {
-    const isRTL = I18nManager.isRTL;
+    const { i18n } = useTranslation();
+    const isRTL = i18n.dir(i18n.language) === 'rtl';
 
     return (
         <Pressable
@@ -35,7 +37,7 @@ const GradientButton: React.FC<GradientButtonProps> = ({
                 end={{ x: 1, y: 0 }}
                 style={[
                     styles.button,
-                    { flexDirection: isRTL ? 'row-reverse' : 'row' },
+                    { flexDirection: 'row' },
                     disabled && styles.disabled,
                 ]}
             >

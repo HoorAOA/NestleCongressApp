@@ -33,7 +33,7 @@ const ProfileScreen = () => {
     const { signOut } = useAuth();
     const { refreshDirection } = useLanguage();
     const { t, i18n } = useTranslation();
-    const isRTL = I18nManager.isRTL;
+    const isRTL = i18n.dir(i18n.language) === 'rtl';
     const BackIcon = isRTL ? ChevronRight : ChevronLeft;
     const [languageSheetVisible, setLanguageSheetVisible] = useState(false);
     const [selectedLanguage, setSelectedLanguage] = useState<AppLanguage>('en');
@@ -81,7 +81,7 @@ const ProfileScreen = () => {
                 showsVerticalScrollIndicator={false}
                 bounces
             >
-                <View style={[styles.header, { flexDirection: isRTL ? 'row-reverse' : 'row' }] }>
+                <View style={[styles.header, { flexDirection: 'row' }] }>
                     <Pressable
                         style={styles.iconButton}
                         onPress={() => navigation.navigate('Home')}
@@ -98,7 +98,7 @@ const ProfileScreen = () => {
                         style={styles.headerTitle}
                     />
 
-                    <View style={[styles.headerActions, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                    <View style={[styles.headerActions, { flexDirection: 'row' }]}>
                         <Pressable
                             style={styles.iconButton}
                             onPress={() => setLanguageSheetVisible(true)}

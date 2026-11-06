@@ -1,5 +1,6 @@
 import React from 'react';
-import { I18nManager, View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { Bookmark } from 'lucide-react-native';
 
 import { Colors } from '../../../../core/theme/colors';
@@ -18,12 +19,13 @@ type SessionListProps = {
 };
 
 const SessionList = ({ items }: SessionListProps) => {
-    const isRTL = I18nManager.isRTL;
+    const { i18n } = useTranslation();
+    const isRTL = i18n.dir(i18n.language) === 'rtl';
 
     return (
         <View style={styles.sessionList}>
             {items.map(({ time, tag, title, place, Icon }) => (
-                <View key={title} style={[styles.sessionCard, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                <View key={title} style={[styles.sessionCard, { flexDirection: 'row' }]}>
                     <Text style={[styles.sessionTime, { textAlign: isRTL ? 'right' : 'left' }]}>{time}</Text>
 
                     <View style={styles.sessionIcon}>

@@ -1,5 +1,6 @@
 import React from 'react';
-import { I18nManager, View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { Colors } from '../../../../core/theme/colors';
 import { Typography } from '../../../../core/theme/typography';
@@ -15,13 +16,14 @@ type ProfileInfoCardProps = {
 };
 
 const ProfileInfoCard = ({ items }: ProfileInfoCardProps) => {
-    const isRTL = I18nManager.isRTL;
+    const { i18n } = useTranslation();
+    const isRTL = i18n.dir(i18n.language) === 'rtl';
 
     return (
         <View style={styles.infoCard}>
             {items.map(({ label, value, Icon }, index) => (
                 <View key={label}>
-                    <View style={[styles.infoRow, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                    <View style={[styles.infoRow, { flexDirection: 'row' }]}>
                         <View style={styles.infoIcon}>
                             <Icon size={18} color={Colors.royal} />
                         </View>

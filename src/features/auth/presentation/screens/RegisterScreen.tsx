@@ -39,8 +39,8 @@ import logger from '../../../../core/utils/logger';
 
 const RegisterScreen = () => {
     const navigation = useNavigation<any>();
-    const { t } = useTranslation();
-    const isRTL = I18nManager.isRTL;
+    const { t, i18n } = useTranslation();
+    const isRTL = i18n.dir(i18n.language) === 'rtl';
 
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
@@ -123,6 +123,7 @@ const RegisterScreen = () => {
                                 value={fullName}
                                 onChangeText={setFullName}
                                 autoCapitalize="words"
+                                 isRTL={isRTL}
                                 leftIcon={
                                     <UserRound size={18} color={Colors.blue} />
                                 }
@@ -134,6 +135,7 @@ const RegisterScreen = () => {
                                 onChangeText={setEmail}
                                 keyboardType="email-address"
                                 autoCapitalize="none"
+                                 isRTL={isRTL}
                                 leftIcon={
                                     <Mail size={18} color={Colors.blue} />
                                 }
@@ -144,12 +146,14 @@ const RegisterScreen = () => {
                                 value={organization}
                                 onChangeText={setOrganization}
                                 autoCapitalize="words"
+                                 isRTL={isRTL}
                                 leftIcon={
                                     <Building2 size={18} color={Colors.blue} />
                                 }
                             />
 
                             <AppTextInput
+                            isRTL={isRTL}
                                 placeholder={t('auth.register.password')}
                                 value={password}
                                 onChangeText={setPassword}
@@ -163,6 +167,7 @@ const RegisterScreen = () => {
                                 label={t('auth.register.consent')}
                                 checked={agreed}
                                 onChange={setAgreed}
+                                isRTL={isRTL}
                             />
 
                             <GradientButton
@@ -175,7 +180,7 @@ const RegisterScreen = () => {
                         </View>
 
                         {/* Social sign up */}
-                        <View style={[dynamicStyles.dividerRow, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                        <View style={[dynamicStyles.dividerRow, { flexDirection: 'row' }]}>
                             <View style={dynamicStyles.dividerLine} />
                             <Text style={dynamicStyles.dividerText}>
                                 {t('auth.register.socialDivider')}
@@ -183,7 +188,7 @@ const RegisterScreen = () => {
                             <View style={dynamicStyles.dividerLine} />
                         </View>
 
-                        <View style={[dynamicStyles.socialRow, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                        <View style={[dynamicStyles.socialRow, { flexDirection: 'row' }]}>
                             <SocialButton onPress={handleGoogle}>
                                 <GoogleIcon />
                             </SocialButton>
@@ -194,7 +199,7 @@ const RegisterScreen = () => {
                     </WhiteCard>
 
                     {/* Sign in */}
-                    <View style={[dynamicStyles.signInContainer, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                    <View style={[dynamicStyles.signInContainer, { flexDirection: 'row' }]}>
                         <Text style={dynamicStyles.signInText}>
                             {t('auth.register.alreadyHaveAccount')}
                         </Text>

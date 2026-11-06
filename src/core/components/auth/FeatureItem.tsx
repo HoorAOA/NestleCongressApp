@@ -1,5 +1,6 @@
 import React from 'react';
-import { I18nManager, View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { Colors } from '../../theme/colors';
 
@@ -12,10 +13,11 @@ const FeatureItem = ({
     label: string;
     tone?: 'blue' | 'gold';
 }) => {
-    const isRTL = I18nManager.isRTL;
+    const { i18n } = useTranslation();
+    const isRTL = i18n.dir(i18n.language) === 'rtl';
 
     return (
-        <View style={[styles.container, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+        <View style={[styles.container, { flexDirection: 'row' }]}>
             <View
                 style={[
                     styles.iconBox,

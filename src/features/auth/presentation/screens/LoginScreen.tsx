@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-    I18nManager,
     View,
     StyleSheet,
     Text,
@@ -16,6 +15,7 @@ import {
     UserRound,
     LockKeyhole,
     ArrowRight,
+    ArrowLeft,
     Users,
     CalendarCheck,
     Star,
@@ -31,7 +31,6 @@ import {
     MainBackground,
     GoogleIcon,
     AppleIcon,
-    ShieldBadge,
     SocialButton,
     FeatureItem,
     FeatureDivider,
@@ -50,10 +49,11 @@ import logger from '../../../../core/utils/logger';
 const LoginScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const isRTL = I18nManager.isRTL;
+
+    const { t, i18n } = useTranslation();
+    const isRTL = i18n.dir(i18n.language) === 'rtl';
 
     const { signIn } = useAuth();
-    const { t } = useTranslation();
     const [errors, setErrors] = useState<LoginErrors>({});
 
     const handleLogin = () => {
@@ -104,27 +104,37 @@ const LoginScreen = () => {
                         </View>
 
                         <View style={dynamicStyles.titleWrap}>
-                            <Text style={dynamicStyles.titleWhite}>NESTLÉ</Text>
-                            <Text style={dynamicStyles.titleGold}>CONGRESS</Text>
+                            <Text style={dynamicStyles.titleWhite}>{t('app.splashNestle')}</Text>
+                            <Text style={dynamicStyles.titleGold}>{t('app.splashCongress')}</Text>
                         </View>
 
                         <View style={dynamicStyles.bottomLine} />
 
                         <Text style={dynamicStyles.tagline}>
-                            The Next Era of{'\n'}Nutrition & Health
+                            {t('auth.login.tagline')}
                         </Text>
                     </View>
 
                     <WhiteCard>
                         {/* Header */}
-                        <View style={[dynamicStyles.cardHeader, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
-                            <View style={dynamicStyles.header}>
+                        <View
+                            style={[
+                                dynamicStyles.cardHeader
+                            ]}
+                        >
+                            <View
+                                style={[
+                                    dynamicStyles.header,
+                                    { alignItems: isRTL ? 'flex-end' : 'flex-start' },
+                                ]}
+                            >
                                 <AppTitle
                                     title={t('auth.login.title')}
                                     size={24}
                                     color={Colors.textPrimary}
                                     weight="extraBold"
-                                    style={{ lineHeight: 28 }}
+                                    align={isRTL ? 'right' : 'left'}
+                                    style={{ lineHeight: 28, width: '100%' }}
                                 />
 
                                 <AppTitle
@@ -132,7 +142,8 @@ const LoginScreen = () => {
                                     size={12}
                                     color={Colors.textSecondary}
                                     weight="medium"
-                                    style={{ lineHeight: 18 }}
+                                    align={isRTL ? 'right' : 'left'}
+                                    style={{ lineHeight: 18, width: '100%' }}
                                 />
                             </View>
 
@@ -147,6 +158,7 @@ const LoginScreen = () => {
                         {/* Login form */}
                         <View style={dynamicStyles.form}>
                             <AppTextInput
+                                isRTL={isRTL}
                                 placeholder={t('auth.login.emailPlaceholder')}
                                 value={email}
                                 onChangeText={setEmail}
@@ -156,26 +168,29 @@ const LoginScreen = () => {
                             />
 
                             <AppTextInput
+                                isRTL={isRTL}
                                 placeholder={t('auth.login.passwordPlaceholder')}
                                 value={password}
                                 onChangeText={setPassword}
                                 isPassword
-                                leftIcon={
-                                    <LockKeyhole size={18} color={Colors.blue} />
-                                }
+                                leftIcon={<LockKeyhole size={18} color={Colors.blue} />}
                             />
 
                             <GradientButton
                                 title={t('auth.login.button')}
                                 onPress={handleLogin}
                                 endIcon={
-                                    <ArrowRight size={20} color={Colors.white} />
+                                    isRTL ? (
+                                        <ArrowLeft size={20} color={Colors.white} />
+                                    ) : (
+                                        <ArrowRight size={20} color={Colors.white} />
+                                    )
                                 }
                             />
                         </View>
 
                         {/* Social login */}
-                        <View style={[dynamicStyles.dividerRow, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                        <View style={[dynamicStyles.dividerRow, { flexDirection: 'row' }]}>
                             <View style={dynamicStyles.dividerLine} />
                             <Text style={dynamicStyles.dividerText}>
                                 {t('auth.login.socialDivider')}
@@ -183,7 +198,7 @@ const LoginScreen = () => {
                             <View style={dynamicStyles.dividerLine} />
                         </View>
 
-                        <View style={[dynamicStyles.socialRow, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                        <View style={[dynamicStyles.socialRow, { flexDirection: 'row' }]}>
                             <SocialButton onPress={handleGoogle}>
                                 <GoogleIcon />
                             </SocialButton>
@@ -193,7 +208,7 @@ const LoginScreen = () => {
                         </View>
 
                         {/* Forgot password */}
-                        <View style={[dynamicStyles.forgotRow, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                        <View style={[dynamicStyles.forgotRow, { flexDirection: 'row' }]}>
                             <LockKeyhole size={14} color={Colors.blue} />
                             <AppTextButton
                                 title={t('auth.login.forgotPassword')}
@@ -204,24 +219,28 @@ const LoginScreen = () => {
                     </WhiteCard>
 
                     {/* Register */}
-<View style={[dynamicStyles.registerContainer, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                    <View style={[dynamicStyles.registerContainer, { flexDirection: 'row' }]}>
                         <Text style={dynamicStyles.registerText}>
                             {t('auth.login.noAccount')}
                         </Text>
                         <Pressable
                             onPress={handleRegister}
-                            style={[dynamicStyles.registerLink, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}
+                            style={[dynamicStyles.registerLink, { flexDirection: 'row' }]}
                             hitSlop={8}
                         >
                             <Text style={dynamicStyles.registerLinkText}>
                                 {t('auth.login.createAccount')}
                             </Text>
-                            <ArrowRight size={14} color={Colors.gold} />
+                            {isRTL ? (
+                                <ArrowLeft size={14} color={Colors.gold} />
+                            ) : (
+                                <ArrowRight size={14} color={Colors.gold} />
+                            )}
                         </Pressable>
                     </View>
 
                     {/* Feature chips */}
-                    <View style={[dynamicStyles.featuresContainer, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                    <View style={[dynamicStyles.featuresContainer, { flexDirection: 'row' }]}>
                         <FeatureItem
                             icon={<Users size={16} color={Colors.blueBright} />}
                             label={t('auth.login.globalExperts')}
@@ -237,7 +256,7 @@ const LoginScreen = () => {
                             label={t('auth.login.networking')}
                             tone="gold"
                         />
-                    </View>
+                    </View> 
                 </ScrollView>
             </KeyboardAvoidingView>
         </View>
@@ -323,14 +342,15 @@ const getStyles = (isRTL: boolean) => StyleSheet.create({
 
     /* Card */
     cardHeader: {
+        flexDirection: 'row',
+        alignItems: 'center',
         justifyContent: 'space-between',
-        alignItems: 'flex-start',
-        gap: 12,
+        width: '100%',
     },
 
     header: {
         flex: 1,
-        gap: 7,
+        gap: 7
     },
 
     form: {

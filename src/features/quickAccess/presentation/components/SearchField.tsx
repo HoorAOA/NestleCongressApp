@@ -1,5 +1,6 @@
 import React from 'react';
-import { I18nManager, Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { Search, SlidersHorizontal } from 'lucide-react-native';
 
 import { Colors } from '../../../../core/theme/colors';
@@ -21,10 +22,11 @@ const SearchField = ({
     autoFocus,
     onFilterPress,
 }: SearchFieldProps) => {
-    const isRTL = I18nManager.isRTL;
+    const { i18n } = useTranslation();
+    const isRTL = i18n.dir(i18n.language) === 'rtl';
 
     return (
-        <View style={[styles.field, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+        <View style={[styles.field, { flexDirection: 'row' }]}>
             <Search size={19} color={Colors.mutedText} />
 
             <TextInput

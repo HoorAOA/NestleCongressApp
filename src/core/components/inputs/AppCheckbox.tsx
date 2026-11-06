@@ -1,11 +1,11 @@
 import React from 'react';
 import {
-  I18nManager,
   Pressable,
   Text,
   StyleSheet,
   View,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { Check } from 'lucide-react-native';
 import { Colors } from '../../theme/colors';
 
@@ -13,18 +13,18 @@ interface AppCheckboxProps {
   label: string;
   checked: boolean;
   onChange: (checked: boolean) => void;
+  isRTL?: boolean;
 }
 
 const AppCheckbox = ({
   label,
   checked,
   onChange,
+  isRTL = false,
 }: AppCheckboxProps) => {
-  const isRTL = I18nManager.isRTL;
-
   return (
     <Pressable
-      style={[styles.container, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}
+      style={[styles.container]}
       onPress={() => onChange(!checked)}
       accessibilityRole="checkbox"
       accessibilityState={{ checked }}
@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 9,
     minHeight: 44,
+    flexDirection: 'row',
   },
   box: {
     width: 19,

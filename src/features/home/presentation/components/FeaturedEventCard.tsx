@@ -1,15 +1,17 @@
 import React from 'react';
-import { I18nManager, View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { Colors } from '../../../../core/theme/colors';
 import LotusGlow from '../../../../assets/icons/lotusGlow';
 import AppTitle from '../../../../core/components/typography/AppTitle';
 import { Typography } from '../../../../core/theme/typography';
 
 const FeaturedEventCard = () => {
-    const isRTL = I18nManager.isRTL;
+    const { i18n } = useTranslation();
+    const isRTL = i18n.dir(i18n.language) === 'rtl';
 
     return (
-        <View style={[styles.featuredCard, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+        <View style={[styles.featuredCard, { flexDirection: 'row' }]}>
             <View style={styles.featuredText}>
                 <View style={styles.featuredPill}>
                     <Text style={styles.featuredPillText}>FEATURED EVENT</Text>

@@ -1,4 +1,4 @@
-import React, { useState , ReactNode } from 'react';
+import React, { useState, ReactNode } from 'react';
 
 import { I18nManager, View, TextInput, Pressable, StyleSheet, TextInputProps, ViewStyle } from 'react-native';
 
@@ -7,11 +7,11 @@ import { Eye, EyeOff } from 'lucide-react-native';
 import { Colors } from '../../theme/colors';
 import { Typography } from '../../theme/typography';
 
-interface AppTextInputProps
-    extends Omit<TextInputProps, 'style'> {
+interface AppTextInputProps extends Omit<TextInputProps, 'style'> {
     leftIcon?: ReactNode;
     isPassword?: boolean;
     containerStyle?: ViewStyle;
+    isRTL?: boolean;
 }
 
 const AppTextInput: React.FC<AppTextInputProps> = ({
@@ -19,18 +19,22 @@ const AppTextInput: React.FC<AppTextInputProps> = ({
     isPassword = false,
     containerStyle,
     secureTextEntry,
+    isRTL = false,
     ...textInputProps
 }) => {
     const [passwordVisible, setPasswordVisible] = useState(false);
-    const isRTL = I18nManager.isRTL;
 
     const hideText = isPassword
         ? !passwordVisible
         : secureTextEntry;
 
     return (
-        <View style={[styles.container, { flexDirection: isRTL ? 'row-reverse' : 'row' }, containerStyle]}>
-
+        <View
+            style={[
+                styles.container,
+                containerStyle,
+            ]}
+        >
             {leftIcon && (
                 <View style={styles.iconContainer}>
                     {leftIcon}
@@ -41,7 +45,13 @@ const AppTextInput: React.FC<AppTextInputProps> = ({
                 {...textInputProps}
                 secureTextEntry={hideText}
                 placeholderTextColor={Colors.placeholder}
-                style={styles.input}
+                style={[
+                    styles.input,
+                    {
+                        textAlign: isRTL ? 'right' : 'left',
+                        writingDirection: isRTL ? 'rtl' : 'ltr',
+                    },
+                ]}
             />
 
             {isPassword && (
@@ -60,7 +70,6 @@ const AppTextInput: React.FC<AppTextInputProps> = ({
                     )}
                 </Pressable>
             )}
-
         </View>
     );
 };
@@ -75,6 +84,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 10,
         gap: 10,
+        flexDirection: 'row',
     },
 
     iconContainer: {

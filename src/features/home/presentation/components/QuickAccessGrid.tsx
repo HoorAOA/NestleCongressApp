@@ -1,5 +1,6 @@
 import React from 'react';
-import { I18nManager, View, Text, Pressable, StyleSheet } from 'react-native';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { Colors } from '../../../../core/theme/colors';
 import { Typography } from '../../../../core/theme/typography';
@@ -16,10 +17,11 @@ type QuickAccessGridProps = {
 };
 
 const QuickAccessGrid = ({ items, tileSize, onItemPress }: QuickAccessGridProps) => {
-    const isRTL = I18nManager.isRTL;
+    const { i18n } = useTranslation();
+    const isRTL = i18n.dir(i18n.language) === 'rtl';
 
     return (
-        <View style={[styles.grid, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+        <View style={[styles.grid, { flexDirection: 'row' }]}>
             {items.map(({ label, Icon }) => (
                 <Pressable
                     key={label}

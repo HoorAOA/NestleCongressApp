@@ -1,6 +1,8 @@
 export default {
     app: {
-        name: 'نيستلي كونجرس',
+        name: 'نستلة كونجرس',
+        splashNestle: 'نستلة',
+        splashCongress: 'كونجرس',
         language: 'اللغة',
         english: 'الإنجليزية',
         arabic: 'العربية',
@@ -17,7 +19,7 @@ export default {
             forgotPassword: 'هل نسيت كلمة المرور؟',
             noAccount: 'ليس لديك حساب؟',
             createAccount: 'إنشاء حساب',
-            badge: 'مؤتمر نستي الطبي',
+            badge: 'مؤتمر نستلة الطبي',
             tagline: 'العصر القادم من\nالتغذية والصحة',
             globalExperts: 'خبراء\nعالميون',
             knowledgeSessions: 'جلسات\nمعرفية',
@@ -25,7 +27,7 @@ export default {
         },
         register: {
             heroLine1: 'انضم إلى',
-            heroLine2: 'نيستلي',
+            heroLine2: 'نستلة',
             heroLine3: 'كونجرس',
             subtitle: 'أنشئ ملفك الشخصي للوصول\nإلى الجلسات والموارد والتصويت والأسئلة.',
             fullName: 'الاسم الكامل',
@@ -40,7 +42,7 @@ export default {
         },
     },
     home: {
-        brand: 'مؤتمر نستي الطبي',
+        brand: 'مؤتمر نستلة الطبي',
         welcome: 'مرحباً بعودتك،',
         searchPlaceholder: 'ابحث عن الجلسات والمتحدثين والموضوعات...',
         quickAccess: 'الوصول السريع',

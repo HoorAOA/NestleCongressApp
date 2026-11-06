@@ -36,8 +36,8 @@ const HomeScreen = () => {
     const { width } = useWindowDimensions();
     const tileSize = (width - SCREEN_PADDING * 2 - GRID_GAP * 3) / 4;
     const navigation = useNavigation<RootNavigationProp>();
-    const { t } = useTranslation();
-    const isRTL = I18nManager.isRTL;
+    const { t, i18n } = useTranslation();
+    const isRTL = i18n.dir(i18n.language) === 'rtl';
 
     const quickAccessItems = HOME_QUICK_ACCESS.map(item => {
         const labels: Record<string, string> = {
@@ -72,7 +72,7 @@ const HomeScreen = () => {
                 showsVerticalScrollIndicator={false}
                 keyboardShouldPersistTaps="handled"
             >
-                <View style={[styles.topBar, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                <View style={[styles.topBar, { flexDirection: 'row' }]}>
                     <Text style={[styles.brand, { textAlign: isRTL ? 'right' : 'left' }]}>{t('home.brand')}</Text>
 
                     <Pressable style={styles.bellButton}>

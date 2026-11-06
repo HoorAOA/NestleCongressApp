@@ -7,11 +7,11 @@ import { Colors } from '../../../../core/theme/colors';
 import { Typography } from '../../../../core/theme/typography';
 
 const SearchBar = () => {
-    const { t } = useTranslation();
-    const isRTL = I18nManager.isRTL;
+    const { t, i18n } = useTranslation();
+    const isRTL = i18n.dir(i18n.language) === 'rtl';
 
     return (
-        <View style={[styles.searchBar, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+        <View style={[styles.searchBar, { flexDirection: 'row' }]}>
             <Search size={18} color={Colors.whiteSoft} />
             <TextInput
                 style={[styles.searchInput, { textAlign: isRTL ? 'right' : 'left' }]}

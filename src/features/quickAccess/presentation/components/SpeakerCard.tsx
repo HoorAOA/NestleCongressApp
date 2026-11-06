@@ -1,5 +1,6 @@
 import React from 'react';
-import { I18nManager, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { ChevronLeft, ChevronRight, MapPin, Star } from 'lucide-react-native';
 
 import { Colors } from '../../../../core/theme/colors';
@@ -22,13 +23,14 @@ const SpeakerCard = ({
     onPress,
 }: SpeakerCardProps) => {
     const featured = !!speaker.featured;
-    const isRTL = I18nManager.isRTL;
+    const { i18n } = useTranslation();
+    const isRTL = i18n.dir(i18n.language) === 'rtl';
     const EndIcon = isRTL ? ChevronLeft : ChevronRight;
 
     return (
         <Pressable
             onPress={onPress}
-            style={[styles.card, { flexDirection: isRTL ? 'row-reverse' : 'row' }, featured && styles.cardFeatured]}
+            style={[styles.card, { flexDirection: 'row' }, featured && styles.cardFeatured]}
         >
             <AvatarRing
                 initials={speaker.initials}
@@ -52,7 +54,7 @@ const SpeakerCard = ({
                 <Text style={styles.name}>{speaker.name}</Text>
                 <Text style={styles.role}>{speaker.role}</Text>
 
-                <View style={[styles.countryRow, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                <View style={[styles.countryRow, { flexDirection: 'row' }]}>
                     <MapPin size={12} color={Colors.mutedText} />
                     <Text style={[styles.country, { textAlign: isRTL ? 'right' : 'left' }]}>{speaker.country}</Text>
                 </View>
@@ -64,7 +66,7 @@ const SpeakerCard = ({
                 </View>
             </View>
 
-            <View style={[styles.actions, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+            <View style={[styles.actions, { flexDirection: 'row' }]}>
                 <Pressable
                     onPress={onToggleFavorite}
                     hitSlop={10}

@@ -1,5 +1,6 @@
 import React from 'react';
-import { I18nManager, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { AppTitle } from '../../../../core/components';
 import { Colors } from '../../../../core/theme/colors';
@@ -7,7 +8,8 @@ import { Typography } from '../../../../core/theme/typography';
 import type { Facility } from '../../data/quickAccessData';
 
 const FacilitiesCard = ({ facilities }: { facilities: Facility[] }) => {
-    const isRTL = I18nManager.isRTL;
+    const { i18n } = useTranslation();
+    const isRTL = i18n.dir(i18n.language) === 'rtl';
 
     return (
         <View style={styles.card}>
@@ -18,9 +20,9 @@ const FacilitiesCard = ({ facilities }: { facilities: Facility[] }) => {
                 weight="extraBold"
             />
 
-            <View style={[styles.grid, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+            <View style={[styles.grid, { flexDirection: 'row' }]}>
                 {facilities.map(({ id, label, Icon, glyph }) => (
-                    <View key={id} style={[styles.item, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                    <View key={id} style={[styles.item, { flexDirection: 'row' }]}>
                         <View style={styles.iconSlot}>
                             {Icon ? (
                                 <Icon size={20} color={Colors.primary} />

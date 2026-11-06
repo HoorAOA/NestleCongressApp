@@ -1,5 +1,6 @@
 import React from 'react';
-import { I18nManager, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { CalendarDays } from 'lucide-react-native';
 
 import { AppTitle } from '../../../../core/components';
@@ -12,7 +13,8 @@ interface VenueHeroCardProps {
 }
 
 const VenueHeroCard = ({ name, dates }: VenueHeroCardProps) => {
-    const isRTL = I18nManager.isRTL;
+    const { i18n } = useTranslation();
+    const isRTL = i18n.dir(i18n.language) === 'rtl';
 
     return (
         <View style={styles.card}>
@@ -25,7 +27,7 @@ const VenueHeroCard = ({ name, dates }: VenueHeroCardProps) => {
                 style={{ lineHeight: 30 }}
             />
 
-            <View style={[styles.dateRow, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+            <View style={[styles.dateRow, { flexDirection: 'row' }]}>
                 <CalendarDays size={17} color={Colors.blueBright} />
                 <Text style={[styles.date, { textAlign: isRTL ? 'right' : 'left' }]}>{dates}</Text>
             </View>

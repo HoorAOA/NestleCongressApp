@@ -1,5 +1,6 @@
 import React from 'react';
-import { I18nManager, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import type { LucideIcon } from 'lucide-react-native';
 
 import { AppTitle } from '../../../../core/components';
@@ -21,10 +22,11 @@ const InfoBanner = ({
     subtitle,
     tone = 'blue',
 }: InfoBannerProps) => {
-    const isRTL = I18nManager.isRTL;
+    const { i18n } = useTranslation();
+    const isRTL = i18n.dir(i18n.language) === 'rtl';
 
     return (
-        <View style={[styles.card, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+        <View style={[styles.card, { flexDirection: 'row' }]}>
             <GradientBox
                 radius={18}
                 colors={

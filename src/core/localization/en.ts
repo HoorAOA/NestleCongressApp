@@ -1,6 +1,8 @@
 export default {
     app: {
         name: 'Nestle Congress',
+        splashNestle: 'NESTLÉ',
+        splashCongress: 'CONGRESS',
         language: 'Language',
         english: 'English',
         arabic: 'Arabic',

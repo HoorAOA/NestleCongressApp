@@ -15,7 +15,7 @@ type SectionHeaderProps = {
 const getStyles = (isRTL: boolean) =>
     StyleSheet.create({
         sectionHeader: {
-            flexDirection: isRTL ? 'row-reverse' : 'row',
+            flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
             marginTop: 28,
@@ -28,7 +28,7 @@ const getStyles = (isRTL: boolean) =>
             textAlign: isRTL ? 'right' : 'left',
         },
         viewAll: {
-            flexDirection: isRTL ? 'row-reverse' : 'row',
+            flexDirection: 'row',
             alignItems: 'center',
             gap: 2,
         },

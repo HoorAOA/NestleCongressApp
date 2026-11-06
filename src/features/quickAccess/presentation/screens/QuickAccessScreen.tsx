@@ -24,8 +24,8 @@ import {
 
 const QuickAccessScreen = () => {
     const navigation = useNavigation<RootNavigationProp>();
-    const { t } = useTranslation();
-    const isRTL = I18nManager.isRTL;
+    const { t, i18n } = useTranslation();
+    const isRTL = i18n.dir(i18n.language) === 'rtl';
 
     const [query, setQuery] = useState('');
     const [category, setCategory] = useState('All');
@@ -92,7 +92,7 @@ const QuickAccessScreen = () => {
                             showsVerticalScrollIndicator={false}
                             keyboardShouldPersistTaps="handled"
                         >
-                            <View style={[styles.grid, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                            <View style={[styles.grid, { flexDirection: 'row' }]}>
                                 {items.map(item => (
                                     <ToolCard
                                         key={item.id}

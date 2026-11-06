@@ -1,20 +1,24 @@
 import React from 'react';
 import { View, Text, StyleSheet, StatusBar } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { Colors } from '../../../../core/theme/colors';
 import MainBackground from '../../../../core/components/background/MainBackground';
 
 const SplashScreen = () => {
+  const { t } = useTranslation();
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
 
-      <MainBackground/>
+      <MainBackground />
 
       {/* Center branding */}
       <View style={styles.brandContainer}>
-        <Text style={styles.nestleText}>NESTLÉ</Text>
+        <Text style={styles.nestleText}>{t('app.splashNestle', 'NESTLÉ')}</Text>
 
         <Text style={styles.congressText}>
-          CONGRESS
+          {t('app.splashCongress', 'CONGRESS')}
         </Text>
 
         <View style={styles.bottomLine} />
@@ -28,7 +32,7 @@ export default SplashScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#061D50',
+    backgroundColor: Colors.background,
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
@@ -40,7 +44,7 @@ const styles = StyleSheet.create({
   },
 
   nestleText: {
-    color: '#FFFFFF',
+    color: Colors.white,
     fontSize: 38,
     fontWeight: '900',
     letterSpacing: 2.5,
@@ -49,7 +53,7 @@ const styles = StyleSheet.create({
   },
 
   congressText: {
-    color: '#FFD34E',
+    color: Colors.goldLight,
     fontSize: 38,
     fontWeight: '900',
     letterSpacing: 2,
@@ -61,7 +65,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 2,
     borderRadius: 3,
-    backgroundColor: '#FFD34E',
+    backgroundColor: Colors.goldLight,
     marginTop: 22,
   },
 });

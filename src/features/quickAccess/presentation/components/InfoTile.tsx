@@ -1,5 +1,6 @@
 import React from 'react';
-import { I18nManager, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import type { LucideIcon } from 'lucide-react-native';
 
 import { Colors } from '../../../../core/theme/colors';
@@ -21,10 +22,11 @@ const InfoTile = ({
     variant = 'soft',
     iconFilled = false,
 }: InfoTileProps) => {
-    const isRTL = I18nManager.isRTL;
+    const { i18n } = useTranslation();
+    const isRTL = i18n.dir(i18n.language) === 'rtl';
 
     return (
-        <View style={[styles.tile, { flexDirection: isRTL ? 'row-reverse' : 'row' }, variant === 'white' ? styles.white : styles.soft]}>
+        <View style={[styles.tile, { flexDirection: 'row' }, variant === 'white' ? styles.white : styles.soft]}>
             <View style={styles.iconBox}>
                 <Icon
                     size={20}
