@@ -49,7 +49,7 @@ const ScreenHeader = ({ title, onBack, right }: ScreenHeaderProps) => {
                 size={20}
                 color={Colors.white}
                 weight="extraBold"
-                align={isRTL ? 'right' : 'left'}
+                align={'start'}
                 style={styles.title}
             />
 

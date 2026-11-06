@@ -1,7 +1,5 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useTranslation } from 'react-i18next';
-
 import { Colors } from '../../../../core/theme/colors';
 import { Typography } from '../../../../core/theme/typography';
 
@@ -16,8 +14,6 @@ type ProfileInfoCardProps = {
 };
 
 const ProfileInfoCard = ({ items }: ProfileInfoCardProps) => {
-    const { i18n } = useTranslation();
-    const isRTL = i18n.dir(i18n.language) === 'rtl';
 
     return (
         <View style={styles.infoCard}>
@@ -28,9 +24,16 @@ const ProfileInfoCard = ({ items }: ProfileInfoCardProps) => {
                             <Icon size={18} color={Colors.royal} />
                         </View>
 
-                        <View>
+                        <View style={styles.infoContent}>
                             <Text style={[styles.infoLabel, { textAlign: 'start' }]}>{label}</Text>
-                            <Text style={[styles.infoValue, { textAlign: 'start' }]}>{value}</Text>
+                            <Text
+                                style={[
+                                    styles.infoValue,
+                                    {writingDirection: 'ltr' },
+                                ]}
+                            >
+                                {value}
+                            </Text>
                         </View>
                     </View>
 
@@ -57,6 +60,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: 14,
         paddingVertical: 12,
+    },
+    infoContent: {
+        flex: 1,
     },
     infoIcon: {
         width: 42,

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-    I18nManager,
     View,
     Text,
     ScrollView,
@@ -27,6 +26,8 @@ import {
     ProfileStatsGrid,
 } from '../components';
 import { PROFILE_INFO, PROFILE_STATS, PROFILE_USER } from '../../data/profileData';
+import RNRestart from 'react-native-restart';
+import { I18nManager } from 'react-native';
 
 const ProfileScreen = () => {
     const navigation = useNavigation<any>();
@@ -51,15 +52,20 @@ const ProfileScreen = () => {
     }, [i18n]);
 
     const handleLanguageChange = async (language: AppLanguage) => {
-        await LanguageStorage.setLanguage(language);
+        const isRTL = language === 'ar';
+    const previousRTL = I18nManager.isRTL;
 
-        await i18n.changeLanguage(language);
+    applyLanguageDirection(language);
+    await LanguageStorage.setLanguage(language);
+    await i18n.changeLanguage(language);
 
+    if (previousRTL !== isRTL) {
+        RNRestart.restart();
+    } else {
         setSelectedLanguage(language);
-
         refreshDirection();
-
         setLanguageSheetVisible(false);
+    }
     };
 
     const profileInfo = PROFILE_INFO.map(item => ({
@@ -94,7 +100,7 @@ const ProfileScreen = () => {
                         size={20}
                         color={Colors.white}
                         weight="extraBold"
-                        align={isRTL ? 'right' : 'left'}
+                        align={'start'}
                         style={styles.headerTitle}
                     />
 
