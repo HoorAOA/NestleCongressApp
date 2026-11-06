@@ -4,8 +4,8 @@ import { I18nManager } from 'react-native';
 import { getLocales } from 'react-native-localize';
 
 import { LanguageStorage, type AppLanguage } from '../storage/languageStorage';
-import en from './en';
-import ar from './ar';
+import en from './locals/en';
+import ar from './locals/ar';
 
 const resources = {
     en: { translation: en },
