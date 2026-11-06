@@ -1,13 +1,13 @@
-const isDevelopment = __DEV__ === true;
+import { environment } from '../config';
 
 const logger = {
     log: (...args: unknown[]) => {
-        if (isDevelopment) {
+        if (environment.enableLogs) {
             console.log(...args);
         }
     },
     error: (...args: unknown[]) => {
-        if (isDevelopment) {
+        if (environment.enableLogs) {
             console.error(...args);
         }
     },
