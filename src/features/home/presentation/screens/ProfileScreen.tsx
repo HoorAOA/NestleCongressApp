@@ -41,6 +41,7 @@ const ProfileScreen = () => {
     const [logoutModalVisible, setLogoutModalVisible] = useState(false);
     const [selectedLanguage, setSelectedLanguage] = useState<AppLanguage>('en');
     const [storedUsername, setStoredUsername] = useState(PROFILE_USER.nameEn);
+    const [storedEmail, setStoredEmail] = useState(PROFILE_USER.email);
     const profileUser = {
         ...PROFILE_USER,
         name: storedUsername || (i18n.language.startsWith('ar') ? PROFILE_USER.nameAr : PROFILE_USER.nameEn),
@@ -60,6 +61,9 @@ const ProfileScreen = () => {
             const profile = await UserStorage.getUserProfile();
             if (profile?.username) {
                 setStoredUsername(profile.username);
+            }
+            if (profile?.email) {
+                setStoredEmail(profile.email);
             }
         };
 
@@ -92,6 +96,7 @@ const ProfileScreen = () => {
     const profileInfo = PROFILE_INFO.map(item => ({
         ...item,
         label: item.label === 'Email' ? t('profile.email') : item.label === 'Phone' ? t('profile.phone') : t('profile.location'),
+        value: item.label === 'Email' ? storedEmail : item.value,
     }));
 
     const profileStats = PROFILE_STATS.map(item => ({

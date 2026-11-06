@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-    I18nManager,
     View,
     Text,
     ScrollView,
@@ -26,6 +25,7 @@ import {
 
 import { useNavigation } from '@react-navigation/native';
 import type { RootNavigationProp } from '../../../../core/navigation/types';
+import { UserStorage } from '../../../../core/storage/userStorage';
 import { QUICK_ACCESS_ROUTES } from '../../../quickAccess/data/quickAccessData';
 import { HOME_QUICK_ACCESS, HOME_SESSIONS, HOME_USER_NAME } from '../../data/homeData';
 
@@ -38,6 +38,18 @@ const HomeScreen = () => {
     const navigation = useNavigation<RootNavigationProp>();
     const { t, i18n } = useTranslation();
     const isRTL = i18n.dir(i18n.language) === 'rtl';
+    const [storedUsername, setStoredUsername] = useState(HOME_USER_NAME);
+
+    useEffect(() => {
+        const syncUserProfile = async () => {
+            const profile = await UserStorage.getUserProfile();
+            if (profile?.username) {
+                setStoredUsername(profile.username);
+            }
+        };
+
+        syncUserProfile();
+    }, []);
 
     const isArabic = i18n.language.startsWith('ar');
 
@@ -82,7 +94,7 @@ const HomeScreen = () => {
                 </View>
 
                 <AppTitle
-                    title={`${t('home.welcome')}\n${HOME_USER_NAME} 👋`}
+                    title={`${t('home.welcome')}\n${storedUsername} 👋`}
                     size={28}
                     color={Colors.white}
                     weight="extraBold"
