@@ -5,6 +5,7 @@ import { Sprout } from 'lucide-react-native';
 import { AppTitle } from '../../../core/components';
 import { Colors } from '../../../core/theme/colors';
 import { Typography } from '../../../core/theme/typography';
+import LotusGlow from '../../../assets/icons/lotusGlow';
 
 const FeaturedEventCard = () => (
     <View style={styles.featuredCard}>
@@ -23,9 +24,8 @@ const FeaturedEventCard = () => (
 
             <Text style={styles.featuredMeta}>May 22 - 23, 2026  •  Dubai, UAE</Text>
         </View>
-
         <View style={styles.featuredGlow}>
-            <Sprout size={34} color={Colors.white} fill={Colors.white} />
+            <LotusGlow />
         </View>
     </View>
 );
@@ -65,16 +65,11 @@ const styles = StyleSheet.create({
         fontFamily: Typography.medium,
     },
     featuredGlow: {
-        width: 64,
-        height: 64,
-        borderRadius: 32,
+        width: 96,
+        height: 96,
+        marginRight: -8,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: Colors.featureGlowBackground,
-        shadowColor: Colors.featureGlowShadow,
-        shadowOpacity: 0.5,
-        shadowRadius: 18,
-        shadowOffset: { width: 0, height: 0 },
     },
 });
 
