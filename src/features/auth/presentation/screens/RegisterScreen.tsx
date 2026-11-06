@@ -123,7 +123,6 @@ const RegisterScreen = () => {
                                 value={fullName}
                                 onChangeText={setFullName}
                                 autoCapitalize="words"
-                                 isRTL={isRTL}
                                 leftIcon={
                                     <UserRound size={18} color={Colors.blue} />
                                 }
@@ -135,7 +134,6 @@ const RegisterScreen = () => {
                                 onChangeText={setEmail}
                                 keyboardType="email-address"
                                 autoCapitalize="none"
-                                 isRTL={isRTL}
                                 leftIcon={
                                     <Mail size={18} color={Colors.blue} />
                                 }
@@ -146,17 +144,16 @@ const RegisterScreen = () => {
                                 value={organization}
                                 onChangeText={setOrganization}
                                 autoCapitalize="words"
-                                 isRTL={isRTL}
                                 leftIcon={
                                     <Building2 size={18} color={Colors.blue} />
                                 }
                             />
 
                             <AppTextInput
-                            isRTL={isRTL}
                                 placeholder={t('auth.register.password')}
                                 value={password}
                                 onChangeText={setPassword}
+                                isRTL={isRTL}
                                 isPassword
                                 leftIcon={
                                     <LockKeyhole size={18} color={Colors.blue} />

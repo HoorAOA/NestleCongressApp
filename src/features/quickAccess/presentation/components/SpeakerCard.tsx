@@ -56,7 +56,7 @@ const SpeakerCard = ({
 
                 <View style={[styles.countryRow, { flexDirection: 'row' }]}>
                     <MapPin size={12} color={Colors.mutedText} />
-                    <Text style={[styles.country, { textAlign: isRTL ? 'right' : 'left' }]}>{speaker.country}</Text>
+                    <Text style={[styles.country, { textAlign: 'start' }]}>{speaker.country}</Text>
                 </View>
 
                 <View style={styles.topic}>

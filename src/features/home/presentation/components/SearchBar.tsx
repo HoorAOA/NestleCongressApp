@@ -14,7 +14,7 @@ const SearchBar = () => {
         <View style={[styles.searchBar, { flexDirection: 'row' }]}>
             <Search size={18} color={Colors.whiteSoft} />
             <TextInput
-                style={[styles.searchInput, { textAlign: isRTL ? 'right' : 'left' }]}
+                style={[styles.searchInput, { textAlign: 'start' }]}
                 placeholder={t('home.searchPlaceholder')}
                 placeholderTextColor={Colors.whiteSoftAlt}
                 numberOfLines={1}

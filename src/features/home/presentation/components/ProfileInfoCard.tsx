@@ -29,8 +29,8 @@ const ProfileInfoCard = ({ items }: ProfileInfoCardProps) => {
                         </View>
 
                         <View>
-                            <Text style={[styles.infoLabel, { textAlign: isRTL ? 'right' : 'left' }]}>{label}</Text>
-                            <Text style={[styles.infoValue, { textAlign: isRTL ? 'right' : 'left' }]}>{value}</Text>
+                            <Text style={[styles.infoLabel, { textAlign: 'start' }]}>{label}</Text>
+                            <Text style={[styles.infoValue, { textAlign: 'start' }]}>{value}</Text>
                         </View>
                     </View>
 

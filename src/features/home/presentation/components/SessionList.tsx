@@ -19,23 +19,20 @@ type SessionListProps = {
 };
 
 const SessionList = ({ items }: SessionListProps) => {
-    const { i18n } = useTranslation();
-    const isRTL = i18n.dir(i18n.language) === 'rtl';
-
     return (
         <View style={styles.sessionList}>
             {items.map(({ time, tag, title, place, Icon }) => (
                 <View key={title} style={[styles.sessionCard, { flexDirection: 'row' }]}>
-                    <Text style={[styles.sessionTime, { textAlign: isRTL ? 'right' : 'left' }]}>{time}</Text>
+                    <Text style={[styles.sessionTime]}>{time}</Text>
 
                     <View style={styles.sessionIcon}>
                         <Icon size={18} color={Colors.blueBright} />
                     </View>
 
                     <View style={styles.sessionBody}>
-                        <Text style={[styles.sessionTag, { textAlign: isRTL ? 'right' : 'left' }]}>{tag}</Text>
-                        <Text style={[styles.sessionTitle, { textAlign: isRTL ? 'right' : 'left' }]}>{title}</Text>
-                        <Text style={[styles.sessionPlace, { textAlign: isRTL ? 'right' : 'left' }]}>{place}</Text>
+                        <Text style={[styles.sessionTag]}>{tag}</Text>
+                        <Text style={[styles.sessionTitle]}>{title}</Text>
+                        <Text style={[styles.sessionPlace]}>{place}</Text>
                     </View>
 
                     <Bookmark size={18} color={Colors.whiteSoftAlt3} />
@@ -81,16 +78,19 @@ const styles = StyleSheet.create({
         fontSize: 8,
         fontFamily: Typography.bold,
         letterSpacing: 0.8,
+        textAlign: 'start',
     },
     sessionTitle: {
         color: Colors.white,
         fontSize: 13,
         fontFamily: Typography.bold,
+        textAlign: 'start',
     },
     sessionPlace: {
         color: Colors.whiteSoftAlt3,
         fontSize: 10,
         fontFamily: Typography.medium,
+        textAlign: 'start',
     },
 });
 

@@ -33,7 +33,7 @@ const AppCheckbox = ({
         {checked && <Check size={13} color="#FFFFFF" strokeWidth={3} />}
       </View>
 
-      <Text style={[styles.label, { textAlign: isRTL ? 'right' : 'left' }]}>{label}</Text>
+      <Text style={[styles.label, { textAlign: 'start' }]}>{label}</Text>
     </Pressable>
   );
 };

@@ -30,7 +30,7 @@ const FacilitiesCard = ({ facilities }: { facilities: Facility[] }) => {
                                 <Text style={styles.glyph}>{glyph}</Text>
                             )}
                         </View>
-                        <Text style={[styles.label, { textAlign: isRTL ? 'right' : 'left' }]}>{label}</Text>
+                        <Text style={[styles.label, { textAlign: 'start' }]}>{label}</Text>
                     </View>
                 ))}
             </View>

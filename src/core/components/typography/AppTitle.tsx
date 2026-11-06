@@ -27,6 +27,7 @@ const AppTitle: React.FC<AppTitleProps> = ({
     color = Colors.textPrimary,
     size = 22,
     weight = 'bold',
+    align = 'start',
     style,
 }) => {
 
@@ -38,7 +39,7 @@ const AppTitle: React.FC<AppTitleProps> = ({
                     color,
                     fontSize: size,
                     fontFamily: fontWeights[weight],
-                    textAlign: 'start',
+                    textAlign: align,
                 },
                 style,
             ]}

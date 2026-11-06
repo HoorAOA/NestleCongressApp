@@ -39,20 +39,20 @@ const HomeScreen = () => {
     const { t, i18n } = useTranslation();
     const isRTL = i18n.dir(i18n.language) === 'rtl';
 
-    const quickAccessItems = HOME_QUICK_ACCESS.map(item => {
-        const labels: Record<string, string> = {
-            Agenda: t('quickAccess.agenda'),
-            Speakers: t('quickAccess.speakers'),
-            'Name Tag': t('quickAccess.nameTag'),
-            Venue: t('quickAccess.venue'),
-            Voting: t('quickAccess.voting'),
-            'Ask Q&A': t('quickAccess.askQa'),
-            Resources: t('quickAccess.resources'),
-            Exhibitors: t('quickAccess.exhibitors'),
-        };
+    const isArabic = i18n.language.startsWith('ar');
 
-        return { ...item, label: labels[item.label] ?? item.label };
-    });
+    const quickAccessItems = HOME_QUICK_ACCESS.map(item => ({
+        ...item,
+        label: isArabic ? item.labelAr : item.labelEn,
+    }));
+
+    const sessionItems = HOME_SESSIONS.map(item => ({
+        ...item,
+        time: isArabic ? item.timeAr : item.timeEn,
+        tag: isArabic ? item.tagAr : item.tagEn,
+        title: isArabic ? item.titleAr : item.titleEn,
+        place: isArabic ? item.placeAr : item.placeEn,
+    }));
 
     const openQuickAccessItem = (label: string) => {
         const selectedItem = quickAccessItems.find(item => item.label === label);
@@ -73,7 +73,7 @@ const HomeScreen = () => {
                 keyboardShouldPersistTaps="handled"
             >
                 <View style={[styles.topBar, { flexDirection: 'row' }]}>
-                    <Text style={[styles.brand, { textAlign: isRTL ? 'right' : 'left' }]}>{t('home.brand')}</Text>
+                    <Text style={[styles.brand, { textAlign: 'start' }]}>{t('home.brand')}</Text>
 
                     <Pressable style={styles.bellButton}>
                         <Bell size={20} color={Colors.white} />
@@ -107,7 +107,7 @@ const HomeScreen = () => {
                     title={t('home.upcomingSessions')}
                     onViewAllPress={() => navigation.navigate('Agenda')}
                 />
-                <SessionList items={HOME_SESSIONS} />
+                <SessionList items={sessionItems} />
             </ScrollView>
         </View>
     );

@@ -8,15 +8,15 @@ import { House, UserRound } from 'lucide-react-native';
 import { Colors } from '../../../../core/theme/colors';
 import { Typography } from '../../../../core/theme/typography';
 
-const TAB_CONFIG = {
-    Home: { label: 'Home', Icon: House },
-    Profile: { label: 'Profile', Icon: UserRound },
-} as const;
-
 const CustomTabBar = ({ state, navigation }: BottomTabBarProps) => {
     const insets = useSafeAreaInsets();
-    const { i18n } = useTranslation();
+    const { i18n, t } = useTranslation();
     const isRTL = i18n.dir(i18n.language) === 'rtl';
+
+    const TAB_CONFIG = {
+        Home: { label: t('home.tabLabel'), Icon: House },
+        Profile: { label: t('profile.tabLabel'), Icon: UserRound },
+    } as const;
 
     return (
         <View

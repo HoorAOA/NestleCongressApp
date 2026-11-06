@@ -25,7 +25,7 @@ const ProfileStatsGrid = ({ items }: ProfileStatsGridProps) => {
                 <View key={label} style={styles.statCard}>
                     <Icon size={22} color={Colors.royal} />
                     <Text style={styles.statValue}>{value}</Text>
-                    <Text style={[styles.statLabel, { textAlign: isRTL ? 'right' : 'left' }]}>{label}</Text>
+                    <Text style={[styles.statLabel, { textAlign: 'start' }]}>{label}</Text>
                 </View>
             ))}
         </View>

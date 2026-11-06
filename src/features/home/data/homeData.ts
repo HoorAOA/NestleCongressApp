@@ -14,43 +14,56 @@ import type { LucideIcon } from 'lucide-react-native';
 export const HOME_USER_NAME = 'Dr. Testing';
 
 export interface HomeQuickAccessItem {
-    label: string;
+    labelEn: string;
+    labelAr: string;
     Icon: LucideIcon;
     route?: keyof import('../../../core/navigation/types').RootStackParamList;
 }
 
 export const HOME_QUICK_ACCESS: HomeQuickAccessItem[] = [
-    { label: 'Agenda', Icon: CalendarDays, route: 'Agenda' },
-    { label: 'Speakers', Icon: Users, route: 'Speakers' },
-    { label: 'Name Tag', Icon: Contact, route: 'NameTag' },
-    { label: 'Venue', Icon: MapPin, route: 'Venue' },
-    { label: 'Voting', Icon: BarChart3 },
-    { label: 'Ask Q&A', Icon: MessageSquare },
-    { label: 'Resources', Icon: Folder },
-    { label: 'Exhibitors', Icon: Briefcase },
+    { labelEn: 'Agenda', labelAr: 'الجدول', Icon: CalendarDays, route: 'Agenda' },
+    { labelEn: 'Speakers', labelAr: 'المتحدثون', Icon: Users, route: 'Speakers' },
+    { labelEn: 'Name Tag', labelAr: 'بطاقة الاسم', Icon: Contact, route: 'NameTag' },
+    { labelEn: 'Venue', labelAr: 'المكان', Icon: MapPin, route: 'Venue' },
+    { labelEn: 'Voting', labelAr: 'التصويت', Icon: BarChart3 },
+    { labelEn: 'Ask Q&A', labelAr: 'الأسئلة', Icon: MessageSquare },
+    { labelEn: 'Resources', labelAr: 'الموارد', Icon: Folder },
+    { labelEn: 'Exhibitors', labelAr: 'المعروضون', Icon: Briefcase },
 ];
 
 export interface HomeSessionItem {
-    time: string;
-    tag: string;
-    title: string;
-    place: string;
+    timeEn: string;
+    timeAr: string;
+    tagEn: string;
+    tagAr: string;
+    titleEn: string;
+    titleAr: string;
+    placeEn: string;
+    placeAr: string;
     Icon: LucideIcon;
 }
 
 export const HOME_SESSIONS: HomeSessionItem[] = [
     {
-        time: '08:30 AM',
-        tag: 'KEYNOTE',
-        title: 'Opening Ceremony',
-        place: 'Main Auditorium',
+        timeEn: '08:30 AM',
+        timeAr: '08:30 صباحاً',
+        tagEn: 'KEYNOTE',
+        tagAr: 'مقدمة رئيسية',
+        titleEn: 'Opening Ceremony',
+        titleAr: 'حفل الافتتاح',
+        placeEn: 'Main Auditorium',
+        placeAr: 'القاعة الرئيسية',
         Icon: Mic,
     },
     {
-        time: '09:30 AM',
-        tag: 'KEYNOTE',
-        title: 'Welcome & Introduction',
-        place: 'Dr. Hassan Ali',
+        timeEn: '09:30 AM',
+        timeAr: '09:30 صباحاً',
+        tagEn: 'KEYNOTE',
+        tagAr: 'مقدمة رئيسية',
+        titleEn: 'Welcome & Introduction',
+        titleAr: 'الترحيب والمقدمة',
+        placeEn: 'Dr. Hassan Ali',
+        placeAr: 'د. حسن علي',
         Icon: Mic,
     },
 ];

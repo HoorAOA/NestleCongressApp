@@ -36,8 +36,8 @@ const InfoTile = ({
             </View>
 
             <View style={styles.text}>
-                <Text style={[styles.label, { textAlign: isRTL ? 'right' : 'left' }]}>{label}</Text>
-                <Text style={[styles.value, { textAlign: isRTL ? 'right' : 'left' }]}>{value}</Text>
+                <Text style={[styles.label, { textAlign: 'start' }]}>{label}</Text>
+                <Text style={[styles.value, { textAlign: 'start' }]}>{value}</Text>
             </View>
         </View>
     );

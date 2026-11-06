@@ -32,7 +32,7 @@ const QuickAccessGrid = ({ items, tileSize, onItemPress }: QuickAccessGridProps)
                     ]}
                 >
                     <Icon size={24} color={Colors.blueBright} />
-                    <Text style={[styles.tileLabel, { textAlign: isRTL ? 'right' : 'left' }]} numberOfLines={1}>
+                    <Text style={[styles.tileLabel, { textAlign: 'start' }]} numberOfLines={1}>
                         {label}
                     </Text>
                 </Pressable>

@@ -45,9 +45,9 @@ const InfoBanner = ({
                     size={18}
                     color={Colors.white}
                     weight="extraBold"
-                    style={{ lineHeight: 24, textAlign: isRTL ? 'right' : 'left' }}
+                    style={{ lineHeight: 24, textAlign: 'start' }}
                 />
-                <Text style={[styles.subtitle, { textAlign: isRTL ? 'right' : 'left' }]}>{subtitle}</Text>
+                <Text style={[styles.subtitle, { textAlign: 'start' }]}>{subtitle}</Text>
             </View>
         </View>
     );

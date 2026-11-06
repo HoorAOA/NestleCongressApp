@@ -25,7 +25,7 @@ const getStyles = (isRTL: boolean) =>
             color: Colors.white,
             fontSize: 18,
             fontFamily: Typography.extraBold,
-            textAlign: isRTL ? 'right' : 'left',
+            textAlign: 'start',
         },
         viewAll: {
             flexDirection: 'row',

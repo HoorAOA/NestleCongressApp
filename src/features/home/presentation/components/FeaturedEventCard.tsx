@@ -7,25 +7,25 @@ import AppTitle from '../../../../core/components/typography/AppTitle';
 import { Typography } from '../../../../core/theme/typography';
 
 const FeaturedEventCard = () => {
-    const { i18n } = useTranslation();
+    const { i18n, t } = useTranslation();
     const isRTL = i18n.dir(i18n.language) === 'rtl';
 
     return (
         <View style={[styles.featuredCard, { flexDirection: 'row' }]}>
             <View style={styles.featuredText}>
                 <View style={styles.featuredPill}>
-                    <Text style={styles.featuredPillText}>FEATURED EVENT</Text>
+                    <Text style={styles.featuredPillText}>{t('home.featuredEvent')}</Text>
                 </View>
 
                 <AppTitle
-                    title={'The Next Era of\nNutrition & Health'}
+                    title={t('home.nextEraTitle')}
                     size={20}
                     color={Colors.white}
                     weight="extraBold"
-                    style={{ lineHeight: 26, marginTop: 14, textAlign: isRTL ? 'right' : 'left' }}
+                    style={{ lineHeight: 26, marginTop: 14, textAlign: 'start' }}
                 />
 
-                <Text style={[styles.featuredMeta, { textAlign: isRTL ? 'right' : 'left' }]}>May 22 - 23, 2026  •  Dubai, UAE</Text>
+                <Text style={[styles.featuredMeta, { textAlign: 'start' }]}>{t('home.eventDateLocation')}</Text>
             </View>
             <View style={[styles.featuredGlow, { marginRight: isRTL ? 0 : -8, marginLeft: isRTL ? -8 : 0 }]}>
                 <LotusGlow />

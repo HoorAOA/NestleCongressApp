@@ -125,7 +125,7 @@ const LoginScreen = () => {
                             <View
                                 style={[
                                     dynamicStyles.header,
-                                    { alignItems: isRTL ? 'flex-end' : 'flex-start' },
+                                    { alignItems: 'flex-start' },
                                 ]}
                             >
                                 <AppTitle
@@ -133,7 +133,6 @@ const LoginScreen = () => {
                                     size={24}
                                     color={Colors.textPrimary}
                                     weight="extraBold"
-                                    align={isRTL ? 'right' : 'left'}
                                     style={{ lineHeight: 28, width: '100%' }}
                                 />
 
@@ -142,7 +141,6 @@ const LoginScreen = () => {
                                     size={12}
                                     color={Colors.textSecondary}
                                     weight="medium"
-                                    align={isRTL ? 'right' : 'left'}
                                     style={{ lineHeight: 18, width: '100%' }}
                                 />
                             </View>
@@ -158,7 +156,6 @@ const LoginScreen = () => {
                         {/* Login form */}
                         <View style={dynamicStyles.form}>
                             <AppTextInput
-                                isRTL={isRTL}
                                 placeholder={t('auth.login.emailPlaceholder')}
                                 value={email}
                                 onChangeText={setEmail}
@@ -168,10 +165,10 @@ const LoginScreen = () => {
                             />
 
                             <AppTextInput
-                                isRTL={isRTL}
                                 placeholder={t('auth.login.passwordPlaceholder')}
                                 value={password}
                                 onChangeText={setPassword}
+                                isRTL={isRTL}
                                 isPassword
                                 leftIcon={<LockKeyhole size={18} color={Colors.blue} />}
                             />

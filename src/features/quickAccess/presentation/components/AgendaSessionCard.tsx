@@ -57,13 +57,13 @@ const AgendaSessionCard = ({
             </View>
 
             <View style={styles.body}>
-                <Text style={[styles.category, { color: accent, textAlign: isRTL ? 'right' : 'left' }]}>
+                <Text style={[styles.category, { color: accent, textAlign: 'start' }]}>
                     {session.category.toUpperCase()}
                 </Text>
-                <Text style={[styles.title, { textAlign: isRTL ? 'right' : 'left' }]}>{session.title}</Text>
+                <Text style={[styles.title, { textAlign: 'start' }]}>{session.title}</Text>
                 <View style={[styles.placeRow, { flexDirection: 'row' }]}>
                     <MapPin size={12} color={Colors.mutedText} />
-                    <Text style={[styles.place, { textAlign: isRTL ? 'right' : 'left' }]} numberOfLines={1}>
+                    <Text style={[styles.place, { textAlign: 'start' }]} numberOfLines={1}>
                         {session.place}
                     </Text>
                 </View>

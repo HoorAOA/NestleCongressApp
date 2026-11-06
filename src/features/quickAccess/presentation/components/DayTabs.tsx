@@ -32,10 +32,10 @@ const DayTabs = ({ days, selected, onSelect }: DayTabsProps) => {
                         onPress={() => onSelect(day)}
                         style={[styles.tab, active && styles.tabActive]}
                     >
-                        <Text style={[styles.label, active && styles.labelActive, { textAlign: isRTL ? 'right' : 'left' }]}>
+                        <Text style={[styles.label, active && styles.labelActive, { textAlign: 'start' }]}>
                             {label}
                         </Text>
-                        <Text style={[styles.date, active && styles.dateActive, { textAlign: isRTL ? 'right' : 'left' }]}>
+                        <Text style={[styles.date, active && styles.dateActive, { textAlign: 'start' }]}>
                             {shortDate}
                         </Text>
                     </Pressable>

@@ -30,7 +30,7 @@ const SearchField = ({
             <Search size={19} color={Colors.mutedText} />
 
             <TextInput
-                style={[styles.input, { textAlign: isRTL ? 'right' : 'left' }]}
+                style={[styles.input, { textAlign: 'start' }]}
                 value={value}
                 onChangeText={onChangeText}
                 placeholder={placeholder}

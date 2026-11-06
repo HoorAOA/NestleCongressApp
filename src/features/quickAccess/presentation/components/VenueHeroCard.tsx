@@ -29,7 +29,7 @@ const VenueHeroCard = ({ name, dates }: VenueHeroCardProps) => {
 
             <View style={[styles.dateRow, { flexDirection: 'row' }]}>
                 <CalendarDays size={17} color={Colors.blueBright} />
-                <Text style={[styles.date, { textAlign: isRTL ? 'right' : 'left' }]}>{dates}</Text>
+                <Text style={[styles.date, { textAlign: 'start' }]}>{dates}</Text>
             </View>
         </View>
     );

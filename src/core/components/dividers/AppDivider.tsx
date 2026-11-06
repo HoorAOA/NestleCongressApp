@@ -13,7 +13,7 @@ const AppDivider = ({ title = 'OR' }: AppDividerProps) => {
   return (
     <View style={[styles.container, { flexDirection: 'row' }]}>
       <View style={styles.line} />
-      <Text style={[styles.title, { textAlign: isRTL ? 'right' : 'left' }]}>{title}</Text>
+      <Text style={[styles.title, { textAlign: 'start' }]}>{title}</Text>
       <View style={styles.line} />
     </View>
   );

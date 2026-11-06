@@ -1,6 +1,6 @@
 import React, { useState, ReactNode } from 'react';
 
-import { I18nManager, View, TextInput, Pressable, StyleSheet, TextInputProps, ViewStyle } from 'react-native';
+import { View, TextInput, Pressable, StyleSheet, TextInputProps, ViewStyle } from 'react-native';
 
 import { Eye, EyeOff } from 'lucide-react-native';
 
@@ -19,7 +19,7 @@ const AppTextInput: React.FC<AppTextInputProps> = ({
     isPassword = false,
     containerStyle,
     secureTextEntry,
-    isRTL = false,
+     isRTL = false,
     ...textInputProps
 }) => {
     const [passwordVisible, setPasswordVisible] = useState(false);
@@ -45,12 +45,9 @@ const AppTextInput: React.FC<AppTextInputProps> = ({
                 {...textInputProps}
                 secureTextEntry={hideText}
                 placeholderTextColor={Colors.placeholder}
+                textAlign={isRTL ? 'right' : 'start'}
                 style={[
-                    styles.input,
-                    {
-                        textAlign: isRTL ? 'right' : 'left',
-                        writingDirection: isRTL ? 'rtl' : 'ltr',
-                    },
+                    styles.input
                 ]}
             />
 
