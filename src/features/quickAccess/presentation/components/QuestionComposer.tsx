@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { Check, Send } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 
 import { AppTitle, GradientButton } from '../../../../core/components';
 import { Colors } from '../../../../core/theme/colors';
@@ -29,53 +30,62 @@ const QuestionComposer = ({
     error,
     success,
     inputRef,
-}: QuestionComposerProps) => (
-    <View style={styles.card}>
-        <AppTitle
-            title="Write your question"
-            size={20}
-            color={Colors.navyText}
-            weight="extraBold"
-        />
+}: QuestionComposerProps) => {
+    const { t } = useTranslation();
+    const categoryLabels = QUESTION_CATEGORIES.reduce((acc, option) => {
+        acc[option] = t(`quickAccess.askQaCategories.${option}`);
+        return acc;
+    }, {} as Record<string, string>);
 
-        <View>
-            <TextInput
-                ref={inputRef}
-                style={[styles.input, !!error && styles.inputError]}
-                value={value}
-                onChangeText={onChangeText}
-                placeholder="Type your question for the speaker..."
-                placeholderTextColor={Colors.mutedText}
-                multiline
-                maxLength={280}
-                textAlignVertical="top"
+    return (
+        <View style={styles.card}>
+            <AppTitle
+                title={t('quickAccess.askQaComposerTitle')}
+                size={20}
+                color={Colors.navyText}
+                weight="extraBold"
             />
-            {!!error && <Text style={styles.error}>{error}</Text>}
-        </View>
 
-        <FilterChips
-            variant="soft"
-            options={QUESTION_CATEGORIES}
-            selected={category}
-            onSelect={onCategoryChange}
-        />
-
-        <GradientButton
-            title="Submit Question"
-            onPress={onSubmit}
-            startIcon={<Send size={20} color={Colors.white} />}
-        />
-
-        {success && (
-            <View style={styles.success}>
-                <Check size={16} color={Colors.primary} strokeWidth={3} />
-                <Text style={styles.successText}>
-                    Your question has been submitted.
-                </Text>
+            <View>
+                <TextInput
+                    ref={inputRef}
+                    style={[styles.input, !!error && styles.inputError]}
+                    value={value}
+                    onChangeText={onChangeText}
+                    placeholder={t('quickAccess.askQaComposerPlaceholder')}
+                    placeholderTextColor={Colors.mutedText}
+                    multiline
+                    maxLength={280}
+                    textAlignVertical="top"
+                />
+                {!!error && <Text style={styles.error}>{error}</Text>}
             </View>
-        )}
-    </View>
-);
+
+            <FilterChips
+                variant="soft"
+                options={QUESTION_CATEGORIES}
+                labels={categoryLabels}
+                selected={category}
+                onSelect={onCategoryChange}
+            />
+
+            <GradientButton
+                title={t('quickAccess.askQaSubmit')}
+                onPress={onSubmit}
+                startIcon={<Send size={20} color={Colors.white} />}
+            />
+
+            {success && (
+                <View style={styles.success}>
+                    <Check size={16} color={Colors.primary} strokeWidth={3} />
+                    <Text style={styles.successText}>
+                        {t('quickAccess.askQaSuccess')}
+                    </Text>
+                </View>
+            )}
+        </View>
+    );
+};
 
 export default QuestionComposer;
 

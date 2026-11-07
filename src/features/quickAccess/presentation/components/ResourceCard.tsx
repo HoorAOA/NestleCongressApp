@@ -1,6 +1,7 @@
 import React from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 import { AlignJustify, Bookmark, Check, Download } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 
 import { Colors } from '../../../../core/theme/colors';
 import { Typography } from '../../../../core/theme/typography';
@@ -31,6 +32,7 @@ const ResourceCard = ({
 }: ResourceCardProps) => {
     const { Icon } = item;
     const tone = TONES[item.tone];
+    const { t } = useTranslation();
 
     return (
         <View style={styles.card}>
@@ -59,7 +61,7 @@ const ResourceCard = ({
                 <Pressable
                     onPress={onToggleSave}
                     hitSlop={10}
-                    accessibilityLabel={saved ? 'Remove from saved' : 'Save resource'}
+                    accessibilityLabel={saved ? t('quickAccess.resourcesRemoveSave') : t('quickAccess.resourcesSave')}
                 >
                     <Bookmark
                         size={24}
@@ -72,7 +74,7 @@ const ResourceCard = ({
                     onPress={onDownload}
                     disabled={downloadState === 'downloading'}
                     hitSlop={10}
-                    accessibilityLabel={`Download ${item.title}`}
+                    accessibilityLabel={t('quickAccess.resourcesDownload')}
                     style={styles.download}
                 >
                     {downloadState === 'downloading' ? (

@@ -8,9 +8,10 @@ interface SegmentTabsProps {
     options: string[];
     selected: string;
     onSelect: (option: string) => void;
+    labels?: Record<string, string>;
 }
 
-const SegmentTabs = ({ options, selected, onSelect }: SegmentTabsProps) => (
+const SegmentTabs = ({ options, selected, onSelect, labels }: SegmentTabsProps) => (
     <View style={styles.row}>
         {options.map(option => {
             const active = option === selected;
@@ -22,7 +23,7 @@ const SegmentTabs = ({ options, selected, onSelect }: SegmentTabsProps) => (
                     style={[styles.tab, active && styles.tabActive]}
                 >
                     <Text style={[styles.label, active && styles.labelActive]}>
-                        {option}
+                        {labels?.[option] ?? option}
                     </Text>
                 </Pressable>
             );

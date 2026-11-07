@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Keyboard, LayoutAnimation, StyleSheet, TextInput, View } from 'react-native';
+import { Keyboard, LayoutAnimation, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { MessageSquare, MessagesSquare } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 
 import { Colors } from '../../../../core/theme/colors';
 import type { RootNavigationProp } from '../../../../core/navigation/types';
@@ -9,6 +10,7 @@ import { ATTENDEE } from '../../data/quickAccessData';
 import {
     INITIAL_QUESTIONS,
     QUESTION_SORTS,
+    QUESTION_SORTS_AR,
     Question,
 } from '../../data/engagementData';
 import {
@@ -26,6 +28,8 @@ const MIN_LENGTH = 10;
 
 const AskQAScreen = () => {
     const navigation = useNavigation<RootNavigationProp>();
+    const { t, i18n } = useTranslation();
+    const isArabic = i18n.language.startsWith('ar');
     const inputRef = useRef<any>(null);
     const successTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -35,6 +39,27 @@ const AskQAScreen = () => {
     const [error, setError] = useState<string | undefined>();
     const [success, setSuccess] = useState(false);
     const [sort, setSort] = useState('Recent');
+
+    const sortLabelMap = useMemo(
+        () => ({
+            Popular: t('quickAccess.askQaSorts.Popular'),
+            Recent: t('quickAccess.askQaSorts.Recent'),
+            Answered: t('quickAccess.askQaSorts.Answered'),
+        }),
+        [t],
+    );
+
+    const visibleSortOptions = isArabic ? QUESTION_SORTS_AR : QUESTION_SORTS;
+    const localizedQuestions = useMemo(
+        () =>
+            questions.map(question => ({
+                ...question,
+                text: isArabic ? question.textAr : question.textEn,
+                category: isArabic ? question.categoryAr : question.categoryEn,
+                author: isArabic ? question.authorAr : question.authorEn,
+            })),
+        [isArabic, questions],
+    );
 
     useEffect(
         () => () => {
@@ -48,13 +73,13 @@ const AskQAScreen = () => {
     const visibleQuestions = useMemo(() => {
         const list =
             sort === 'Answered'
-                ? questions.filter(q => q.answered)
-                : [...questions];
+                ? localizedQuestions.filter(q => q.answered)
+                : [...localizedQuestions];
 
         return list.sort((a, b) =>
             sort === 'Recent' ? b.createdAt - a.createdAt : b.votes - a.votes,
         );
-    }, [questions, sort]);
+    }, [localizedQuestions, sort]);
 
     const handleChangeText = (text: string) => {
         setDraft(text);
@@ -67,7 +92,7 @@ const AskQAScreen = () => {
         const text = draft.trim();
 
         if (text.length < MIN_LENGTH) {
-            setError(`Please enter at least ${MIN_LENGTH} characters.`);
+            setError(t('quickAccess.askQaMinLength', { count: MIN_LENGTH }));
             return;
         }
 
@@ -77,11 +102,17 @@ const AskQAScreen = () => {
             {
                 id: `q-${Date.now()}`,
                 text,
+                textEn: text,
+                textAr: text,
                 category,
+                categoryEn: category,
+                categoryAr: category,
                 votes: 0,
                 upvoted: false,
                 answered: false,
                 author: ATTENDEE.name,
+                authorEn: ATTENDEE.name,
+                authorAr: ATTENDEE.name,
                 createdAt: Date.now(),
             },
             ...prev,
@@ -121,18 +152,18 @@ const AskQAScreen = () => {
 
     return (
         <ScreenLayout
-            title="Ask Q&A"
+            title={t('quickAccess.askQaTitle')}
             onBack={navigation.goBack}
             headerRight={
-                <HeaderIconButton label="Questions">
+                <HeaderIconButton label={t('quickAccess.askQaHeaderLabel')}>
                     <MessagesSquare size={20} color={Colors.gold} />
                 </HeaderIconButton>
             }
             top={
                 <InfoBanner
                     icon={MessageSquare}
-                    title="Ask the Experts"
-                    subtitle="Submit your questions and vote for top discussions"
+                    title={t('quickAccess.askQaHeaderTitle')}
+                    subtitle={t('quickAccess.askQaHeaderSubtitle')}
                 />
             }
         >
@@ -150,6 +181,7 @@ const AskQAScreen = () => {
 
                 <SegmentTabs
                     options={QUESTION_SORTS}
+                    labels={sortLabelMap}
                     selected={sort}
                     onSelect={setSort}
                 />
@@ -168,8 +200,8 @@ const AskQAScreen = () => {
                 ) : (
                     <EmptyState
                         icon={MessageSquare}
-                        title="No answered questions yet"
-                        subtitle="Answered questions will appear here."
+                        title={t('quickAccess.askQaNoAnswersTitle')}
+                        subtitle={t('quickAccess.askQaNoAnswersSubtitle')}
                     />
                 )}
             </ContentSheet>

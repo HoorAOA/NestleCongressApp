@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated, StyleSheet, Text, View } from 'react-native';
 import { Check } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 
 import { AppTextButton, AppTitle, GradientButton } from '../../../../core/components';
 import { Colors } from '../../../../core/theme/colors';
@@ -15,6 +16,7 @@ interface VoteSuccessProps {
 }
 
 const VoteSuccess = ({ answeredCount, onDone, onReview }: VoteSuccessProps) => {
+    const { t } = useTranslation();
     const scale = useRef(new Animated.Value(0.4)).current;
     const opacity = useRef(new Animated.Value(0)).current;
 
@@ -45,7 +47,7 @@ const VoteSuccess = ({ answeredCount, onDone, onReview }: VoteSuccessProps) => {
             </GradientBox>
 
             <AppTitle
-                title="Votes submitted"
+                title={t('quickAccess.votesSubmitted')}
                 size={24}
                 color={Colors.navyText}
                 weight="extraBold"
@@ -53,13 +55,12 @@ const VoteSuccess = ({ answeredCount, onDone, onReview }: VoteSuccessProps) => {
             />
 
             <Text style={styles.subtitle}>
-                Thank you for taking part. Your answers to {answeredCount} polls
-                have been recorded.
+                {t('quickAccess.votesSubmittedSubtitle', { count: answeredCount })}
             </Text>
 
             <View style={styles.actions}>
-                <GradientButton title="Done" onPress={onDone} />
-                <AppTextButton title="Review answers" onPress={onReview} />
+                <GradientButton title={t('quickAccess.votingDone')} onPress={onDone} />
+                <AppTextButton title={t('quickAccess.votingReview')} onPress={onReview} />
             </View>
         </Animated.View>
     );

@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import {
     Animated,
     LayoutAnimation,
@@ -12,6 +12,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BarChart3, Vote } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 
 import { Colors } from '../../../../core/theme/colors';
 import type { RootNavigationProp } from '../../../../core/navigation/types';
@@ -29,10 +30,27 @@ import {
 
 const LiveVotingScreen = () => {
     const navigation = useNavigation<RootNavigationProp>();
+    const { t, i18n } = useTranslation();
+        const isRTL = i18n.dir(i18n.language) === 'rtl';
+    const isArabic = i18n.language.startsWith('ar');
     const insets = useSafeAreaInsets();
 
     const pagerRef = useRef<any>(null);
     const scrollX = useRef(new Animated.Value(0)).current;
+
+    const localizedPolls = useMemo(
+        () =>
+            POLLS.map(poll => ({
+                ...poll,
+                category: isArabic ? poll.categoryAr : poll.categoryEn,
+                question: isArabic ? poll.questionAr : poll.questionEn,
+                options: poll.options.map(option => ({
+                    ...option,
+                    label: isArabic ? option.labelAr : option.labelEn,
+                })),
+            })),
+        [isArabic],
+    );
 
     const [pageWidth, setPageWidth] = useState(0);
     const [index, setIndex] = useState(0);
@@ -40,16 +58,19 @@ const LiveVotingScreen = () => {
     const [submitted, setSubmitted] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
 
-    const answeredCount = POLLS.filter(poll => answers[poll.id]).length;
-    const allAnswered = answeredCount === POLLS.length;
+    const answeredCount = localizedPolls.filter(poll => answers[poll.id]).length;
+    const allAnswered = answeredCount === localizedPolls.length;
 
     const goTo = useCallback(
         (target: number) => {
-            const next = Math.max(0, Math.min(POLLS.length - 1, target));
+            const next = Math.max(0, Math.min(localizedPolls.length - 1, target));
             setIndex(next);
-            pagerRef.current?.scrollTo({ x: next * pageWidth, animated: true });
+            // In RTL the scroll view content is mirrored, so invert the offset
+            // to land on the correct visual page.
+            const offset = isRTL ? (localizedPolls.length - 1 - next) * pageWidth : next * pageWidth;
+            pagerRef.current?.scrollTo({ x: offset, animated: true });
         },
-        [pageWidth],
+        [pageWidth, isRTL, localizedPolls.length],
     );
 
     const handleSelect = (pollId: string, optionId: string) => {
@@ -72,11 +93,10 @@ const LiveVotingScreen = () => {
             return;
         }
 
-        if (index < POLLS.length - 1) {
+        if (index <= localizedPolls.length - 1) {
             goTo(index + 1);
         } else {
-            // Last poll reached with unanswered polls left: jump to the first one.
-            const firstOpen = POLLS.findIndex(poll => !answers[poll.id]);
+            const firstOpen = localizedPolls.findIndex(poll => !answers[poll.id]);
             goTo(firstOpen < 0 ? 0 : firstOpen);
         }
     };
@@ -89,7 +109,10 @@ const LiveVotingScreen = () => {
 
     const handleMomentumEnd = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         if (pageWidth > 0) {
-            setIndex(Math.round(event.nativeEvent.contentOffset.x / pageWidth));
+            const rawIndex = Math.round(event.nativeEvent.contentOffset.x / pageWidth);
+            // In RTL the content offset is mirrored, so flip the index back.
+            const next = isRTL ? localizedPolls.length - 1 - rawIndex : rawIndex;
+            setIndex(Math.max(0, Math.min(localizedPolls.length - 1, next)));
         }
     };
 
@@ -98,18 +121,18 @@ const LiveVotingScreen = () => {
     };
 
     const primaryLabel = submitted
-        ? 'Done'
+        ? t('quickAccess.votingDone')
         : allAnswered
-          ? 'Submit Poll'
-          : 'Next Poll';
+          ? t('quickAccess.votingSubmitPoll')
+          : t('quickAccess.votingNextPoll');
 
     return (
         <ScreenLayout
             fixed
-            title="Live Voting"
+            title={t('quickAccess.liveVotingTitle')}
             onBack={navigation.goBack}
             headerRight={
-                <HeaderIconButton label="Live voting">
+                <HeaderIconButton label={t('quickAccess.liveVotingHeaderLabel')}>
                     <Vote size={20} color={Colors.gold} />
                 </HeaderIconButton>
             }
@@ -117,8 +140,8 @@ const LiveVotingScreen = () => {
                 <InfoBanner
                     tone="gold"
                     icon={BarChart3}
-                    title="Audience Interaction"
-                    subtitle="Swipe polls, choose answers, and submit your vote"
+                    title={t('quickAccess.liveVotingHeaderTitle')}
+                    subtitle={t('quickAccess.liveVotingHeaderSubtitle')}
                 />
             }
         >
@@ -132,7 +155,7 @@ const LiveVotingScreen = () => {
                 ) : (
                     <>
                         <PollDots
-                            count={POLLS.length}
+                            count={localizedPolls.length}
                             scrollX={scrollX}
                             pageWidth={pageWidth}
                         />
@@ -154,7 +177,7 @@ const LiveVotingScreen = () => {
                                     onMomentumScrollEnd={handleMomentumEnd}
                                     keyboardShouldPersistTaps="handled"
                                 >
-                                    {POLLS.map(poll => (
+                                    {localizedPolls.map(poll => (
                                         <View key={poll.id} style={{ width: pageWidth }}>
                                             <ScrollView
                                                 nestedScrollEnabled
@@ -180,7 +203,8 @@ const LiveVotingScreen = () => {
                             <PollFooter
                                 primaryLabel={primaryLabel}
                                 canGoBack={index > 0}
-                                canGoForward={index < POLLS.length - 1}
+                                canGoForward={index < localizedPolls.length - 1}
+                                isRTL={isRTL}
                                 onBack={() => goTo(index - 1)}
                                 onForward={() => goTo(index + 1)}
                                 onPrimary={handlePrimary}

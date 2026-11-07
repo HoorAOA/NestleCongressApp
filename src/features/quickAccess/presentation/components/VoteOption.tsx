@@ -4,6 +4,7 @@ import { Check } from 'lucide-react-native';
 
 import { Colors } from '../../../../core/theme/colors';
 import { Typography } from '../../../../core/theme/typography';
+import { useTranslation } from 'react-i18next';
 
 interface VoteOptionProps {
     label: string;
@@ -25,6 +26,7 @@ const VoteOption = ({
     disabled,
     onPress,
 }: VoteOptionProps) => {
+    const { t } = useTranslation();
     const progress = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
@@ -80,7 +82,9 @@ const VoteOption = ({
                     </View>
 
                     <Text style={styles.votes}>
-                        {votes} {votes === 1 ? 'vote' : 'votes'}
+                        {votes === 1
+                            ? t('quickAccess.liveVotingVoteSingular', { count: votes })
+                            : t('quickAccess.liveVotingVotePlural', { count: votes })}
                     </Text>
                 </>
             )}

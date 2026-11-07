@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { AppTitle } from '../../../../core/components';
 import { Colors } from '../../../../core/theme/colors';
@@ -17,6 +18,7 @@ interface VotePollCardProps {
 
 const VotePollCard = ({ poll, selectedId, locked, onSelect }: VotePollCardProps) => {
     const answered = !!selectedId;
+    const { t } = useTranslation();
 
     // The user's own vote is added on top of the existing votes.
     const options = poll.options.map(option => ({
@@ -41,7 +43,7 @@ const VotePollCard = ({ poll, selectedId, locked, onSelect }: VotePollCardProps)
                             { color: answered ? Colors.goldDeep : Colors.primary },
                         ]}
                     >
-                        {answered ? 'VOTED' : 'LIVE'}
+                        {t(answered ? 'quickAccess.liveVotingStatusVoted' : 'quickAccess.liveVotingStatusLive')}
                     </Text>
                 </View>
 
@@ -56,7 +58,7 @@ const VotePollCard = ({ poll, selectedId, locked, onSelect }: VotePollCardProps)
                 style={{ lineHeight: 29 }}
             />
 
-            <Text style={styles.totalVotes}>{totalVotes} total votes</Text>
+            <Text style={styles.totalVotes}>{t('quickAccess.liveVotingTotalVotes', { count: totalVotes })}</Text>
 
             <View style={styles.options}>
                 {options.map(option => (

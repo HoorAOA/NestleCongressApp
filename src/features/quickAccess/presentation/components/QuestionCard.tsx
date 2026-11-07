@@ -1,6 +1,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { ChevronUp, Reply } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 
 import { Colors } from '../../../../core/theme/colors';
 import { Typography } from '../../../../core/theme/typography';
@@ -12,11 +13,14 @@ interface QuestionCardProps {
     onReply: () => void;
 }
 
-const QuestionCard = ({ question, onToggleVote, onReply }: QuestionCardProps) => (
-    <View style={[styles.card, question.answered && styles.cardAnswered]}>
+const QuestionCard = ({ question, onToggleVote, onReply }: QuestionCardProps) => {
+    const { t } = useTranslation();
+
+    return (
+        <View style={[styles.card, question.answered && styles.cardAnswered]}>
         <Pressable
             onPress={onToggleVote}
-            accessibilityLabel={question.upvoted ? 'Remove upvote' : 'Upvote question'}
+            accessibilityLabel={question.upvoted ? t('quickAccess.askQaRemoveUpvote') : t('quickAccess.askQaUpvote')}
             style={[styles.vote, question.upvoted && styles.voteActive]}
         >
             <ChevronUp
@@ -42,7 +46,7 @@ const QuestionCard = ({ question, onToggleVote, onReply }: QuestionCardProps) =>
 
                 {question.answered && (
                     <View style={styles.answeredChip}>
-                        <Text style={styles.answeredText}>Answered</Text>
+                        <Text style={styles.answeredText}>{t('quickAccess.askQaAnswered')}</Text>
                     </View>
                 )}
             </View>
@@ -63,12 +67,13 @@ const QuestionCard = ({ question, onToggleVote, onReply }: QuestionCardProps) =>
 
                 <Pressable onPress={onReply} style={styles.reply} hitSlop={8}>
                     <Reply size={16} color={Colors.mutedText} />
-                    <Text style={styles.replyText}>Reply</Text>
+                    <Text style={styles.replyText}>{t('quickAccess.askQaReply')}</Text>
                 </Pressable>
             </View>
         </View>
     </View>
 );
+};
 
 export default QuestionCard;
 
