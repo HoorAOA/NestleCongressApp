@@ -1,6 +1,6 @@
 # Nestle Congress App
 
-**Nestle Congress** is a medical congress companion mobile application built with **React Native 0.88.1** and **TypeScript**, following **Clean Architecture** with **modularization** by feature layers (domain, data, presentation).
+**Nestle Congress** is a demo medical congress mobile application built with **React Native 0.88.1** and **TypeScript**, following **Clean Architecture** with **modularization** by feature layers (domain, data, presentation).
 
 The app provides attendees with quick access to congress tools including live voting, Q&A, resources, agenda, speakers, name tag, and venue information — all localized in English (LTR) and Arabic (RTL).
 
