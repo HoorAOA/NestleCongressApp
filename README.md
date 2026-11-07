@@ -181,7 +181,35 @@ android {
 
 > ⚠️ **Security:** Do not commit passwords directly to version control. Use environment variables or a `gradle.properties` file (added to `.gitignore`) to inject `storePassword` and `keyPassword`.
 
-### 4. Build the Release APK / AAB
+### 4. `android/gradle.properties`
+
+```gradle
+# Memory: this is what fixes the OutOfMemoryError
+org.gradle.jvmargs=-Xmx4096m -XX:MaxMetaspaceSize=1024m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8
+
+# Gradle behavior
+org.gradle.daemon=true
+org.gradle.parallel=false
+
+# AndroidX (required by React Native)
+android.useAndroidX=true
+android.enableJetifier=true
+
+# Architectures to build (remove ones you don't need to speed up the build)
+reactNativeArchitectures=armeabi-v7a,arm64-v8a,x86,x86_64
+
+# New Architecture (set to false if you haven't migrated)
+newArchEnabled=true
+
+# Hermes
+hermesEnabled=true
+
+# Your existing lines
+android.builtInKotlin=false
+android.newDsl=false
+```
+
+### 5. Build the Release APK / AAB
 
 ```bash
 cd android
