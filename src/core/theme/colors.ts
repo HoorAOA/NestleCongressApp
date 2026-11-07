@@ -96,4 +96,9 @@ export const Colors = {
     // Map preview
     mapBlueLight: '#EAF2FE',
     mapBlueDark: '#D3E4FB',
+
+    danger: '#D64541',
+    dangerTint: '#F9E3E0',
+    dotInactive: '#D5DAE7',
+    trackBackground: '#E1E6F2',
 };

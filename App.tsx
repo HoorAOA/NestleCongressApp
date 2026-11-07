@@ -22,6 +22,9 @@ import { initializeLanguage } from './src/core/localization/i18n';
 import logger from './src/core/utils/logger';
 
 import type { RootStackParamList } from './src/core/navigation/types';
+import LiveVotingScreen from './src/features/quickAccess/presentation/screens/LiveVotingScreen';
+import AskQAScreen from './src/features/quickAccess/presentation/screens/AskQAScreen';
+import ResourcesScreen from './src/features/quickAccess/presentation/screens/ResourcesScreen';
 
 
 type AuthStatus = 'loading' | 'authenticated' | 'unauthenticated';
@@ -107,6 +110,9 @@ function AppContent() {
               <Stack.Screen key={`speakers-${directionKey}`} name="Speakers" component={SpeakersScreen} />
               <Stack.Screen key={`name-tag-${directionKey}`} name="NameTag" component={NameTagScreen} />
               <Stack.Screen key={`venue-${directionKey}`} name="Venue" component={VenueScreen} />
+              <Stack.Screen key={`voting-${directionKey}`} name="Voting" component={LiveVotingScreen} />
+              <Stack.Screen key={`ask-qa-${directionKey}`} name="AskQA" component={AskQAScreen} />
+              <Stack.Screen key={`resources-${directionKey}`} name="Resources" component={ResourcesScreen} />
             </>
 
             ) : (

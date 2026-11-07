@@ -9,6 +9,9 @@ export type RootStackParamList = {
     Speakers: undefined;
     NameTag: undefined;
     Venue: undefined;
+    Voting: undefined;
+    AskQA: undefined;
+    Resources: undefined;
 };
 
 export type RootNavigationProp = NativeStackNavigationProp<RootStackParamList>;

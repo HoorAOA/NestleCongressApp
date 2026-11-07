@@ -25,9 +25,9 @@ export const HOME_QUICK_ACCESS: HomeQuickAccessItem[] = [
     { labelEn: 'Speakers', labelAr: 'المتحدثون', Icon: Users, route: 'Speakers' },
     { labelEn: 'Name Tag', labelAr: 'بطاقة الاسم', Icon: Contact, route: 'NameTag' },
     { labelEn: 'Venue', labelAr: 'المكان', Icon: MapPin, route: 'Venue' },
-    { labelEn: 'Voting', labelAr: 'التصويت', Icon: BarChart3 },
-    { labelEn: 'Ask Q&A', labelAr: 'الأسئلة', Icon: MessageSquare },
-    { labelEn: 'Resources', labelAr: 'الموارد', Icon: Folder },
+    { labelEn: 'Voting', labelAr: 'التصويت', Icon: BarChart3, route: 'Voting' },
+    { labelEn: 'Ask Q&A', labelAr: 'الأسئلة', Icon: MessageSquare, route: 'AskQA' },
+    { labelEn: 'Resources', labelAr: 'الموارد', Icon: Folder, route: 'Resources' },
     { labelEn: 'Exhibitors', labelAr: 'المعروضون', Icon: Briefcase },
 ];
 

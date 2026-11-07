@@ -106,6 +106,7 @@ export const QUICK_ACCESS_ITEMS: QuickAccessItem[] = [
         tagEn: 'Interactive',
         tagAr: 'تفاعلي',
         Icon: BarChart3,
+        route: 'Voting',
     },
     {
         id: 'ask-qa',
@@ -119,6 +120,7 @@ export const QUICK_ACCESS_ITEMS: QuickAccessItem[] = [
         tagEn: 'Interactive',
         tagAr: 'تفاعلي',
         Icon: MessageSquare,
+        route: 'AskQA',
     },
     {
         id: 'resources',
@@ -132,6 +134,7 @@ export const QUICK_ACCESS_ITEMS: QuickAccessItem[] = [
         tagEn: 'Tools',
         tagAr: 'أدوات',
         Icon: Folder,
+        route: 'Resources',
     },
     {
         id: 'exhibitors',
@@ -332,6 +335,7 @@ export const SPEAKERS: Speaker[] = [
         topicAr: 'التغذية المبنية على الأدلة',
         categories: ['Research'],
     },
+
 ];
 
 /* ---------- Attendee / name tag ---------- */
