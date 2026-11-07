@@ -292,4 +292,4 @@ Output artifacts will be in `android/app/build/outputs/`.
 
 ---
 
-Private project — Nestle Congress App.
+Project — Nestle Congress App.
